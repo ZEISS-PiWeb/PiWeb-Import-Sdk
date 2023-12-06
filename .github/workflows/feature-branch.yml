@@ -1,0 +1,19 @@
+# Calls a workflow that
+# + builds and tests the chosen branch,
+# + packs an alpha NuGet package
+# + and stores the package as artifact.
+#
+# This workflow must be triggered manually.
+
+name: Build, test & pack beta on fix or feature branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-feature-branch:
+    # With @main we want the latest version. Consider using a version tag to avoid breaking changes.
+    uses: ZEISS-PiWeb/github-actions/.github/workflows/feature-branch.yml@main
+    with:
+      do_pack: true  
+    secrets: inherit

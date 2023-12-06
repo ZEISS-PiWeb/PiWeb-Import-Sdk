@@ -1,0 +1,21 @@
+# Calls a workflow that
+# + runs on support branches only,
+# + raises version numbers semantically,
+# + sets a version tag,
+# + generates release notes from commits and contributors
+# + and publishes a NuGet.
+#
+# This workflow must be triggered manually.
+
+name: Create & publish release from support branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    # With @main we want the latest version. Consider using a version tag to avoid breaking changes.
+    uses: ZEISS-PiWeb/github-actions/.github/workflows/create-support-release.yml@main
+    with:
+      generate_release_notes: true
+    secrets: inherit
