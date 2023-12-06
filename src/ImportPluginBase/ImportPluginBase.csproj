@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Assembly information">
+        <AssemblyName>Zeiss.PiWeb.ImportPluginBase</AssemblyName>
+        <AssemblyVersion>0.0.1</AssemblyVersion>
+        <Company>Carl Zeiss Industrielle Messtechnik GmbH</Company>
+        <Copyright>Copyright © 2023 $(Company)</Copyright>
+        <FileVersion>$(AssemblyVersion)</FileVersion>
+        <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Product>ZEISS PiWeb Import Plugin Base</Product>
+    </PropertyGroup>
+
+    <PropertyGroup Label="NuGet package specifications">
+        <ProductName>PiWeb Import Plugin Base</ProductName>
+        <Description>An SDK that allows creating plugins for customized data import to PiWeb.</Description>
+        <PackageId>Zeiss.PiWeb.ImportPluginBase</PackageId>
+        <Version>0.0.1</Version>
+        <PackageIcon>logo_128x128.png</PackageIcon>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-PluginBase</PackageProjectUrl>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageTags>ZEISS PiWeb Import PluginBase</PackageTags>
+        <RepositoryUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-PluginBase.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+        <None Include="..\..\img\logo_128x128.png" Pack="true" PackagePath="logo_128x128.png" />
+    </ItemGroup>
+
+</Project>
