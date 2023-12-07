@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <OutputType>Library</OutputType>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>ImportPluginBase.Tests</AssemblyName>
-        <RootNamespace>ImportPluginBase</RootNamespace>
+        <AssemblyName>Zeiss.PiWeb.ImportPluginBase.Tests</AssemblyName>
+        <RootNamespace>Zeiss.PiWeb.ImportPluginBase.Tests</RootNamespace>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
 </Project>
