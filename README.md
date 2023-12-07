@@ -1,2 +1,2 @@
-# PiWeb-Import-PluginBase
-An SDK that allows creating plugins for customized data import to PiWeb
+# PiWeb Import Plugins
+Space to try documentation of Auto Importer plugins
