@@ -1,0 +1,8 @@
+$zeiss-indigo: #0F2DB3; // ZEISS Indigo is the color of the logo. It identifies the sender and is therefore used for brand identification. ZEISS Indigo is also used to emphasize non-interactive numbers, surfaces and text elements in communication when referring to a specific brand or company.
+$zeiss-azure: #0072EF; // ZEISS Azure must generally be used to highlight interactive elements (links, clickable areas, URLs, etc.). 
+$zeiss-cyan: #008BD0; // ZEISS Cyan is the preferred color for highlighting non-interactive elements, similar to ZEISS Indigo. Cyan is used when not specifically referring to the brand.
+$zeiss-semiwhite-gray: #F2F5F8;
+
+$link-color: $zeiss-azure;
+$base-button-color: $zeiss-semiwhite-gray !default;
+$btn-primary-color: $zeiss-azure;

@@ -1,0 +1,15 @@
+title: PiWeb Import SDK
+description: Documentation for the PiWeb Import SDK.
+theme: just-the-docs
+color_scheme: zeiss
+logo: "/assets/images/zeiss-logo-rgb.svg"
+favicon_ico: "/assets/images/favicon.png"
+
+url: https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk
+
+# Aux links for the upper right navigation
+aux_links:
+  "ZEISS PiWeb":
+    - "//www.zeiss.com/metrology/products/software/piweb.html"
+
+aux_links_new_tab: true
