@@ -40,14 +40,14 @@ public static class FileSourceExtensions
     }
 
     /// <summary>
-    /// Checks if <paramref name="fileSource"/> has any of the requested file extension <paramref name="extension"/>.
+    /// Checks if <paramref name="fileSource"/> has any of the requested file extension <paramref name="extensions"/>.
     /// </summary>
     /// <param name="fileSource">The <see cref="IFileSource"/> to check.</param>
-    /// <param name="extension">The file extensions (including the period ".").</param>
+    /// <param name="extensions">The file extensions (including the period ".").</param>
     /// <returns><c>true</c> if the file has any of  the extensions; otherwise <c>false</c>.</returns>
-    public static bool HasAnyExtension(this IFileSource fileSource, IEnumerable<string> extension)
+    public static bool HasAnyExtension(this IFileSource fileSource, IEnumerable<string> extensions)
     {
-        return extension.Any(f => f.Equals(fileSource.Extension, StringComparison.OrdinalIgnoreCase));
+        return extensions.Any(extension => fileSource.HasExtension(extension));
     }
 
     /// <summary>
