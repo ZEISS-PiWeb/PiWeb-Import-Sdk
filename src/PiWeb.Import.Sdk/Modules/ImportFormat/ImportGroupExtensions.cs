@@ -24,55 +24,29 @@ public static class ImportGroupExtensions
     #region methods
 
     /// <summary>
-    /// Creates an <see cref="ImportGroup"/> that is complete and can be imported at once.
+    /// Creates an <see cref="ImportGroup"/> containing <paramref name="file"/> that has the given <see cref="State"/>.
     /// </summary>
-    /// <param name="associatedFile">The file to be imported.</param>
-    public static ImportGroup CreateCompleteImportGroup(this IFileSource associatedFile)
+    /// <param name="file">The file associated with this group. See <see cref="State"/> for more information.</param>
+    /// <param name="state">The state of the resulting <see cref="ImportGroup"/>.</param>
+    public static ImportGroup CreateImportGroup(this IFileSource file, State state)
     {
         var importGroup = new ImportGroup();
-        importGroup.Files = importGroup.Files.Add(associatedFile);
-        importGroup.State = State.Complete;
+        importGroup.Files = importGroup.Files.Add(file);
+        importGroup.State = state;
 
         return importGroup;
     }
 
     /// <summary>
-    /// Creates an <see cref="ImportGroup"/> that is complete and can be imported at once.
+    /// Creates an <see cref="ImportGroup"/> containing <paramref name="files"/> that has the given <see cref="State"/>.
     /// </summary>
-    /// <param name="associatedFiles">The files to be imported together.</param>
-    public static ImportGroup CreateCompleteImportGroup(this IEnumerable<IFileSource> associatedFiles)
+    /// <param name="files">The files associated with this group. See <see cref="State"/> for more information.</param>
+    /// <param name="state">The state of the resulting <see cref="ImportGroup"/>.</param>
+    public static ImportGroup CreateImportGroup(this IEnumerable<IFileSource> files, State state)
     {
         var importGroup = new ImportGroup();
-        importGroup.Files = importGroup.Files.AddRange(associatedFiles);
-        importGroup.State = State.Complete;
-
-        return importGroup;
-    }
-
-    /// <summary>
-    /// Creates an <see cref="ImportGroup"/> that is ready but misses some information. It can be imported when the missing information
-    /// does not appear after the designated waiting time.
-    /// </summary>
-    /// <param name="associatedFile">The file to be imported.</param>
-    public static ImportGroup CreateReadyImportGroup(this IFileSource associatedFile)
-    {
-        var importGroup = new ImportGroup();
-        importGroup.Files = importGroup.Files.Add(associatedFile);
-        importGroup.State = State.Ready;
-
-        return importGroup;
-    }
-
-    /// <summary>
-    /// Creates an <see cref="ImportGroup"/> that is ready but misses some information. It can be imported when the missing information
-    /// does not appear after the designated waiting time.
-    /// </summary>
-    /// <param name="associatedFiles">The files to be imported together.</param>
-    public static ImportGroup CreateReadyImportGroup(this IEnumerable<IFileSource> associatedFiles)
-    {
-        var importGroup = new ImportGroup();
-        importGroup.Files = importGroup.Files.AddRange(associatedFiles);
-        importGroup.State = State.Ready;
+        importGroup.Files = importGroup.Files.AddRange(files);
+        importGroup.State = state;
 
         return importGroup;
     }
