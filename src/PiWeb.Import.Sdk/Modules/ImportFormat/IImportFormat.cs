@@ -1,4 +1,14 @@
-﻿namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
+﻿#region copyright
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Carl Zeiss Industrielle Messtechnik GmbH        */
+/* Softwaresystem PiWeb                            */
+/* (c) Carl Zeiss 2024                             */
+/* * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#endregion
+
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 #region usings
 
@@ -21,7 +31,7 @@ public interface IImportFormat
     /// <param name="primaryFileSource">The file to analyze and built a group of.</param>
     /// <param name="context">Provides context information such as other files in the import folder.</param>
     /// <returns>An <see cref="ImportGroup"/> defining the files identified; or <c>null</c> otherwise.</returns>
-    ImportGroup? BuildGroup(IFileSource primaryFileSource, IGroupContext context);
+    ImportGroup? BuildGroup(IPrimaryFileSource primaryFileSource, IGroupContext context);
 
     #endregion
 

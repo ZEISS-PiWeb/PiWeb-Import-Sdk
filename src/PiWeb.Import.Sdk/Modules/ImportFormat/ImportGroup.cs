@@ -17,21 +17,27 @@ using System.Collections.Immutable;
 #endregion
 
 /// <summary>
-/// Represents a set of files that are imported as one group.
+/// Represents a set of files that will be imported, discarded or deferred depending on <see cref="State"/>.
 /// </summary>
 public sealed record ImportGroup
 {
     #region properties
 
     /// <summary>
-    /// Gets the list of files in the import group. These files will not be considered by other import formats.
+    /// The primary file with which the grouping was started. This file will not be offered to other import formats.
+    /// </summary>
+    public required IPrimaryFileSource PrimaryFile { get; set; }
+
+    /// <summary>
+    /// The list of files recognized by the import format including <see cref="PrimaryFile"/>.
+    /// These files will not be offered to other import formats.
     /// </summary>
     public ImmutableList<IFileSource> Files { get; set; } = ImmutableList<IFileSource>.Empty;
 
     /// <summary>
-    /// Describes the state of this <see cref="ImportGroup"/>.
+    /// Describes how the import should handle this <see cref="ImportGroup"/>. See <see cref="State"/> for more information.
     /// </summary>
-    public State State { get; set; }
+    public required State State { get; set; }
 
     #endregion
 }
