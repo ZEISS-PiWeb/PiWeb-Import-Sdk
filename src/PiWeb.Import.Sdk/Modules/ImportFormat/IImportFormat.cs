@@ -38,16 +38,6 @@ public interface IImportFormat
     #region properties
 
     /// <summary>
-    /// The format identifier.
-    /// </summary>
-    string Identifier { get; }
-
-    /// <summary>
-    /// The short display name of the import format.
-    /// </summary>
-    string DisplayName { get; }
-
-    /// <summary>
     /// The associated file extensions. The information is displayed in the import formats dialog.
     /// </summary>
     IReadOnlyCollection<string> StandardFileExtensions { get; }
