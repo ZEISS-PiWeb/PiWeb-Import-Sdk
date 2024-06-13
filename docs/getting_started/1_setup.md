@@ -20,4 +20,5 @@ Inhalt:
     - Importplan anlegen, Zieldatenbank definieren, Importquelle festlegen
     - Aktivierung des Developer Mode für Auto Importer beschreiben
     - Verwendung Kommandozeilenparameter für Plugin-Ordner erklären
+- Template erwähnen, muss noch in GitHub bereitgestellt werden und auf Formats erweitert werden
 --->
