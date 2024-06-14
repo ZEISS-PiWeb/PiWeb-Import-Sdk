@@ -13,5 +13,7 @@ Ziele:
 Inhalt:
 - Installation
     - Ablage in Plugin-Ordner
+    - Installation via Auto Importer
+        - eventuell Dateiendung beachten
 - aktuell noch kein Plugin-Store vorhanden
 --->
