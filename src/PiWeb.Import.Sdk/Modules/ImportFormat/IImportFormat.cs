@@ -13,6 +13,7 @@ namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 #region usings
 
 using System.Collections.Generic;
+using ImportData = ImportData.ImportData;
 
 #endregion
 
@@ -33,12 +34,20 @@ public interface IImportFormat
     /// <returns>An <see cref="ImportGroup"/> defining the files identified; or <c>null</c> otherwise.</returns>
     ImportGroup? BuildGroup(IPrimaryFileSource primaryFileSource, IGroupContext context);
 
+    /// <summary>
+    /// Creates data to be imported by parsing a given import group.
+    /// </summary>
+    /// <param name="importGroup">The import group to parse.</param>
+    /// <param name="context">Provides information about the import context.</param>
+    ImportData ParseImportData(ImportGroup importGroup, IParseContext context);
+    
     #endregion
 
     #region properties
 
     /// <summary>
-    /// The associated file extensions. The information is displayed in the import formats dialog.
+    /// The associated file extensions of this format. This information is used to create masks for file
+    /// selection dialogs. E.g. [".txt", ".csv"].
     /// </summary>
     IReadOnlyCollection<string> StandardFileExtensions { get; }
 
