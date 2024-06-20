@@ -10,13 +10,18 @@
 
 #region usings
 
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
-
 #endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportData;
+
+#region usings
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using Modules.ImportFormat;
+
+#endregion
 
 /// <summary>
 /// <inheritdoc />
@@ -49,7 +54,16 @@ public sealed class AdditionalFileSourceDataItem : AdditionalDataItem
     /// <inheritdoc />
     public override bool TryGetDataStream([MaybeNullWhen(false)] out Stream dataStream)
     {
-        return _FileSource.TryGetDataStream(out dataStream);
+        try
+        {
+            dataStream = _FileSource.GetDataStream();
+            return true;
+        }
+        catch (Exception)
+        {
+            dataStream = null;
+            return false;
+        }
     }
 
     /// <inheritdoc />
