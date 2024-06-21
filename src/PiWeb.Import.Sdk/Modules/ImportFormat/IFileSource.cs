@@ -12,8 +12,8 @@ namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 #region usings
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using Exceptions;
 
 #endregion
 
@@ -59,18 +59,18 @@ public interface IFileSource
     public bool Exists();
 
     /// <summary>
-    /// Tries to get the file data as <see cref="Stream"/>.
+    /// Gets the file data as <see cref="Stream"/>.
     /// </summary>
-    /// <param name="dataStream">The file stream.</param>
-    /// <returns><c>true</c> when the file could be read; otherwise <c>false</c>.</returns>
-    bool TryGetDataStream([NotNullWhen(true)] out Stream? dataStream);
+    /// <returns>The file data stream.</returns>
+    /// <exception cref="FileSourceDataException">When retrieving the data failed.</exception>
+    Stream GetDataStream();
 
     /// <summary>
-    /// Tries to get the file data as byte array.
+    /// Gets the file data as byte array.
     /// </summary>
-    /// <param name="data">The file content as byte array.</param>
-    /// <returns><c>true</c> when the file could be read; otherwise <c>false</c>.</returns>
-    bool TryGetData([NotNullWhen(true)] out byte[]? data);
+    /// <returns>The file data as byte array.</returns>
+    /// <exception cref="FileSourceDataException">When retrieving the data failed.</exception>
+    byte[] GetData();
 
     #endregion
 }

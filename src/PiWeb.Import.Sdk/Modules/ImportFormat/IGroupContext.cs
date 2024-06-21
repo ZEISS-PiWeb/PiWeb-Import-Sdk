@@ -27,7 +27,7 @@ public interface IGroupContext
     /// The list of available files that have not been associated with any import format yet.
     /// </summary>
     /// <remarks>
-    /// This list does not contain the primary file source that is a parameter of <see cref="IImportFormat.BuildGroup"/>.
+    /// This list does not contain the primary file source that is a parameter of <see cref="IImportFormat.DecideImportAction"/>.
     /// </remarks>
     IEnumerable<IFileSource> Files { get; }
 
@@ -37,7 +37,7 @@ public interface IGroupContext
 
     /// <summary>
     /// Gets all <see cref="IFileSource"/>s within <see cref="Files"/> that match the <paramref name="wildcardPattern"/>
-    /// and that are in the same folder as the primary file source (<see cref="IImportFormat.BuildGroup"/>).
+    /// and that are in the same folder as the primary file source (<see cref="IImportFormat.DecideImportAction"/>).
     /// </summary>
     /// <remarks>Supports the following wildcards: '*' and '?'. It ignores the file casing.</remarks>
     /// <param name="wildcardPattern">The wildcard pattern to match.</param>

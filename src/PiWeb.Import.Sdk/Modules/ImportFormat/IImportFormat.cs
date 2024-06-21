@@ -26,21 +26,19 @@ public interface IImportFormat
     #region methods
 
     /// <summary>
-    /// Builds an import group if the <see cref="IImportFormat"/> recognizes the <paramref name="primaryFileSource"/> and other
-    /// <see cref="IFileSource"/>s provided by the <paramref name="context"/>.
+    /// Decides what should be done with the given <paramref name="importGroup"/>. See <see cref="ImportAction"/> for more information.
     /// </summary>
-    /// <param name="primaryFileSource">The file to analyze and built a group of.</param>
+    /// <param name="importGroup">The potential import group containing the primary file to analyze.</param>
     /// <param name="context">Provides context information such as other files in the import folder.</param>
-    /// <returns>An <see cref="ImportGroup"/> defining the files identified; or <c>null</c> otherwise.</returns>
-    ImportGroup? BuildGroup(IPrimaryFileSource primaryFileSource, IGroupContext context);
+    ImportAction DecideImportAction(IImportGroup importGroup, IGroupContext context);
 
     /// <summary>
     /// Creates data to be imported by parsing a given import group.
     /// </summary>
     /// <param name="importGroup">The import group to parse.</param>
     /// <param name="context">Provides information about the import context.</param>
-    ImportData ParseImportData(ImportGroup importGroup, IParseContext context);
-    
+    ImportData ParseImportData(IImportGroup importGroup, IParseContext context);
+
     #endregion
 
     #region properties
