@@ -45,9 +45,9 @@ public interface IImportRunnerContext
 	ImportTarget ImportTarget { get; }
 
 	/// <summary>
-	/// The configuration property storage.
+	/// A reader for th configuration property storage.
 	/// </summary>
-	public IPropertyReader PropertyStorage { get; }
+	public IPropertyReader PropertyReader { get; }
 
 	/// <summary>
 	/// A status service that can be used to modify the current status display (activity and recent events)

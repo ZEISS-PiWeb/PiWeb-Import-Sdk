@@ -8,9 +8,10 @@
 
 #endregion
 
+using System;
+
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-using System;
 using ImportSourceDescription;
 
 /// <summary>
@@ -45,9 +46,8 @@ public interface IAutomationConfiguration : IDisposable
 	/// <inheritdoc />
 	void IDisposable.Dispose()
 	{
-		GC.SuppressFinalize( this );
 		// Empty, so it does not need to be implemented when not needed.
 	}
-
+	
 	#endregion
 }

@@ -1,4 +1,4 @@
-﻿#region copyright
+#region copyright
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * */
 /* Carl Zeiss Industrielle Messtechnik GmbH        */
@@ -11,17 +11,22 @@
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 /// <summary>
-/// The file format of the data file(s) of an <see cref="IImportFormat"/>.
+/// Represents the severity of an import history message.
 /// </summary>
-public enum SourceDisplayType
+public enum MessageSeverity
 {
     /// <summary>
-    /// This file will be shown as a text file in the configure import formats dialog.
+    /// The message is informational.
     /// </summary>
-    Text,
+    Info = 0,
 
     /// <summary>
-    /// This file will be handled as a binary file without preview in the configure import formats dialog.
+    /// The message represents a warning.
     /// </summary>
-    Binary
+    Warning = 50,
+    
+    /// <summary>
+    /// The message represents an error.
+    /// </summary>
+    Error = 100
 }

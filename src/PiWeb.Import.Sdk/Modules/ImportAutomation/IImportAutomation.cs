@@ -10,7 +10,6 @@
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-using System.Globalization;
 using System.Threading.Tasks;
 using ConfigurationItems;
 using PropertyStorage;
@@ -71,33 +70,6 @@ public interface IImportAutomation
 	void RewritePropertyStorage( IPropertyStorage propertyStorage, IRewriteContext context )
 	{
 		// Do nothing when not overwritten
-	}
-
-	/// <summary>
-	/// This method can be implemented to define a custom localization of event and status messages or format strings in the
-	/// Auto Importer UI. When this method returns <c>null</c>, the built-in localization is attempted. It is not necessary to
-	/// implement this method when only the built-in localization is used.
-	/// </summary>
-	/// <param name="localizationCulture">Specifies the target language.</param>
-	/// <param name="text">The text or format string to translate.</param>
-	/// <returns>The localized text or <c>null</c> when the built-in localization should be queried.</returns>
-	Task<string?> LocalizeText( CultureInfo localizationCulture, string text )
-	{
-		return Task.FromResult<string?>( null );
-	}
-
-	/// <summary>
-	/// This method can be implemented to define a custom formatting of format strings in the Auto Importer UI. When this method returns
-	/// <c>null</c>, the built-in formatting is attempted. It is not necessary to implement this method when only the built-in formatting
-	/// is used.
-	/// </summary>
-	/// <param name="formatCulture">Specifies how to format arguments.</param>
-	/// <param name="text">The text text to format.</param>
-	/// <param name="args">The arguments to use for formatting.</param>
-	/// <returns>The formatted text or <c>null</c> when the built-in formatting should be queried.</returns>
-	Task<string?> FormatText( CultureInfo formatCulture, string text, params object[] args )
-	{
-		return Task.FromResult<string?>( null );
 	}
 
 	#endregion

@@ -8,11 +8,17 @@
 
 #endregion
 
+#region usings
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+#endregion
+
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 #region usings
 
-using System.Collections.Generic;
 using ImportData = ImportData.ImportData;
 
 #endregion
@@ -23,24 +29,6 @@ using ImportData = ImportData.ImportData;
 /// </summary>
 public interface IImportFormat
 {
-    #region methods
-
-    /// <summary>
-    /// Decides what should be done with the given <paramref name="importGroup"/>. See <see cref="ImportAction"/> for more information.
-    /// </summary>
-    /// <param name="importGroup">The potential import group containing the primary file to analyze.</param>
-    /// <param name="context">Provides context information such as other files in the import folder.</param>
-    ImportAction DecideImportAction(IImportGroup importGroup, IGroupContext context);
-
-    /// <summary>
-    /// Creates data to be imported by parsing a given import group.
-    /// </summary>
-    /// <param name="importGroup">The import group to parse.</param>
-    /// <param name="context">Provides information about the import context.</param>
-    ImportData ParseImportData(IImportGroup importGroup, IParseContext context);
-
-    #endregion
-
     #region properties
 
     /// <summary>
@@ -49,10 +37,24 @@ public interface IImportFormat
     /// </summary>
     IReadOnlyCollection<string> StandardFileExtensions { get; }
 
+    #endregion
+
+    #region methods
+
     /// <summary>
-    /// The display type of the import formats associated files. E.g. binary formats will not show a preview.
+    /// Decides what should be done with the given <paramref name="importGroup"/>.
+    /// See <see cref="ImportAction"/> for more information.
     /// </summary>
-    SourceDisplayType SourceDisplay { get; }
+    /// <param name="importGroup">The potential import group containing the primary file to analyze.</param>
+    /// <param name="context">Provides context information such as other files in the import folder.</param>
+    ValueTask<ImportAction> DecideImportAction(IImportGroup importGroup, IGroupContext context);
+
+    /// <summary>
+    /// Creates data to be imported by parsing a given import group.
+    /// </summary>
+    /// <param name="importGroup">The import group to parse.</param>
+    /// <param name="context">Provides information about the import context.</param>
+    Task<ImportData> ParseImportData(IImportGroup importGroup, IParseContext context);
 
     #endregion
 }

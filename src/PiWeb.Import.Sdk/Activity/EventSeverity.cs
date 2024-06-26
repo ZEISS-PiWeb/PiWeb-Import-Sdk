@@ -16,12 +16,12 @@ namespace Zeiss.PiWeb.Import.Sdk.Activity;
 public enum EventSeverity
 {
 	/// <summary>
-	/// The event is of informational kind.
+	/// The event is informational.
 	/// </summary>
 	Info = 0,
 
 	/// <summary>
-	/// The event presents an error.
+	/// The event represents an error.
 	/// </summary>
 	Error = 100
 }

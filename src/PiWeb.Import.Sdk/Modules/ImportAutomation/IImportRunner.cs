@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// Responsible for running custom import logic.
 /// </summary>
-public interface IImportRunner : IDisposable
+public interface IImportRunner : IAsyncDisposable
 {
 	#region methods
 
@@ -31,15 +31,11 @@ public interface IImportRunner : IDisposable
 	/// </summary>
 	Task RunAsync( CancellationToken cancellationToken );
 
-	#endregion
-
-	#region interface IDisposable
-
-	/// <inheritdoc />
-	void IDisposable.Dispose()
+	ValueTask IAsyncDisposable.DisposeAsync()
 	{
-		GC.SuppressFinalize( this );
+		// Empty, so it does not need to be implemented when not needed.
+		return ValueTask.CompletedTask;
 	}
-
+    
 	#endregion
 }

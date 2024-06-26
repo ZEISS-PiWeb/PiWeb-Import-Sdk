@@ -8,14 +8,14 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
-
 #region usings
 
 using System.IO;
-using Exceptions;
+using Zeiss.PiWeb.Import.Sdk.FileSources.Exceptions;
 
 #endregion
+
+namespace Zeiss.PiWeb.Import.Sdk.FileSources;
 
 /// <summary>
 /// Represents a file.
@@ -62,15 +62,8 @@ public interface IFileSource
     /// Gets the file data as <see cref="Stream"/>.
     /// </summary>
     /// <returns>The file data stream.</returns>
-    /// <exception cref="FileSourceDataException">When retrieving the data failed.</exception>
+    /// <exception cref="FileSourceException">When retrieving the data failed.</exception>
     Stream GetDataStream();
-
-    /// <summary>
-    /// Gets the file data as byte array.
-    /// </summary>
-    /// <returns>The file data as byte array.</returns>
-    /// <exception cref="FileSourceDataException">When retrieving the data failed.</exception>
-    byte[] GetData();
 
     #endregion
 }

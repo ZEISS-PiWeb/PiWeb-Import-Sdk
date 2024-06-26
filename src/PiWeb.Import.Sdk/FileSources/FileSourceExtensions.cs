@@ -8,8 +8,6 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
-
 #region usings
 
 using System;
@@ -17,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 #endregion
+
+namespace Zeiss.PiWeb.Import.Sdk.FileSources;
 
 /// <summary>
 /// Provides methods to work with <see cref="IFileSource"/> more easily.
@@ -57,7 +57,9 @@ public static class FileSourceExtensions
     /// <param name="fileSources">The <see cref="IFileSource"/>s to check.</param>
     /// <param name="extensions">The file extensions (including the period ".").</param>
     /// <returns>The first matching <see cref="IFileSource"/>; otherwise <c>null</c>.</returns>
-    public static IFileSource? GetFirstWithAnyExtension(this IEnumerable<IFileSource> fileSources, IEnumerable<string> extensions)
+    public static IFileSource? GetFirstWithAnyExtension(
+        this IEnumerable<IFileSource> fileSources,
+        IEnumerable<string> extensions)
     {
         return fileSources.FirstOrDefault(fileSource => fileSource.HasAnyExtension(extensions));
     }
@@ -80,7 +82,9 @@ public static class FileSourceExtensions
     /// <param name="fileSources">The <see cref="IFileSource"/>s to check.</param>
     /// <param name="extensions">The file extensions (including the period ".").</param>
     /// <returns>The list of <see cref="IFileSource"/>s with the <paramref name="extensions"/>.</returns>
-    public static IReadOnlyList<IFileSource> AllWithExtensions(this IEnumerable<IFileSource> fileSources, IEnumerable<string> extensions)
+    public static IReadOnlyList<IFileSource> AllWithExtensions(
+        this IEnumerable<IFileSource> fileSources,
+        IEnumerable<string> extensions)
     {
         return fileSources.Where(fileSource => fileSource.HasAnyExtension(extensions)).ToList();
     }
@@ -91,7 +95,9 @@ public static class FileSourceExtensions
     /// <param name="fileSources">The <see cref="IFileSource"/>s to check.</param>
     /// <param name="extension">The file extension (including the period ".").</param>
     /// <returns>The list of <see cref="IFileSource"/>s with the <paramref name="extension"/>.</returns>
-    public static IReadOnlyList<IFileSource> AllWithExtension(this IEnumerable<IFileSource> fileSources, string extension)
+    public static IReadOnlyList<IFileSource> AllWithExtension(
+        this IEnumerable<IFileSource> fileSources,
+        string extension)
     {
         return fileSources.Where(fileSource => fileSource.HasExtension(extension)).ToList();
     }

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Zeiss.PiWeb.Import.Sdk.Activity;
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
@@ -14,16 +13,14 @@ public interface IStatusService
     /// of the Auto Importer UI.
     /// </summary>
     /// <param name="displayText">
-    /// The display text of the event. This can be a format string.
-    /// Localization and formatting of this text can optionally be customized by implementing <see cref="IImportAutomation.LocalizeText"/>
-    /// and/or <see cref="IImportAutomation.FormatText"/> on the import automation. When these methods are not implemented, built in
-    /// mechanisms are used.
+    /// The display text of the event. This text is persisted and should be localized and formatted by implementing
+    /// <see cref="IPlugin.LocalizePersistedText"/> and/or <see cref="IPlugin.FormatPersistedText"/>.
     /// </param>
     /// <param name="formatArgs">
     /// Format arguments used to format the display text of the activity when this is a format string.
     /// </param>
     /// <param name="severity">The severity of the event.</param>
-    public Task PostImportEventAsync( EventSeverity severity, string displayText, params object[] formatArgs );
+    public void PostImportEvent( EventSeverity severity, string displayText, params object[] formatArgs );
 
     /// <summary>
     /// Sets the current activity. The current activity of an import plan is shown at various places of the Auto Importer UI either as
@@ -35,10 +32,10 @@ public interface IStatusService
     /// <param name="formatArgs">
     /// Format arguments used to format detailed and short display text of the activity when these are format strings.
     /// </param>
-    public Task SetActivityAsync( ActivityProperties activityProperties, params object[] formatArgs );
+    public void SetActivity( ActivityProperties activityProperties, params object[] formatArgs );
 
     /// <summary>
     /// Sets the current activity to no activity.
     /// </summary>
-    public Task ClearActivityAsync();
+    public void ClearActivity();
 }

@@ -26,6 +26,11 @@ public interface IParseContext
 	IEnvironmentInfo EnvironmentInfo { get; }
 
 	/// <summary>
+	/// A service to edit the import history entry of the current import. 
+	/// </summary>
+	IImportHistoryService ImportHistoryService { get; }
+
+	/// <summary>
 	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file
 	/// of the hosting application.
 	/// </summary>
