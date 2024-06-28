@@ -11,7 +11,6 @@
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 using System;
-using ConfigurationItems;
 using ImportSourceDescription;
 
 /// <summary>
