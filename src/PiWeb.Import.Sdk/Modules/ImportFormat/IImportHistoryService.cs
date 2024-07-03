@@ -23,11 +23,12 @@ public interface IImportHistoryService
     /// Note: Adding messages with error severity leads to the import being canceled before any data is imported.
     /// </summary>
     /// <param name="displayText">
-    /// The display text of the message. This text is persisted and should be localized and formatted by implementing
-    /// <see cref="IPlugin.LocalizePersistedText"/> and/or <see cref="IPlugin.FormatPersistedText"/>.
+    /// The display text of the message. A localization handler will be used to localize this text with the given
+    /// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+    /// formatting.
     /// </param>
     /// <param name="formatArgs">
-    /// Format arguments used to format the display text of the activity when this is a format string.
+    /// Format arguments used when formatting the display text of message.
     /// </param>
     /// <param name="severity">The severity of the message.</param>
     public void AddMessage(MessageSeverity severity, string displayText, params object[] formatArgs);

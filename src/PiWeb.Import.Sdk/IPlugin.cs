@@ -10,8 +10,9 @@
 
 #region usings
 
-using System.Globalization;
+using System;
 using System.Threading.Tasks;
+using Zeiss.PiWeb.Import.Sdk.LocalizationHandler;
 
 #endregion
 
@@ -28,38 +29,25 @@ public interface IPlugin
     /// Initializes the plugin. Usually called during startup of the hosting application while showing a splash screen.
     /// Startup finishes when the returned task is completed.
     /// </summary>
-    /// <param name="context">Contains information about the hosting application.</param>
+    /// <param name="context">Contains information about the environment.</param>
     /// <exception cref="ModuleRegistrationException">Thrown when module registration fails.</exception>
     Task Init(IPluginContext context);
 
     /// <summary>
-    /// This method can be implemented to define a custom localization for persisted text. This allows persisted text
-    /// to be displayed in the current culture even if it was persisted in the context of another culture.
-    /// When this method returns <c>null</c>, the original text will be used without translation. This is also the
-    /// default implementation.
+    /// This method is called once to get a localization handler for the plugin. The handler is used internally
+    /// to localize messages and other text that is persisted. Methods that use this localization handler internally
+    /// are documented as such. When this method is not implemented, a default localization handler will be used.
+    /// Usually the default handler will not translate at all and use
+    /// <see cref="string.Format(IFormatProvider?, string, object[])"/>
+    /// to format. 
     /// </summary>
-    /// <param name="localizationCulture">Specifies the target language.</param>
-    /// <param name="text">The text or format string to translate.</param>
-    /// <returns>The localized text or <c>null</c> when the original text should be used.</returns>
-    string? LocalizePersistedText(CultureInfo localizationCulture, string text)
+    /// <param name="context">
+    /// Contains additional information for creating the <see cref="ILocalizationHandler"/> instance.
+    /// </param> 
+    /// <returns>The custom localization handler.</returns>
+    ILocalizationHandler GetLocalizationHandler(ILocalizationHandlerContext context)
     {
-        return null;
-    }
-
-    /// <summary>
-    /// This method can be implemented to define a custom formatting of format strings for persisted text. This method
-    /// is called after translation by <see cref="LocalizePersistedText"/> and can be used to format text after
-    /// translation.
-    /// When this method returns <c>null</c>, the built-in formatting is used which is equivalent to
-    /// <see cref="string.Format(System.IFormatProvider?,string,object?)"/>.
-    /// </summary>
-    /// <param name="formatCulture">The culture to use when formatting arguments.</param>
-    /// <param name="text">The localized format string.</param>
-    /// <param name="args">The arguments.</param>
-    /// <returns>The formatted text or <c>null</c> when the built-in formatting should be queried.</returns>
-    string? FormatPersistedText(CultureInfo formatCulture, string text, params object[] args)
-    {
-        return null;
+        return new FormatOnlyLocalizationHandler();
     }
 
     #endregion

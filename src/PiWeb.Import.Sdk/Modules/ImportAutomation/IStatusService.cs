@@ -1,3 +1,13 @@
+#region copyright
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Carl Zeiss Industrielle Messtechnik GmbH        */
+/* Softwaresystem PiWeb                            */
+/* (c) Carl Zeiss 2024                             */
+/* * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#endregion
+
 using Zeiss.PiWeb.Import.Sdk.Activity;
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
@@ -13,29 +23,35 @@ public interface IStatusService
     /// of the Auto Importer UI.
     /// </summary>
     /// <param name="displayText">
-    /// The display text of the event. This text is persisted and should be localized and formatted by implementing
-    /// <see cref="IPlugin.LocalizePersistedText"/> and/or <see cref="IPlugin.FormatPersistedText"/>.
+    /// The display text of the event. A localization handler will be used to localize this text with the given
+    /// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+    /// formatting.
     /// </param>
     /// <param name="formatArgs">
-    /// Format arguments used to format the display text of the activity when this is a format string.
+    /// Format arguments used when formatting the display text of the activity.
     /// </param>
     /// <param name="severity">The severity of the event.</param>
     public void PostImportEvent( EventSeverity severity, string displayText, params object[] formatArgs );
 
     /// <summary>
-    /// Sets the current activity. The current activity of an import plan is shown at various places of the Auto Importer UI either as
-    /// detailed text or short text. Other properties of the current activity may also effect the display.
-    /// If this new activity has a different detailed text than the previous one, an import event with the same text is posted to document
-    /// the activity change. If the new activity is of suspension type, the event is posted as an error event.
+    /// Sets the current activity. The current activity of an import plan is shown at various places of the
+    /// Auto Importer UI either in the form of the detailed text or the short text. Other properties of the current
+    /// activity may also effect the display.
+    /// If this new activity has a different detailed text than the previous one, an import event with the same text
+    /// is posted to document the activity change. If the new activity is of suspension type, the event is posted as
+    /// an error event.
+    /// A localization handler will be used to localize the detailed text and the short text with the given format
+    /// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+    /// formatting.
     /// </summary>
     /// <param name="activityProperties">The properties of the activity to show.</param>
     /// <param name="formatArgs">
-    /// Format arguments used to format detailed and short display text of the activity when these are format strings.
+    /// Format arguments used when formatting the detailed text and the short text of the activity.
     /// </param>
     public void SetActivity( ActivityProperties activityProperties, params object[] formatArgs );
 
     /// <summary>
-    /// Sets the current activity to no activity.
+    /// Resets the current activity to no activity.
     /// </summary>
     public void ClearActivity();
 }
