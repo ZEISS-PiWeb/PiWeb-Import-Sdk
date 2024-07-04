@@ -54,8 +54,8 @@ There should be a subfolder for each plugin in this folder. [Read more about str
 To check whether the Auto Importer has loaded the desired plugin, you can go to **File > Plugins...**. There you will see a list of all known plugins and their load status.\
 ![Auto Importer plugin management](../../assets/images/getting_started/1_plugin_states.png "Auto Importer plugin management")
 
-**blue toggle button**: Plugin is active.\
 **gray text "not loaded"**: Plugin is not active. Activate via gray toggle button and restart the application.\
+**blue toggle button**: Plugin is active.\
 **red text "not loaded"**: There was an error with this plugin, it is not active. See [troubleshooting]({% link docs/troubleshooting.md %}) for more information.
 
 Plugins can be activated and deactivated via this view. Only active plugins are loaded when the Auto Importer is started and can therefore be used as an import source.

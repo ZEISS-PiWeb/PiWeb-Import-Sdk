@@ -4,6 +4,7 @@ theme: just-the-docs
 color_scheme: zeiss
 logo: "/assets/images/zeiss-logo-rgb.svg"
 favicon_ico: "/assets/images/favicon.png"
+markdown: kramdown
 
 url: https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk
 
