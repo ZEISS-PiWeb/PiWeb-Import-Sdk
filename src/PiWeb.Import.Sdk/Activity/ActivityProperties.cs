@@ -21,14 +21,15 @@ public class ActivityProperties
 	public ActivityType ActivityType { get; init; } = ActivityType.Normal;
 
 	/// <summary>
-	/// The detailed text to display. This text is persisted and should be localized and formatted by implementing
-	/// <see cref="IPlugin.LocalizePersistedText"/> and/or <see cref="IPlugin.FormatPersistedText"/>.
+	/// The detailed text to display. A localization handler will be used to localize this text.
+	/// Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and formatting.
 	/// </summary>
 	public string DetailedDisplayText { get; init; } = string.Empty;
 
 	/// <summary>
-	/// The short text to display. This text is persisted and should be localized and formatted by implementing
-	/// <see cref="IPlugin.LocalizePersistedText"/> and/or <see cref="IPlugin.FormatPersistedText"/>.
+	/// The short text to display. A localization handler will be used to localize this text with the given
+	/// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+	/// formatting.
 	/// </summary>
 	public string ShortDisplayText { get; init; } = string.Empty;
 
