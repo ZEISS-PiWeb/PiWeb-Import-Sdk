@@ -56,5 +56,11 @@ public interface IImportFormat
     /// <param name="context">Provides information about the import context.</param>
     Task<ImportData> ParseImportData(IImportGroup importGroup, IParseContext context);
 
+    /// <summary>
+    /// Gets the import format configuration specifying supported import format configuration settings.
+    /// </summary>
+    /// <returns>The import format configuration.</returns>
+    ImportFormatConfiguration GetConfiguration();
+    
     #endregion
 }
