@@ -9,12 +9,12 @@
 #endregion
 
 // This is a modification of
-// https://raw.githubusercontent.com/dotnet/corefxlab/archive/src/System.Collections.Sequences/System/Collections/Sequences/ResizableArray.cs
+// https://github.com/dotnet/corefxlab/blob/8cd063a1e163a0db906343bb5ba1b53c02eb83d6/src/System.Collections.Sequences/System/Collections/Sequences/ResizableArray.cs
 
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-// https://raw.githubusercontent.com/dotnet/corefxlab/archive/LICENSE
+// https://github.com/dotnet/corefxlab/blob/8cd063a1e163a0db906343bb5ba1b53c02eb83d6/LICENSE
 
 
 #region usings
