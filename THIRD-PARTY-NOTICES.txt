@@ -1,0 +1,71 @@
+This product includes copyrighted software from third parties that may be
+distributed under different licenses than this product as given below.
+
+In case we missed to list a specific software and/or underlying license,
+we appreciate your upfront notice.
+
+This product may include copyrighted software that is distributed under a
+license that requires us to provide the source code of that software and
+instructions on how to build and install it, such as the GNU GPL or GNU
+LGPL or other reciprocal licenses. Unless otherwise stated the original
+source code of such software has not been modified. As recipient and user of
+this product you may obtain the complete source code for such copyrighted
+software as well as build and install instructions from us for a period of
+three years starting with the reception of the product and at no charge.
+
+In any of such cases, please send an email to opensource@zeiss.com referencing
+your product's name, version, and manufacturing ZEISS entity.
+
+===============================================================================
+
+This document uses standard identifiers for software packages and licenses as
+specified by the SPDX and Package URL groups:
+
+The licenses identifiers are SPDX license expressions using
+https://spdx.dev/licenses/. The full SPDX specification is at
+https://spdx.dev/specifications/
+
+
+-------------------------------------------------------------------------------
+| generic name:  CoreFXLab version: 8cd063a1e163a0db906343bb5ba1b53c02eb83d6
+| Package URL: pkg:generic/CoreFXLab@8cd063a1e163a0db906343bb5ba1b53c02eb83d6?download_url=https://github.com/dotnet/corefxlab/blob/8cd063a1e163a0db906343bb5ba1b53c02eb83d6/src/System.Collections.Sequences/System/Collections/Sequences/ResizableArray.cs
+-------------------------------------------------------------------------------
+Homepage: https://github.com/dotnet/corefxlab
+Download: https://github.com/dotnet/corefxlab/blob/8cd063a1e163a0db906343bb5ba1b53c02eb83d6/src/System.Collections.Sequences/System/Collections/Sequences/ResizableArray.cs
+--- --- --- --- --- --- --- Copyright notice(s) --- --- --- --- --- --- --- ---
+
+Copyright (c) .NET Foundation and Contributors
+
+--- --- --- --- --- --- --- License text(s) --- --- --- --- --- --- --- --- ---
+
+This package is licensed under MIT
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+name: MIT
+spdx-key: MIT
+https://scancode-licensedb.aboutcode.org/mit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The MIT License (MIT)
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
