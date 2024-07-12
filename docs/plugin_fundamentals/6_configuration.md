@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 6
-parent: Plugin fundamentals
+parent: Plug-in fundamentals
 title: User configuration & storage
 ---
 
@@ -13,7 +13,7 @@ Ziele:
 
 Inhalt:
 - mitgelieferte Elemente beschreiben
-- auf Beispiel-Plugin verweisen
+- auf Beispiel-Plug-in verweisen
 - Storage bzw. Speicherung der Einstellungen erklären
 --->
 
@@ -190,5 +190,4 @@ public ImportRunner(IImportRunnerContext importRunnerContext)
 
 <!---
 **TODO Priority erklären, niedrig zu hoch**
-**TODO Alle verfügbaren IConfigurationItems auflisten**
 --->

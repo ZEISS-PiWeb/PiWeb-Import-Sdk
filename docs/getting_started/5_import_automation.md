@@ -22,10 +22,10 @@ Notizen:
 - Schema mit voller URL auf GitHub bereitstellen
 --->
 
-This chapter describes what is required to create a minimal automation plug-in. Please read [Create your first plugin]({% link docs/getting_started/2_first_plugin.md %}) before, as it extends the information from there.
+This chapter describes what is required to create a minimal automation plug-in. Please read [Create your first plug-in]({% link docs/getting_started/2_first_plugin.md %}) before, as it extends the information from there.
 
 ## IImportAutomation
-Represents a custom import automation provided as part of a plugin. Custom import automations substitute the full Auto Importer import pipeline with custom logic and are available as import sources in an import plan configuration.
+Represents a custom import automation provided as part of a plug-in. Custom import automations substitute the full Auto Importer import pipeline with custom logic and are available as import sources in an import plan configuration.
 
 ```c#
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
