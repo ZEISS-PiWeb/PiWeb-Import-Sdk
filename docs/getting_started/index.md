@@ -12,18 +12,18 @@ Welcome to our Import SDK documentation. This handbook is designed to walk you t
 Understanding how to set up a viable and efficient environment for development is key to starting any software project. We'll walk you through the necessary software and tools you'll need, along with detailed installation and configuration guides.
 [Read more]({% link docs/getting_started/1_setup.md %})
 
-## Create your first plugin
-Creating your first plugin might seem challenging, but don't worry, we're here to assist you.
+## Create your first plug-in
+Creating your first plug-in might seem challenging, but don't worry, we're here to assist you.
 
-In this section, we provide a step-by-step guide on how to create your first plugin, from initial conception all the way to final implementation and testing. With this guide, you will be able to create a plugin successfully!
+In this section, we provide a step-by-step guide on how to create your first plug-in, from initial conception all the way to final implementation and testing. With this guide, you will be able to create a plug-in successfully!
 [Read more]({% link docs/getting_started/2_first_plugin.md %})
 
 ## Choose your module type
-Choosing the right module type is crucial for the efficiency of your plugin. We'll present the different module types available and help you understand the benefits of each to make an informed decision.
+Choosing the right module type is crucial for the efficiency of your plug-in. We'll present the different module types available and help you understand the benefits of each to make an informed decision.
 [Read more]({% link docs/getting_started/3_module_type.md %})
 
 ## Create Your First Import Format
-Import formats are essential for handling data in your plugin. Here, you'll learn how to create an import format, define data structures, validate data, and handle potential errors in the data importing process.
+Import formats are essential for handling data in your plug-in. Here, you'll learn how to create an import format, define data structures, validate data, and handle potential errors in the data importing process.
 [Read more]({% link docs/getting_started/4_import_format.md %})
 
 ## Create Your First Import Automation

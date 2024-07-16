@@ -12,5 +12,7 @@ Ziele:
 - aufzeigen, wie eigene UI-Elemente integriert werden können
 
 Inhalt:
-- anhand Beispiel-Plugin das Vorgehen beschreiben
+- anhand Beispiel-Plug-in das Vorgehen beschreiben
 --->
+
+<!-- Bereits in 6 configuration? -->

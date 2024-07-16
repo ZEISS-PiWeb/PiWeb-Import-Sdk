@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 4
-parent: Plugin fundamentals
+parent: Plug-in fundamentals
 title: Module Import format
 ---
 

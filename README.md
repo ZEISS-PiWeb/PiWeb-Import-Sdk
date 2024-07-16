@@ -12,20 +12,20 @@ The PiWeb Auto Importer is an application of the [ZEISS PiWeb software](https://
 
 The measurement data to manage, however, is provided by sources like measuring machines. To make such measurement data available for evaluation in PiWeb applications, it needs to be imported from its source into the PiWeb data backend. Most commonly measuring machines output their measurements as files in the file system. In this case, the Auto Importer can be used to automate the import and backup of such measurement files as soon as they appear. It provides a configuration UI and can be setup to run either as an application in the background or even fully automated as a Windows service.
 
-### Why write an import plugin?
+### Why write an import plug-in?
 While the Auto Importer has built-in support for most common file formats of measurement data, it does not know how to handle more customer specific file formats. Plugins can be used to add seamless support for such custom formats while still leaving the tasks of file detection, file backup and windows service management to the Auto Importer.
 
 Another use case for writing plugins is importing data from sources other than files such as rest services or databases.
 
-### How to write an import plugin?
+### How to write an import plug-in?
 > [!NOTE]
-> The initial version of the PiWeb-Import-Sdk is still in development. The linked import plugin documentation is currently only a skeleton without actual content.
+> The initial version of the PiWeb-Import-Sdk is still in development. The linked import plug-in documentation is currently only a skeleton without actual content.
 
-Getting started is as easy as creating a new C# project in your favorite IDE, adding a plugin manifest and linking the [Zeiss.PiWeb.Import.Sdk](https://www.nuget.org/packages/Zeiss.PiWeb.Import.Sdk/) NuGet. To make this even easier, we provide a project template you can use as a starting point. More detailed information about this can be found in our [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
+Getting started is as easy as creating a new C# project in your favorite IDE, adding a plug-in manifest and linking the [Zeiss.PiWeb.Import.Sdk](https://www.nuget.org/packages/Zeiss.PiWeb.Import.Sdk/) NuGet. To make this even easier, we provide a project template you can use as a starting point. More detailed information about this can be found in our [import plug-in documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
 
 ### Learn more
 
 * More information about the ZEISS PiWeb software can be found on the [PiWeb homepage](https://www.zeiss.de/messtechnik/produkte/software/piweb.html).
-* Our [import plugin documentation]() explains how to write plugins.
+* Our [import plug-in documentation]() explains how to write plugins.
 * The [PiWeb domain model](https://zeiss-piweb.github.io/PiWeb-Api/general#gi-model) explains how data is structured in the backend. Import plugins create import data structured like this.
 * The [PiWeb-API](https://github.com/ZEISS-PiWeb/PiWeb-Api) is an open source implementation of the REST-API provided by the data backend. It may be used within import plugins if direct access to the backend is required.

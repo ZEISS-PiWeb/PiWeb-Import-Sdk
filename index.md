@@ -22,7 +22,7 @@ Use ZEISS PiWeb as an engineering tool for decision making – perform GR&R stud
 
 [Getting started]({% link docs/getting_started/index.md %})
 
-[Plugin fundamentals]({% link docs/plugin_fundamentals/index.md %})
+[Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %})
 
 [Advanced topics]({% link docs/advanced_topics/index.md %})
 
