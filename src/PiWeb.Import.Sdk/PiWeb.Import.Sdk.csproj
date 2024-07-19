@@ -24,6 +24,7 @@
     <PackageTags>ZEISS PiWeb Import SDK</PackageTags>
     <PackageIcon>logo_128x128.png</PackageIcon>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk.git</RepositoryUrl>
@@ -31,8 +32,13 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
-    <None Include="..\..\img\logo_128x128.png" Pack="true" PackagePath="logo_128x128.png" />
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\readme.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\img\logo_128x128.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="Zeiss.PiWeb.Import.Sdk.Tests" />
   </ItemGroup>
 
 </Project>

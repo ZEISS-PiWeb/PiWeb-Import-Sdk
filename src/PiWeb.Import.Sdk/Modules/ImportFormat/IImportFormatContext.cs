@@ -3,28 +3,22 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * */
 /* Carl Zeiss Industrielle Messtechnik GmbH        */
 /* Softwaresystem PiWeb                            */
-/* (c) Carl Zeiss 2023                             */
+/* (c) Carl Zeiss 2024                             */
 /* * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk;
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
-using Zeiss.PiWeb.Import.Sdk.Environment;
 using Zeiss.PiWeb.Import.Sdk.Logging;
 
 /// <summary>
-/// Represents the context of a plugin provided by the hosting application.
+/// Represents the context of an import format provided by the hosting application.
 /// </summary>
-public interface IPluginContext
+public interface IImportFormatContext
 {
 	#region properties
 
-	/// <summary>
-	/// Contains information about the environment a plugin is hosted in.
-	/// </summary>
-	IEnvironmentInfo EnvironmentInfo { get; }
-    
 	/// <summary>
 	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the hosting application.
 	/// </summary>
