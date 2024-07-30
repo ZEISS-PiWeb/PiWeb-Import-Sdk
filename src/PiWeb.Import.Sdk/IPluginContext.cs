@@ -21,12 +21,13 @@ public interface IPluginContext
 	#region properties
 
 	/// <summary>
-	/// Contains information about the environment a plugin is hosted in.
+	/// Contains information about the environment the plugin is hosted in.
 	/// </summary>
 	IEnvironmentInfo EnvironmentInfo { get; }
     
 	/// <summary>
-	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the hosting application.
+	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the
+	/// hosting application.
 	/// </summary>
 	ILogger Logger { get; }
 

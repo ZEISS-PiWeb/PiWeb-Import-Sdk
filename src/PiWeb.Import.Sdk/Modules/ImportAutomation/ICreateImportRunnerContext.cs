@@ -11,7 +11,6 @@
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 using System;
-using Environment;
 using ImportPlan;
 using Logging;
 using PropertyStorage;
@@ -19,7 +18,7 @@ using PropertyStorage;
 /// <summary>
 /// Represents the context of an import runner provided by the hosting application.
 /// </summary>
-public interface IImportRunnerContext
+public interface ICreateImportRunnerContext
 {
 	#region properties
 
@@ -27,11 +26,6 @@ public interface IImportRunnerContext
 	/// The id of the associated import plan.
 	/// </summary>
 	Guid ImportPlanId { get; }
-
-	/// <summary>
-	/// Contains information about the environment a plugin is hosted in.
-	/// </summary>
-	IEnvironmentInfo EnvironmentInfo { get; }
 
 	/// <summary>
 	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the

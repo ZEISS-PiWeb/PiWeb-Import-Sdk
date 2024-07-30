@@ -22,13 +22,13 @@ public class ActivityProperties
 
 	/// <summary>
 	/// The detailed text to display. A localization handler will be used to localize this text.
-	/// Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and formatting.
+	/// Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and formatting.
 	/// </summary>
 	public string DetailedDisplayText { get; init; } = string.Empty;
 
 	/// <summary>
 	/// The short text to display. A localization handler will be used to localize this text with the given
-	/// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+	/// arguments. Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and
 	/// formatting.
 	/// </summary>
 	public string ShortDisplayText { get; init; } = string.Empty;

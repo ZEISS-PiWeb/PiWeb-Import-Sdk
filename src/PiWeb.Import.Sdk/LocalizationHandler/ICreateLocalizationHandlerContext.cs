@@ -10,6 +10,7 @@
 
 #region usings
 
+using Zeiss.PiWeb.Import.Sdk.Environment;
 using Zeiss.PiWeb.Import.Sdk.Logging;
 
 #endregion
@@ -19,8 +20,13 @@ namespace Zeiss.PiWeb.Import.Sdk.LocalizationHandler;
 /// <summary>
 /// Represents the context for creating an <see cref="ILocalizationHandler"/> instance.
 /// </summary>
-public interface ILocalizationHandlerContext
+public interface ICreateLocalizationHandlerContext
 {
+    /// <summary>
+    /// Contains information about the environment the plugin is hosted in.
+    /// </summary>
+    IEnvironmentInfo EnvironmentInfo { get; }
+    
     /// <summary>
     /// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the
     /// hosting application.

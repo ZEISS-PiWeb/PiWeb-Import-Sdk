@@ -11,7 +11,6 @@
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 using System;
-using Environment;
 using ImportPlan;
 using Logging;
 using PropertyStorage;
@@ -19,7 +18,7 @@ using PropertyStorage;
 /// <summary>
 /// Represents the context of an automation configuration for an import automation.
 /// </summary>
-public interface IAutomationConfigurationContext
+public interface ICreateAutomationConfigurationContext
 {
 	#region events
 
@@ -66,11 +65,6 @@ public interface IAutomationConfigurationContext
 	/// The property storage for an automation module of the current import plan.
 	/// </summary>
 	public IPropertyStorage PropertyStorage { get; }
-
-	/// <summary>
-	/// Contains information about the environment a plugin is hosted in.
-	/// </summary>
-	IEnvironmentInfo EnvironmentInfo { get; }
 
 	/// <summary>
 	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the hosting application.

@@ -21,11 +21,6 @@ public interface IParseContext
 	#region properties
 
 	/// <summary>
-	/// Contains information about the environment a plugin is hosted in.
-	/// </summary>
-	IEnvironmentInfo EnvironmentInfo { get; }
-
-	/// <summary>
 	/// A service to edit the import history entry of the current import. 
 	/// </summary>
 	IImportHistoryService ImportHistoryService { get; }

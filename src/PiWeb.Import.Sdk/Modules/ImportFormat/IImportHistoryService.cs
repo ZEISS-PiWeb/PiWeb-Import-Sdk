@@ -24,7 +24,7 @@ public interface IImportHistoryService
     /// </summary>
     /// <param name="displayText">
     /// The display text of the message. A localization handler will be used to localize this text with the given
-    /// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+    /// arguments. Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and
     /// formatting.
     /// </param>
     /// <param name="formatArgs">

@@ -10,7 +10,6 @@
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-using System.Threading.Tasks;
 using ConfigurationItems;
 using PropertyStorage;
 
@@ -38,7 +37,7 @@ public interface IImportAutomation
 	/// Thrown when the import runner cannot be created. Throwing this will abort the execution of the import plan but it will not post
 	/// any error events. It is therefore recommended to post an error event before throwing this exception.
 	/// </exception>
-	Task<IImportRunner> CreateImportRunnerAsync( IImportRunnerContext context );
+	IImportRunner CreateImportRunner( ICreateImportRunnerContext context );
 
 	/// <summary>
 	/// Creates a new automation configuration instance. An automation configuration is first created when an import plan uses this
@@ -50,7 +49,7 @@ public interface IImportAutomation
 	/// for a specific import plan.
 	/// </param>
 	/// <returns>The new automation configuration.</returns>
-	IAutomationConfiguration CreateConfiguration( IAutomationConfigurationContext context )
+	IAutomationConfiguration CreateConfiguration( ICreateAutomationConfigurationContext context )
 	{
 		return NullAutomationConfiguration.Instance;
 	}

@@ -24,7 +24,7 @@ public interface IStatusService
     /// </summary>
     /// <param name="displayText">
     /// The display text of the event. A localization handler will be used to localize this text with the given
-    /// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+    /// arguments. Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and
     /// formatting.
     /// </param>
     /// <param name="formatArgs">
@@ -41,7 +41,7 @@ public interface IStatusService
     /// is posted to document the activity change. If the new activity is of suspension type, the event is posted as
     /// an error event.
     /// A localization handler will be used to localize the detailed text and the short text with the given format
-    /// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+    /// arguments. Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and
     /// formatting.
     /// </summary>
     /// <param name="activityProperties">The properties of the activity to show.</param>
