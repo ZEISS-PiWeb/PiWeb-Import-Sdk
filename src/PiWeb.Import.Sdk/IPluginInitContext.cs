@@ -16,7 +16,7 @@ using Zeiss.PiWeb.Import.Sdk.Logging;
 /// <summary>
 /// Represents the context of a plugin provided by the hosting application.
 /// </summary>
-public interface IPluginContext
+public interface IPluginInitContext
 {
 	#region properties
 

@@ -1,4 +1,4 @@
-﻿#region copyright
+#region copyright
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * */
 /* Carl Zeiss Industrielle Messtechnik GmbH        */
@@ -8,26 +8,17 @@
 
 #endregion
 
-#region usings
-
-using Zeiss.PiWeb.Import.Sdk.Environment;
 using Zeiss.PiWeb.Import.Sdk.Logging;
 
-#endregion
-
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 /// <summary>
-/// Represents the context of creating import automations. An instance will be provided by the hosting application.
+/// Represents the context for the creation of <see cref="IImportParser"/> instances. This context will be
+/// provided by the hosting application. 
 /// </summary>
-public interface ICreateImportAutomationContext
+public interface ICreateImportParserContext
 {
     #region properties
-
-    /// <summary>
-    /// Contains information about the environment the plugin is hosted in.
-    /// </summary>
-    IEnvironmentInfo EnvironmentInfo { get; }
 
     /// <summary>
     /// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the

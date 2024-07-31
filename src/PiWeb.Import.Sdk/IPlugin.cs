@@ -28,7 +28,7 @@ public interface IPlugin
     /// Startup finishes when the returned task is completed.
     /// </summary>
     /// <param name="context">Contains information about the environment this plugin is hosted in.</param>
-    Task Init(IPluginContext context)
+    Task Init(IPluginInitContext context)
     {
         return Task.CompletedTask;
     }

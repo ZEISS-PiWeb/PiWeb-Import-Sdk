@@ -12,7 +12,7 @@
 
 #endregion
 
-using Zeiss.PiWeb.Import.Sdk.FileSources;
+using Zeiss.PiWeb.Import.Sdk.ImportFiles;
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportData;
 
@@ -27,13 +27,13 @@ using Modules.ImportFormat;
 
 /// <summary>
 /// <inheritdoc />
-/// This implementation returns a stream from a given <see cref="IFileSource"/>.
+/// This implementation returns a stream from a given <see cref="IImportFile"/>.
 /// </summary>
 public sealed class AdditionalFileSourceDataItem : AdditionalDataItem
 {
     #region members
 
-    private readonly IFileSource _FileSource;
+    private readonly IImportFile _ImportFile;
 
     #endregion
 
@@ -43,10 +43,10 @@ public sealed class AdditionalFileSourceDataItem : AdditionalDataItem
     /// Initializes a new instance of the <see cref="AdditionalFileSourceDataItem"/> class.
     /// </summary>
     /// <param name="name">The name of the additional data.</param>
-    /// <param name="fileSource">The file source.</param>
-    public AdditionalFileSourceDataItem(string name, IFileSource fileSource) : base(name)
+    /// <param name="importFile">The file source.</param>
+    public AdditionalFileSourceDataItem(string name, IImportFile importFile) : base(name)
     {
-        _FileSource = fileSource;
+        _ImportFile = importFile;
     }
 
     #endregion
@@ -58,7 +58,7 @@ public sealed class AdditionalFileSourceDataItem : AdditionalDataItem
     {
         try
         {
-            dataStream = _FileSource.GetDataStream();
+            dataStream = _ImportFile.GetDataStream();
             return true;
         }
         catch (Exception)

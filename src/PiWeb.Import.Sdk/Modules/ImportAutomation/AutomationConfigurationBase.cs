@@ -18,7 +18,7 @@ using ImportSourceDescription;
 /// This base class provides a comfortable implementation for modifiable source descriptions accessible via the protected
 /// <see cref="ImportSourceDescription"/> property.
 /// </summary>
-public class AutomationConfigurationBase : IAutomationConfiguration
+public abstract class AutomationConfigurationBase : IAutomationConfiguration
 {
 	#region properties
 

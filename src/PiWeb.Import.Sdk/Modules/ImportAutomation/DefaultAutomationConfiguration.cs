@@ -8,28 +8,26 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.ConfigurationItems;
-
-using Modules.ImportAutomation;
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 /// <summary>
 /// <inheritdoc />
 /// This implementation does not specify any configuration.
 /// </summary>
-public sealed class NullAutomationConfiguration : IAutomationConfiguration
+public sealed class DefaultAutomationConfiguration : IAutomationConfiguration
 {
 	#region members
 
 	/// <summary>
-	/// Gets the instance of the <see cref="NullAutomationConfiguration"/> class.
+	/// Gets the instance of the <see cref="DefaultAutomationConfiguration"/> class.
 	/// </summary>
-	public static readonly IAutomationConfiguration Instance = new NullAutomationConfiguration();
+	public static readonly IAutomationConfiguration Instance = new DefaultAutomationConfiguration();
 
 	#endregion
 
 	#region constructors
 
-	private NullAutomationConfiguration()
+	private DefaultAutomationConfiguration()
 	{ }
 
 	#endregion

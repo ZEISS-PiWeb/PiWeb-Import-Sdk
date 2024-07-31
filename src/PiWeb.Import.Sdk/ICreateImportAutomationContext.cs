@@ -15,12 +15,12 @@ using Zeiss.PiWeb.Import.Sdk.Logging;
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
+namespace Zeiss.PiWeb.Import.Sdk;
 
 /// <summary>
-/// Represents the context of creating import formats. An instance will be provided by the hosting application.
+/// Represents the context of creating import automations. An instance will be provided by the hosting application.
 /// </summary>
-public interface ICreateImportFormatContext
+public interface ICreateImportAutomationContext
 {
     #region properties
 

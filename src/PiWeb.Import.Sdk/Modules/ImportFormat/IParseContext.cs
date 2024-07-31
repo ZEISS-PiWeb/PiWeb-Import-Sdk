@@ -8,7 +8,7 @@
 
 #endregion
 
-using Zeiss.PiWeb.Import.Sdk.Environment;
+using Zeiss.PiWeb.Import.Sdk.ImportHistory;
 using Zeiss.PiWeb.Import.Sdk.Logging;
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;

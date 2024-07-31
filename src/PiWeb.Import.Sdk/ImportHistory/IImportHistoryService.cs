@@ -8,7 +8,9 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
+using Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
+
+namespace Zeiss.PiWeb.Import.Sdk.ImportHistory;
 
 /// <summary>
 /// Responsible for adding log messages to the import history entry of the current import.

@@ -11,9 +11,10 @@
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 /// <summary>
-/// Specifies the configuration settings that are supported by the import format and default values for them.
+/// <inheritdoc />
+/// This implementation allows path rules and attribute mapping and starts with an empty mapping rules table.
 /// </summary>
-public class ImportFormatConfiguration
+public class StandardImportFormatConfiguration : IImportFormatConfiguration
 {
     /// <summary>
     /// Specifies whether the import format supports the usage and configuration of path rules. 
@@ -28,5 +29,6 @@ public class ImportFormatConfiguration
     /// <summary>
     /// The default attribute mapping to use when attribute mapping is supported.
     /// </summary>
-    public AttributeMappingConfiguration DefaultAttributeMappingConfiguration { get; init; } = AttributeMappingConfiguration.Empty;
+    public AttributeMappingConfiguration DefaultAttributeMappingConfiguration { get; init; } =
+        AttributeMappingConfiguration.Empty;
 }

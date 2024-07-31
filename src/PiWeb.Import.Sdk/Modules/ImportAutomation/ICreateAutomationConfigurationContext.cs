@@ -16,7 +16,7 @@ using Logging;
 using PropertyStorage;
 
 /// <summary>
-/// Represents the context of an automation configuration for an import automation.
+/// Represents the context for creating a configuration for an import automation.
 /// </summary>
 public interface ICreateAutomationConfigurationContext
 {

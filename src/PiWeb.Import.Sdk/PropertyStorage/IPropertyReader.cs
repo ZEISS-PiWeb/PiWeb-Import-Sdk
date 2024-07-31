@@ -17,7 +17,7 @@ using System.Globalization;
 using System.Numerics;
 
 /// <summary>
-/// Represents a simple read-only key value storage.
+/// Represents a simple reader for a key value storage.
 /// </summary>
 public interface IPropertyReader
 {
