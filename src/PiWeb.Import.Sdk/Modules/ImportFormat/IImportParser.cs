@@ -8,14 +8,10 @@
 
 #endregion
 
-#region usings
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Zeiss.PiWeb.Import.Sdk.ImportFiles;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 

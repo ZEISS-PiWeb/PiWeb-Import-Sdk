@@ -8,13 +8,9 @@
 
 #endregion
 
-#region usings
-
 using Zeiss.PiWeb.Import.Sdk.Environment;
 using Zeiss.PiWeb.Import.Sdk.LocalizationHandler;
 using Zeiss.PiWeb.Import.Sdk.Logging;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk;
 

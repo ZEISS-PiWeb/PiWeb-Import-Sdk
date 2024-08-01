@@ -8,10 +8,10 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk;
-
 using Zeiss.PiWeb.Import.Sdk.Environment;
 using Zeiss.PiWeb.Import.Sdk.Logging;
+
+namespace Zeiss.PiWeb.Import.Sdk;
 
 /// <summary>
 /// Represents the context of a plugin provided by the hosting application.

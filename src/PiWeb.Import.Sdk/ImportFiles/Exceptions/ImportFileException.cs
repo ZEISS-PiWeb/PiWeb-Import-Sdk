@@ -8,11 +8,7 @@
 
 #endregion
 
-#region usings
-
 using System;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportFiles.Exceptions;
 

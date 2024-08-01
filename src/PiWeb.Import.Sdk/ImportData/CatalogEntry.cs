@@ -8,12 +8,8 @@
 
 #endregion
 
-#region usings
-
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportData;
 

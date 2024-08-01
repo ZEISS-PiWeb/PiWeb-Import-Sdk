@@ -14,7 +14,7 @@ namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 /// <inheritdoc />
 /// This implementation allows path rules and attribute mapping and starts with an empty mapping rules table.
 /// </summary>
-public class StandardImportFormatConfiguration : IImportFormatConfiguration
+public class ImportFormatConfiguration : IImportFormatConfiguration
 {
     /// <summary>
     /// Specifies whether the import format supports the usage and configuration of path rules. 

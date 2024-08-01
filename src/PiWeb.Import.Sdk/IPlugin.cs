@@ -8,13 +8,13 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk;
-
 using System;
 using System.Threading.Tasks;
 using Zeiss.PiWeb.Import.Sdk.LocalizationHandler;
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
+
+namespace Zeiss.PiWeb.Import.Sdk;
 
 /// <summary>
 /// Represents a PiWeb Auto Importer plugin.
@@ -28,7 +28,7 @@ public interface IPlugin
     /// Startup finishes when the returned task is completed.
     /// </summary>
     /// <param name="context">Contains information about the environment this plugin is hosted in.</param>
-    Task Init(IPluginInitContext context)
+    Task InitAsync(IPluginInitContext context)
     {
         return Task.CompletedTask;
     }
@@ -38,7 +38,7 @@ public interface IPlugin
     /// </summary>
     /// <param name="context">Contains information about the environment.</param>
     /// <exception cref="ModuleNotImplementedException">
-    /// Thrown the plugin does not implement an import automation.
+    /// Thrown when the plugin does not implement an import automation.
     /// </exception>
     IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
     {
@@ -50,7 +50,7 @@ public interface IPlugin
     /// </summary>
     /// <param name="context">Contains information about the environment.</param>
     /// <exception cref="ModuleNotImplementedException">
-    /// Thrown the plugin does not implement an import format.
+    /// Thrown when the plugin does not implement an import format.
     /// </exception>
     IImportFormat CreateImportFormat(ICreateImportFormatContext context)
     {

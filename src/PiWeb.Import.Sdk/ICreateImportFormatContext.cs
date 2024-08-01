@@ -8,17 +8,13 @@
 
 #endregion
 
-#region usings
-
 using Zeiss.PiWeb.Import.Sdk.Environment;
 using Zeiss.PiWeb.Import.Sdk.Logging;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk;
 
 /// <summary>
-/// Represents the context of creating import formats. An instance will be provided by the hosting application.
+/// Represents the context for creating import formats. An instance will be provided by the hosting application.
 /// </summary>
 public interface ICreateImportFormatContext
 {

@@ -8,11 +8,8 @@
 
 #endregion
 
-#region usings
-
 using System.Threading.Tasks;
-
-#endregion
+using Zeiss.PiWeb.Import.Sdk.ImportFiles.Exceptions;
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportFiles;
 
@@ -38,6 +35,10 @@ public interface IImportGroupFilter
     /// The context of the filter operation. It contains information about other import files that are available
     /// to potentially satisfy any dependencies.
     /// </param>
-    /// <returns></returns>
+    /// <returns>The filter result.</returns>
+    /// <exception cref="ImportFileException">
+    /// Thrown when opening any import file during the filter operation failed. The result is similar to returning
+    /// <see cref="FilterResult.RetryOrDiscard"/> but an error message is automatically added to the import history.  
+    /// </exception>
     ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context);
 }

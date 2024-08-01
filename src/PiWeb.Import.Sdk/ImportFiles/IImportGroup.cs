@@ -30,32 +30,22 @@ public interface IImportGroup
     IImportFile PrimaryFile { get; }
 
     /// <summary>
-    /// The list of additional files recognized by the import format and added using <see cref="AddFile"/>.
-    /// The list does not include <see cref="PrimaryFile"/>. These files will not be offered to other import formats.
+    /// The additional import files added to the group.
     /// </summary>
-    IEnumerable<IImportFile> AdditionalFiles { get; }
+    IReadOnlyList<IImportFile> AdditionalFiles { get; }
 
     /// <summary>
-    /// The list of files recognized by the import format including <see cref="PrimaryFile"/>.
-    /// These files will not be offered to other import formats.
-    /// </summary>
-    IEnumerable<IImportFile> AllFiles { get; }
-
-    /// <summary>
-    /// Adds the <paramref name="importFile"/> to this <see cref="IImportGroup"/>. 
-    /// These files will not be offered to other import formats. 
+    /// Adds the given import file to this import group. 
     /// </summary>
     void AddFile(IImportFile importFile);
 
     /// <summary>
-    /// Adds the <paramref name="fileSources"/> to this <see cref="IImportGroup"/>. 
-    /// These files will not be offered to other import formats. 
+    /// Adds the given import files to this import group. 
     /// </summary>
-    void AddFiles(IEnumerable<IImportFile> fileSources);
+    void AddFiles(IEnumerable<IImportFile> importFiles);
 
     /// <summary>
-    /// Removes the <paramref name="importFile"/> from this <see cref="IImportGroup"/>. 
-    /// The file will be offered to other import formats. It's not possible to remove <see cref="PrimaryFile"/>.
+    /// Removes the given import file from this import group.
     /// </summary>
     void RemoveFile(IImportFile importFile);
 

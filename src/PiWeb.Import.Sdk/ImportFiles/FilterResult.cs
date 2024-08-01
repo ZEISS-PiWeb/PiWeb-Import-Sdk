@@ -22,7 +22,7 @@ public enum FilterResult
     /// filter of the import format with the next higher priority. If none of the import filters of the filtering chain
     /// provide a filter result other than <see cref="FilterResult.None"/>, the import group will be treated as unknown
     /// import format. The import files of such a group are still available to be picked up as dependencies of other
-    /// import groups, however, import files not picked up after some time will be deleted eventually.  
+    /// import groups, however, import files not picked up after some time will be discarded eventually.  
     /// </summary>
     None,
 
@@ -56,7 +56,7 @@ public enum FilterResult
     /// missing required dependencies or has a temporary defect in some way. The import group is removed from the
     /// current filtering chain but not deleted immediately. After some time, this import group will be filtered again.
     /// When an import group is repeatedly filtered as <see cref="RetryOrDiscard"/> without any changes over a period
-    /// of time, it will be deleted eventually. 
+    /// of time, it will be discarded eventually. 
     /// </summary>
     RetryOrDiscard
 }

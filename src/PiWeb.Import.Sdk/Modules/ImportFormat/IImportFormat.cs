@@ -25,13 +25,13 @@ public interface IImportFormat
     #region methods
 
     /// <summary>
-    /// Gets the import format configuration. This configuration specifies which import format settings
+    /// Creates an import format configuration. This configuration specifies which import format settings
     /// are supported by this import format and which default values should be used for these settings.
     /// </summary>
     /// <returns>The import format configuration.</returns>
     IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigurationContext context)
     {
-        return new StandardImportFormatConfiguration();
+        return new ImportFormatConfiguration();
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public interface IImportFormat
     /// <summary>
     /// Creates an import parser associated with this import format. The import parser is responsible for reading
     /// import files and converting their contents to an import data object that can subsequently be written to
-    /// the piweb database.
+    /// the PiWeb database.
     /// </summary>
     /// <param name="context">Provides context information.</param>
     /// <returns>The created import parser.</returns>

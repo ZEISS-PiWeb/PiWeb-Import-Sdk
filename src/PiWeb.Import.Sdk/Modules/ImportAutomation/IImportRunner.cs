@@ -8,11 +8,11 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 /// <summary>
 /// Responsible for running custom import logic.

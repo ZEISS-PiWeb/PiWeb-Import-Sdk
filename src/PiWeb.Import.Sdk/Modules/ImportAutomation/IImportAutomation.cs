@@ -8,11 +8,7 @@
 
 #endregion
 
-#region usings
-
 using Zeiss.PiWeb.Import.Sdk.PropertyStorage;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
@@ -23,7 +19,7 @@ namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 public interface IImportAutomation
 {
     #region methods
-
+    
     /// <summary>
     /// Creates a new import runner instance. An import runner is first created and then executed when an import plan using this import
     /// automation as import source is started. Each import plan is expected to use a separate import runner instance. For this reason

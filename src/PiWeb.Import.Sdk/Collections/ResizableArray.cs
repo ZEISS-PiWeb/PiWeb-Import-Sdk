@@ -17,13 +17,9 @@
 // https://github.com/dotnet/corefxlab/blob/8cd063a1e163a0db906343bb5ba1b53c02eb83d6/LICENSE
 
 
-#region usings
-
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.Collections;
 

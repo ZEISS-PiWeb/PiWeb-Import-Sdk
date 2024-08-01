@@ -8,13 +8,9 @@
 
 #endregion
 
-#region usings
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportFiles;
 
@@ -43,7 +39,7 @@ public static class ImportFileExtensions
     /// Checks whether the given import file has any of the given extensions.
     /// </summary>
     /// <param name="importFile">The import file to check.</param>
-    /// <param name="extensions">The file extensions (including the period ".").</param>
+    /// <param name="extensions">The file extensions. The extension may or may not include the initial period "."</param>
     /// <returns><c>true</c> if the file has any of the extensions; otherwise <c>false</c>.</returns>
     public static bool HasAnyExtension(this IImportFile importFile, IEnumerable<string> extensions)
     {

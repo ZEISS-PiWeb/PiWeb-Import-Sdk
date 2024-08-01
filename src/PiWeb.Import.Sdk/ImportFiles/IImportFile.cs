@@ -8,13 +8,9 @@
 
 #endregion
 
-#region usings
-
 using System;
 using System.IO;
 using Zeiss.PiWeb.Import.Sdk.ImportFiles.Exceptions;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportFiles;
 
@@ -28,12 +24,12 @@ public interface IImportFile
     /// <summary>
     /// The name of this file including the extension.
     /// </summary>
-    public string Name { get; }
+    string Name { get; }
 
     /// <summary>
     /// The name of this file without extension.
     /// </summary>
-    public string BaseName { get; }
+    string BaseName { get; }
 
     /// <summary>
     /// The extension of the name of this file including the period (".").
@@ -43,17 +39,17 @@ public interface IImportFile
     /// and continuing toward its first character. If a period is found, the returned string contains the period
     /// and the characters after it; otherwise, <c>string.Empty</c> is returned.
     /// </remarks>
-    public string Extension { get; }
+    string Extension { get; }
 
     /// <summary>
-    /// The time this file was last written to.
+    /// The time this file was last written to or null when this information is not available.
     /// </summary>
-    DateTimeOffset LastWriteTime { get; }
+    DateTimeOffset? LastWriteTime { get; }
 
     /// <summary>
-    /// The creation time of the file.
+    /// The creation time of the file or null when this information is not available.
     /// </summary>
-    DateTimeOffset CreationTime { get; }
+    DateTimeOffset? CreationTime { get; }
     
     #endregion
 

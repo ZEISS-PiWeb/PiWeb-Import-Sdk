@@ -8,7 +8,7 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
+namespace Zeiss.PiWeb.Import.Sdk.ImportHistory;
 
 /// <summary>
 /// Represents the severity of an import history message.
