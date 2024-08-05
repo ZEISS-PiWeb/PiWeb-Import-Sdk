@@ -10,15 +10,13 @@
 
 #region usings
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 #endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 #region usings
 
+using System.Threading.Tasks;
 using ImportData = ImportData.ImportData;
 
 #endregion
@@ -29,16 +27,6 @@ using ImportData = ImportData.ImportData;
 /// </summary>
 public interface IImportFormat
 {
-    #region properties
-
-    /// <summary>
-    /// The associated file extensions of this format. This information is used to create masks for file
-    /// selection dialogs. E.g. [".txt", ".csv"].
-    /// </summary>
-    IReadOnlyCollection<string> StandardFileExtensions { get; }
-
-    #endregion
-
     #region methods
 
     /// <summary>
@@ -61,6 +49,6 @@ public interface IImportFormat
     /// </summary>
     /// <returns>The import format configuration.</returns>
     ImportFormatConfiguration GetConfiguration();
-    
+
     #endregion
 }
