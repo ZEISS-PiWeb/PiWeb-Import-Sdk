@@ -10,16 +10,11 @@
 
 #region usings
 
+using Zeiss.PiWeb.Import.Sdk.ImportFiles;
+
 #endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
-
-#region usings
-
-using System.Threading.Tasks;
-using ImportData = ImportData.ImportData;
-
-#endregion
 
 /// <summary>
 /// Represents a custom import format provided as part of a plugin. Custom import formats provide a way to identify and group relevant
@@ -30,25 +25,31 @@ public interface IImportFormat
     #region methods
 
     /// <summary>
-    /// Decides what should be done with the given <paramref name="importGroup"/>.
-    /// See <see cref="ImportAction"/> for more information.
-    /// </summary>
-    /// <param name="importGroup">The potential import group containing the primary file to analyze.</param>
-    /// <param name="context">Provides context information such as other files in the import folder.</param>
-    ValueTask<ImportAction> DecideImportAction(IImportGroup importGroup, IGroupContext context);
-
-    /// <summary>
-    /// Creates data to be imported by parsing a given import group.
-    /// </summary>
-    /// <param name="importGroup">The import group to parse.</param>
-    /// <param name="context">Provides information about the import context.</param>
-    Task<ImportData> ParseImportData(IImportGroup importGroup, IParseContext context);
-
-    /// <summary>
-    /// Gets the import format configuration specifying supported import format configuration settings.
+    /// Creates an import format configuration. This configuration specifies which import format settings
+    /// are supported by this import format and which default values should be used for these settings.
     /// </summary>
     /// <returns>The import format configuration.</returns>
-    ImportFormatConfiguration GetConfiguration();
+    IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigurationContext context)
+    {
+        return new ImportFormatConfiguration();
+    }
+
+    /// <summary>
+    /// Creates an import group filter associated with this import format. The import group filter is responsible for
+    /// filtering and completing import groups consisting of import files that should be handled by this import format.  
+    /// </summary>
+    /// <param name="context">Provides context information.</param>
+    /// <returns>The created import group filter.</returns>
+    IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContext context);
+
+    /// <summary>
+    /// Creates an import parser associated with this import format. The import parser is responsible for reading
+    /// import files and converting their contents to an import data object that can subsequently be written to
+    /// the PiWeb database.
+    /// </summary>
+    /// <param name="context">Provides context information.</param>
+    /// <returns>The created import parser.</returns>
+    IImportParser CreateImportParser(ICreateImportParserContext context);
 
     #endregion
 }

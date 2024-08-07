@@ -17,17 +17,8 @@ using System.Numerics;
 /// <summary>
 /// Represents a simple key value storage.
 /// </summary>
-public interface IPropertyStorage : IPropertyReader, IDisposable
+public interface IPropertyStorage : IPropertyObserver, IDisposable
 {
-	#region events
-
-	/// <summary>
-	/// Event that is raised if any property or the read only status has changed.
-	/// </summary>
-	public event EventHandler? Changed;
-
-	#endregion
-
 	/// <summary>
 	/// Gets a value indicating whether the storage can be updated.
 	/// </summary>

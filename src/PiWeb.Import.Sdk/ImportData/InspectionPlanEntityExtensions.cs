@@ -8,12 +8,8 @@
 
 #endregion
 
-#region usings
-
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
-
-#endregion
 
 namespace Zeiss.PiWeb.Import.Sdk.ImportData;
 

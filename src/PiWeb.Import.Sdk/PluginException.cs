@@ -8,9 +8,9 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk;
-
 using System;
+
+namespace Zeiss.PiWeb.Import.Sdk;
 
 /// <summary>
 /// Represents an error in the context of Auto Importer plugins.

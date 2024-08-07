@@ -1,4 +1,4 @@
-﻿#region copyright
+#region copyright
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * */
 /* Carl Zeiss Industrielle Messtechnik GmbH        */
@@ -11,24 +11,22 @@
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 /// <summary>
-/// <inheritdoc />
-/// This implementation allows path rules and attribute mapping and starts with an empty mapping rules table.
+/// Represents configuration settings of an import format.
 /// </summary>
-public class ImportFormatConfiguration : IImportFormatConfiguration
+public interface IImportFormatConfiguration
 {
     /// <summary>
     /// Specifies whether the import format supports the usage and configuration of path rules. 
     /// </summary>
-    public bool SupportsPathRules { get; init; } = true;
+    bool SupportsPathRules { get; init; }
 
     /// <summary>
     /// Specifies whether the import format supports the usage and configuration of attribute mapping. 
     /// </summary>
-    public bool SupportsAttributeMapping { get; init; } = true;
-    
+    bool SupportsAttributeMapping { get; init; }
+
     /// <summary>
     /// The default attribute mapping to use when attribute mapping is supported.
     /// </summary>
-    public AttributeMappingConfiguration DefaultAttributeMappingConfiguration { get; init; } =
-        AttributeMappingConfiguration.Empty;
+    AttributeMappingConfiguration DefaultAttributeMappingConfiguration { get; init; }
 }

@@ -8,25 +8,22 @@
 
 #endregion
 
+using Zeiss.PiWeb.Import.Sdk.Logging;
+
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 /// <summary>
-/// Represents the severity of an import history message.
+/// Represents the context for creating a configuration for an import format.
 /// </summary>
-public enum MessageSeverity
+public interface ICreateImportFormatConfigurationContext
 {
-    /// <summary>
-    /// The message is informational.
-    /// </summary>
-    Info = 0,
+    #region properties
 
     /// <summary>
-    /// The message represents a warning.
+    /// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the
+    /// hosting application.
     /// </summary>
-    Warning = 50,
-    
-    /// <summary>
-    /// The message represents an error.
-    /// </summary>
-    Error = 100
+    ILogger Logger { get; }
+
+    #endregion
 }
