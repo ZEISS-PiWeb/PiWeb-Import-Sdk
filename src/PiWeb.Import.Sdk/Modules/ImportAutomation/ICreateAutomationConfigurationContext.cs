@@ -57,7 +57,7 @@ public interface ICreateAutomationConfigurationContext
 	ConnectionStatus ConnectionStatus { get; }
 
 	/// <summary>
-	/// The current run state of the associated runtime, e.g. Running.
+	/// The current run state of the associated runtime, e.g. Running or Stopped.
 	/// </summary>
 	RunState RunState { get; }
 
