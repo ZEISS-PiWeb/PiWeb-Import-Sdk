@@ -2,7 +2,7 @@
 layout: default
 nav_order: 3
 parent: Plug-in fundamentals
-title: Modules
+title: Plug-in type
 ---
 
 # {{ page.title }}

@@ -9,12 +9,12 @@ title: Plug-in structure
 
 <!---
 Ziele:
-- allgemeinen Aufbau eines Plugins beschreiben
+- allgemeinen Aufbau eines Plug-ins beschreiben
 
 Inhalt:
 - Grundstruktur
     - Ordner mit Manifest und Assemblies
-- wo sucht AI nach Plugins
+- wo sucht AI nach Plug-ins
 - Manifest referenziert das Einstiegs-Assembly (direkt oder indirekt)
 - Einstiegs-Assembly muss Implementierung von IPlugin haben
 - Manifest-Übersetzung in Unterordnern erwähnen
@@ -29,13 +29,13 @@ Inhalt:
 
 ![Folder structure](../../assets/images/plugin_fundamentals/1_folder.png "Folder structure")
 
-## Auto Importer plugins folder
+## Auto Importer plug-ins folder
 Plug-in folders must be placed under Auto Importer **"Plugins"** folder.\
-The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see chapter [Setup]({% link docs/getting_started/1_setup.md %})). As a rule, you therefore need admin rights to install and customize plugins.
+The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see chapter [Development mode]({% link docs/setup/3_development_settings.md %})). As a rule, you therefore need admin rights to install and customize plug-ins.
 
 ## Start assembly
 The **assemblyPath** property in manifest.json defines the start assembly. If assemblyPath is not specified, the **id** is used to determine the name of the assembly.\
-The given assembly must provide a class that implements **IPlugin**, read chapter [First plug-in]({% link docs/getting_started/2_first_plugin.md %}) for more information about IPlugin.
+The given assembly must provide a class that implements **IPlugin**, read chapter [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) for more information about IPlugin.
 
 ## Localization
 The plug-in system supports localization of the manifest file, in which the supported language abbreviations appear as additional subfolders in the "locals" subfolder and contain a manifest.json. See chapter [Localization]({% link docs/advanced_topics/1_localization.md %}) for more details.\

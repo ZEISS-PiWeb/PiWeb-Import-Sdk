@@ -18,7 +18,7 @@ Inhalt:
 --->
 
 ## CreateConfiguration
-Besides **CreateImportRunnerAsync** from chapter [Create your first import automation]({% link docs/getting_started/5_import_automation.md %}) you can use **CreateConfiguration** to load custom configuration items.
+Besides **CreateImportRunnerAsync** from chapter [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) you can use **CreateConfiguration** to load custom configuration items.
 
 Loading the configuration in IImportAutomation:
 ```c#

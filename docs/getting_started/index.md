@@ -1,34 +1,16 @@
 ---
 has_children: true
 layout: default
-nav_order: 2
+nav_order: 3
 title: Getting started
 ---
 
-# Getting Started
-Welcome to our Import SDK documentation. This handbook is designed to walk you through the essential steps to quickly set up your development environment and get started with building plugins, choosing module types, creating import formats and import automations.
-
-## Setup Development Environment
-Understanding how to set up a viable and efficient environment for development is key to starting any software project. We'll walk you through the necessary software and tools you'll need, along with detailed installation and configuration guides.
-[Read more]({% link docs/getting_started/1_setup.md %})
-
-## Create your first plug-in
-Creating your first plug-in might seem challenging, but don't worry, we're here to assist you.
+# {{ page.title }}
 
 In this section, we provide a step-by-step guide on how to create your first plug-in, from initial conception all the way to final implementation and testing. With this guide, you will be able to create a plug-in successfully!
-[Read more]({% link docs/getting_started/2_first_plugin.md %})
 
-## Choose your module type
-Choosing the right module type is crucial for the efficiency of your plug-in. We'll present the different module types available and help you understand the benefits of each to make an informed decision.
-[Read more]({% link docs/getting_started/3_module_type.md %})
+[Choose your plug-in type]({% link docs/getting_started/1_plugin_type.md %}) is crucial for the efficiency of your plug-in. We'll present the different module types available and help you understand the benefits of each to make an informed decision.
 
-## Create Your First Import Format
-Import formats are essential for handling data in your plug-in. Here, you'll learn how to create an import format, define data structures, validate data, and handle potential errors in the data importing process.
-[Read more]({% link docs/getting_started/4_import_format.md %})
+Import formats are essential for handling custom file formats in your plug-in. In chapter [Create your first import format]({% link docs/getting_started/2_import_format.md %}), you'll learn how to create an import format.
 
-## Create Your First Import Automation
-Automating data import process can save you a great amount of time and reduce human error. This section will guide you on setting up automation for the data importing process, including scheduling tasks, handling errors, and verifying successful data imports.
-[Read more]({% link docs/getting_started/5_import_automation.md %})
-
-This guide will serve as your roadmap, assisting you throughout your journey in the software development process. Let's get started!
-[Setup Development Environment]({% link docs/getting_started/1_setup.md %})
+Chapter [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) will guide you on setting up automation for the data importing process and verifying successful data imports using PiWeb Cloud.
