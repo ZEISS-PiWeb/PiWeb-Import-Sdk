@@ -6,3 +6,33 @@ $zeiss-semiwhite-gray: #F2F5F8;
 $link-color: $zeiss-azure;
 $base-button-color: $zeiss-semiwhite-gray !default;
 $btn-primary-color: $zeiss-azure;
+
+.note {
+    border-left: 5px solid $zeiss-cyan !important;
+}
+
+.important {
+    border-left: 5px solid #834BE4 !important;
+}
+
+footer.site-footer {
+    display: none;
+}
+
+img {
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.75);
+    margin-top: 10px;
+}
+
+code {
+    font-size: 14px !important;
+}
+
+p {
+    // TODO Diskussion
+    text-align: justify;
+}
+
+.floatright {
+    float: right;
+}

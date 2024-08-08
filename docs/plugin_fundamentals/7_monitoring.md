@@ -9,7 +9,7 @@ title: Import monitoring
 
 <!---
 Ziele:
-- aufzeigen, wie Monitoring der Ausführung des Plugins möglich ist
+- aufzeigen, wie Monitoring der Ausführung des Plug-ins möglich ist
 
 Inhalt:
 - Logging
@@ -17,8 +17,16 @@ Inhalt:
 - Events
 --->
 
-## Logging
-IPluginContext provides a logger that can be used to write to the application log:
+There are various ways to monitor the Auto Importer and thus the developed plug-in and to track problems and activities.
+
+The **application log** is used by the development team and support to track program steps. This should be used for debugging purposes and problems in the program flow.
+
+The **import log** is important for the user, e.g. measurement engineer. Various steps in the import can be traced there.
+
+**Activities** can be used in the Auto Importer itself to present the current status to the user. There is also the **status log**, which shows the user the last actions of the import plan.
+
+## Application log
+*IPluginContext* provides a logger that can be used to write to the application log:
 
 ```c#
 public Task Init(IPluginContext context)
@@ -38,18 +46,22 @@ public Task Init(IPluginContext context)
 }
 ```
 
-## Application log
-Log messages appear within the application log:
+Log messages appear within the application log:\
 ![Show application log](../../assets/images/plugin_fundamentals/7_applog.png "Show application log")
 
-Example message:
+Example message:\
 ![Log content](../../assets/images/plugin_fundamentals/7_logcontent.png "Log content")
 
+<!-- TODO Dateipfad zum Log bereitstellen -->
+
+## Import log
+
+
 ## Status log
-In addition to the option of recording information in the log, information can also be noted in the status log:
+In addition to the option of recording information in the log, information can also be noted in the status log:\
 ![Activity log](../../assets/images/plugin_fundamentals/7_activitylog.png "Activity log")
 
-As with the logger, the context also provides the StatusService of type IStatusService.
+As with the logger, the context also provides the **StatusService** of type *IStatusService*.
 ```c#
 private readonly IStatusService _StatusService;
 
@@ -160,4 +172,5 @@ public enum ActivityType
 }
 ```
 
-## Events
+## Activities
+

@@ -20,9 +20,11 @@ Inhalt:
 
 ## Schema
 The schema file for validation can be found at:
-<!-- Schema auf github bereitstellen. -->
+<!-- Schema auf github bereitstellen. unter develop extra schema ordner, dann v1 v2 -->
 
 ### Plug-in properties
+The manifest describes the plug-in and its content. The following properties can be used to provide information to the Auto Importer:
+
 **\$schema**: URL to json schema file, for validation.\
 **id**: *required* The unique identifier of the plug-in.\
 **title**: *required* The title of the plug-in.\
@@ -39,10 +41,33 @@ The schema file for validation can be found at:
 **version**: The self managed version of the plug-in.\
 **title**: The title of the plug-in.\
 **description**: The description of the plug-in.\
-**provides**: Contains an object that provides information about the module.
+**provides**: *Contains an object that provides information about the module. Read below for more information.*
 <!-- manifestVersion? -->
 
-### Provides properties
-**type**: *required* ImportAutomation or ImportFormat, see [Choose your module type]({% link docs/getting_started/3_module_type.md %}).\
+### Provides properties (module definition)
+**type**: *required* ImportAutomation or ImportFormat, see [Choose your module type]({% link docs/getting_started/1_plugin_type.md %}).\
 **title**: *required* The title of the module.\
 **description**: *required* The description of the module.
+
+### Minimal example
+The following manifest provides minimal information:
+
+<!-- TODO URL einsetzen -->
+```json
+{
+  "$schema": "../schemas/manifest.schema.json",
+  "id": "Zeiss.PIWEB-19199-Showcase-Readonly",
+  "version": "1.0.0",
+  "title": "Test-Plug-in for showcasing readonly",
+  "description": "This is a plug-in which showcases the readonly functionality of plug-in UI.",
+
+  "provides": [
+    {
+      "type": "ImportAutomation",
+      "id": "ImportModule",
+      "title": "Readonly showcase",
+      "description": "This is a plug-in which showcases the readonly functionality of plug-in UI."
+    }
+  ]
+}
+```

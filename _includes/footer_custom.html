@@ -1,1 +1,17 @@
 <a href="{{ '/docs/inprint.html' | relative_url }}">Inprint</a>
+
+{% assign parent = page.parent %}
+{% assign sorted_pages = site.pages | sort:"nav_order" %}
+{% assign current_index = sorted_pages | index: page %}
+{% assign next_page = nil %}
+
+{% for p in sorted_pages %}
+  {% if p.parent == parent and parent != nil and p.nav_order > page.nav_order %}
+    {% assign next_page = p %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if next_page %}
+  <a class="floatright" href="{{ next_page.url | relative_url }}">Next page</a>
+{% endif %}
