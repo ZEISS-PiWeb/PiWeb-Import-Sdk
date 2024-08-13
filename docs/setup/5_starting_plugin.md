@@ -6,7 +6,6 @@ title: Starting a plug-in
 ---
 
 # {{ page.title }}
-
 This chapter describes the use of the plug-in from the user's perspective, i.e., how a compiled plug-in is installed and how it is used in the import plan. It is assumed that the user already has a finished plug-in.
 
 ## Download compiled example plug-in
@@ -32,16 +31,21 @@ The Auto Importer provides an installer option, for which the following steps mu
    ![Restart request](../../assets/images/deployment/ai_install_3.png "Restart request")
 
 ## Check plug-in
-To ensure that the plug-in has been installed correctly, you can call up the plug-in management view (`File > Plug-ins...`) again. The loaded plug-in will now appear there.
+To ensure that the plug-in has been installed correctly, you can call up the plug-in management view (`File > Plug-ins...`) again. The loaded plug-in will now appear there.\
+![Plug-in management view](../../assets/images/setup/5_manifest.png "Plug-in management view")
 
-<!-- TODO Besseres vollständiges Bild einbetten, mit dem Download plug-in übereinstimmend -->
-![Plug-in management view](../../assets/images/setup/2_manifest.png "Plug-in management view")
+## Create import plan
+To test the installed plug-in, an import plan must first be created; an import plan defines a source and a target. To do this, please click on *Create import plan*.\
+![Create import plan](../../assets/images/setup/5_import_plan.png "Create import plan")
 
 ## Import plan with custom module
-If the plug-in has been loaded correctly and modules have been recognized, they can be selected as an import source in an import plan:
+If the plug-in has been loaded correctly, the custom import source can be selected as an import source in an import plan. Please adjust all settings according to the screenshot.\
+![Auto Importer import source](../../assets/images/setup/5_import_source.png "Auto Importer import source")
 
-![Auto Importer import source](../../assets/images/getting_started/1_import_source.png "Auto Importer import source")
+To select your cloud database as the destination, please go to Select connection and select Auto.\
+![Cloud connection](../../assets/images/setup/5_cloud.png "Cloud connection")
 
-After selecting the module, the defined configuration entries are displayed.
+Via **Run**, the import plan is started with this configuration. The plug-in only demonstrates the switching of the activity and status log. At the end of the execution, an error is provoked.\
+![Running the plug-in](../../assets/images/setup/5_run.png "Running the plug-in")
 
-Via **Run**, the import plan is started with this configuration.
+You can find out more about import visualization options in the [Import monitoring]({% link docs/plugin_fundamentals/7_monitoring.md %}) chapter. The following chapters describe the minimum source code required for a plug-in. [Continue reading]({% link docs/getting_started/1_plugin_type.md %}).
