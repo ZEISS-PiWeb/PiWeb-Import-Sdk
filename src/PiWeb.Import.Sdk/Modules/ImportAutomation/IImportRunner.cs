@@ -8,16 +8,16 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+
 /// <summary>
 /// Responsible for running custom import logic.
 /// </summary>
-public interface IImportRunner : IAsyncDisposable
+public interface IImportRunner : IDisposable
 {
 	#region methods
 
@@ -29,13 +29,12 @@ public interface IImportRunner : IAsyncDisposable
 	/// This means that it is expected to return a task quickly and not to block the thread at any point.
 	/// Use <see cref="Task.Run(System.Action)"/> to run synchronous blocking code on a background thread if necessary.
 	/// </summary>
-	Task RunAsync( CancellationToken cancellationToken );
+	Task RunAsync(CancellationToken cancellationToken = default);
 
-	ValueTask IAsyncDisposable.DisposeAsync()
+	void IDisposable.Dispose()
 	{
 		// Empty, so it does not need to be implemented when not needed.
-		return ValueTask.CompletedTask;
 	}
-    
+
 	#endregion
 }

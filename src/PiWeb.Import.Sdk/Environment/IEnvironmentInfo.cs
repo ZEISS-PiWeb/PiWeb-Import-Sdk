@@ -18,14 +18,15 @@ public interface IEnvironmentInfo
 	#region properties
 
 	/// <summary>
-	/// The name of the application hosting the plugin. This should only be used for display or to work around known application
-	/// specific bugs.
+	/// The name of the application hosting the plugin. This should only be used for display or to work around known
+	/// application specific bugs.
 	/// </summary>
 	string AppName { get; }
 
 	/// <summary>
-	/// The version of the application hosting the plugin. This has no guaranteed form and should only be used for display or
-	/// to work around known application specific bugs.
+	/// The version of the application hosting the plugin. The form of this version string is specific to the hosting
+	/// application and therefore has no guaranteed form. Use this for display or to work around known application
+	/// specific bugs.
 	/// </summary>
 	string AppVersion { get; }
 

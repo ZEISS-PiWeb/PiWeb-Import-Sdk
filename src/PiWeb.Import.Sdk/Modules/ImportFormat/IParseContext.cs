@@ -8,7 +8,7 @@
 
 #endregion
 
-using Zeiss.PiWeb.Import.Sdk.Environment;
+using Zeiss.PiWeb.Import.Sdk.ImportHistory;
 using Zeiss.PiWeb.Import.Sdk.Logging;
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
@@ -19,11 +19,6 @@ namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 public interface IParseContext
 {
 	#region properties
-
-	/// <summary>
-	/// Contains information about the environment a plugin is hosted in.
-	/// </summary>
-	IEnvironmentInfo EnvironmentInfo { get; }
 
 	/// <summary>
 	/// A service to edit the import history entry of the current import. 
