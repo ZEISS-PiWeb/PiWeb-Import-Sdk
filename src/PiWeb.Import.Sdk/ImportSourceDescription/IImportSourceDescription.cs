@@ -23,50 +23,46 @@ public interface IImportSourceDescription
 	/// <summary>
 	/// The display name of the import source.
 	/// </summary>
-	public string Name { get; }
+	string Name { get; set; }
 
 	/// <summary>
 	/// A list of configuration properties of the import source consisting of label and value pairs.
 	/// </summary>
 	ImmutableList<DescriptionProperty> DescriptionItems { get; }
 
-	/// <summary>
-	/// Raised after any property changed.
-	/// </summary>
-	event EventHandler? Changed;
-
-	#endregion
-}
-
-/// <summary>
-/// Represents a single property of displayable description of an import source.
-/// </summary>
-public struct DescriptionProperty
-{
-	#region constructors
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="DescriptionProperty"/> class.
-	/// </summary>
-	public DescriptionProperty( string label, string text )
-	{
-		Label = label;
-		Text = text;
-	}
-
 	#endregion
 
-	#region properties
+	#region methods
 
 	/// <summary>
-	/// The label to identify the item.
+	/// Adds the given label and text as description property at the end of the property list. If a description property with the given
+	/// label already exists (case-sensitive ordinal comparison), its text is replaced with the given text instead.
 	/// </summary>
-	public string Label { get; }
+	/// <param name="label">The label of the description property.</param>
+	/// <param name="text">The text of the description property.</param>
+	/// <returns>True if the operation caused changes; otherwise, false.</returns>
+	bool AddOrReplaceProperty(string label, string text);
 
 	/// <summary>
-	/// The text displayed next to the label.
+	/// Updates the list of description properties via a given transformer function.
 	/// </summary>
-	public string Text { get; }
+	/// <param name="transformer">The transformer function to apply.</param>
+	/// <returns>True if the operation caused changes; otherwise, false.</returns>
+	bool UpdateProperties(Func<ImmutableList<DescriptionProperty>, ImmutableList<DescriptionProperty>> transformer);
+
+	/// <summary>
+	/// Removes the existing property (case-sensitive ordinal comparison) with the given label from the property list.
+	/// If no such property exists, the operation has no effect.
+	/// </summary>
+	/// <param name="label">The label of the property to remove.</param>
+	/// <returns>True if the operation caused changes; otherwise, false.</returns>
+	bool RemoveProperty(string label);
+
+	/// <summary>
+	///	Removes all properties from the property list. If the property list is already empty, this operation has no effect.
+	/// </summary>
+	/// <returns>True if the operation caused changes; otherwise, false.</returns>
+	bool ClearProperties();
 
 	#endregion
 }

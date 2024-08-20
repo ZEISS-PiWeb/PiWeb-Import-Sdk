@@ -10,8 +10,7 @@
 
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-using System;
-using ImportPlan;
+using ImportSourceDescription;
 using Logging;
 using PropertyStorage;
 
@@ -20,51 +19,27 @@ using PropertyStorage;
 /// </summary>
 public interface ICreateAutomationConfigurationContext
 {
-	#region events
-
-	/// <summary>
-	/// Raised when any of the properties changed.
-	/// </summary>
-	public event EventHandler? SetupChanged;
-
-	/// <summary>
-	/// Raised when any of the properties changed.
-	/// </summary>
-	public event EventHandler? StatusChanged;
-
-	#endregion
-
 	#region properties
 
 	/// <summary>
-	/// The id of the associated import plan.
+	/// The setup of the associated import plan.
 	/// </summary>
-	Guid ImportPlanId { get; }
+	IImportPlanSetup ImportPlanSetup { get; }
 
 	/// <summary>
-	/// The import target or <c>null</c> when no import target is configured.
+	/// The status of the associated import plan.
 	/// </summary>
-	ImportTarget? ImportTarget { get; }
-
-	/// <summary>
-	/// The import plan execution specific properties such as the lifetime.
-	/// </summary>
-	Execution Execution { get; }
-
-	/// <summary>
-	/// The current state of the connection to the import target.
-	/// </summary>
-	ConnectionStatus ConnectionStatus { get; }
-
-	/// <summary>
-	/// The current run state of the associated runtime, e.g. Running.
-	/// </summary>
-	RunState RunState { get; }
+	IImportPlanStatus ImportPlanStatus { get; }
 
 	/// <summary>
 	/// The property storage for an automation module of the current import plan.
 	/// </summary>
-	public IPropertyStorage PropertyStorage { get; }
+	IPropertyStorage PropertyStorage { get; }
+	
+	/// <summary>
+	/// The description of the import source.
+	/// </summary>
+	IImportSourceDescription ImportSourceDescription { get; }
 
 	/// <summary>
 	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file of the hosting application.
