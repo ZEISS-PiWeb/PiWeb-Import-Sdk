@@ -21,4 +21,4 @@ While the Auto Importer has built-in support for most common file formats of mea
 
 Another use case for writing plug-ins is importing data from sources other than files such as rest services or databases.
 
-Setup your needed environment: [Chapter Setup]({% link docs/setup/1_import_destination.md %}).
+Setup your needed environment: [Chapter Setup]({% link docs/setup/1_import_target.md %}).

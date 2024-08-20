@@ -2,12 +2,12 @@
 layout: default
 nav_order: 1
 parent: Setup
-title: Import destination
+title: Import target
 ---
 
 # {{ page.title }}
 
-The import destination represents the storage location for the quality data handled by the developed plug-in. During development, we recommend using [PiWeb Cloud](https://piwebcloud.metrology.zeiss.com){:target="_blank"} to get a fully managed PiWeb Server. However, development is also possible with a new or existing PiWeb Server instance.
+The import target represents the storage location for the quality data handled by the developed plug-in. During development, we recommend using [PiWeb Cloud](https://piwebcloud.metrology.zeiss.com){:target="_blank"} to get a fully managed PiWeb Server. However, development is also possible with a new or existing PiWeb Server instance.
 
 ## PiWeb Cloud
 <!-- TODO Anleitung? wie detailiert? -->
