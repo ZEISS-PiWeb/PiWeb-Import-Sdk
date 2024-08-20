@@ -30,4 +30,4 @@ Chapter [Import destination]({% link docs/setup/1_import_target.md %}) provides 
 
 Chapter [Development settings]({% link docs/setup/3_development_settings.md %}) outlines the necessary settings for starting plug-in development, including activating the development mode and configuring external plug-in folders. Additionally, chapter [Development environment]({% link docs/setup/4_development_environment.md %}) provides recommendations for editors and required software versions for using the Import SDK, along with information about the project template and Import SDK nuget configuration.
 
-Finally, the process of installing and using a compiled plug-in within the Auto Importer is described in chapter [Starting a plug-in]({% link docs/setup/5_starting_plugin.md %}), covering steps from downloading the plug-in to configuring import plans with custom modules.
+Finally, the process of installing and using a compiled plug-in within the Auto Importer is described in chapter [Starting a plug-in]({% link docs/setup/5_starting_plugin.md %}), covering steps from downloading the plug-in to configuring import plans with custom import source.

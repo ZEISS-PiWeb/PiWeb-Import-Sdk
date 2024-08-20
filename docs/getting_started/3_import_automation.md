@@ -27,9 +27,34 @@ The plug-in which is created here together should be an import automation. This 
 This chapter only covers the minimum functionality, to go deeper we recommend taking a look at the Plugin Fundamentals collection.
 
 ## Download source code and content
+The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the approach using the project template.
 <!-- TODO zip Datei verlinken/bereistellen, bzw Code in example Ordner unter develop packen -->
 
-The following files are required for this automation and are included in the example. *manifest.json* defines the content of our plug-in. *Plugin.cs* which represents the entry point into the plug-in, in which it registers the import automation. *ImportAutomation.cs* contains the named automation and provides the necessary import runner, which executes the specific import plans. *ImportRunner.cs* contains this IImportRunner and is responsible for the import loop.
+The following files are required for this automation and are included in the example and in the project template. *manifest.json* defines the content of our plug-in. *Plugin.cs* which represents the entry point into the plug-in, in which it registers the import automation. *ImportAutomation.cs* contains the named automation and provides the necessary import runner, which executes the specific import plans. *ImportRunner.cs* contains this IImportRunner and is responsible for the import loop.
+
+## Create a new project
+To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in chapter [Development environment]({% link docs/setup/4_development_environment.md %}). Further information about the content of the project template is contained in chapter [Project template]({% link docs/advanced_topics/5_project_template.md %}).
+
+## Adapt information in manifest file
+Using the project template generates already a *manifest.json* file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
+
+```json
+{
+  "$schema": "../schemas/manifest.schema.json",
+  "id": "FirstImportAutomation",
+  "version": "1.0.0",
+  "title": "FirstImportAutomation",
+  "description": "This plug-in is used in the Import SDK documentation to create an initial import automation.",
+
+  "provides": {
+    "type": "ImportAutomation",
+    "displayName": "FirstImportAutomation",
+    "summary": "This automation checks a given PiWeb server for the existence of the 'FirstImportAutomationPart' part below the root node."
+  }
+}
+```
+
+The most important thing here is that you define a unique **id** and **version** for the plug-in, that you use **ImportAutomation** as value for the **type** property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in chapter [Manifest]({% link docs/plugin_fundamentals/2_manifest.md %}).
 
 ## IPlugin
 First we have to register our import automation with the Auto Importer. This is done in the **IPlugin** implementation using the *GetImportAutomation* method. A new instance of our **ImportAutomation** is passed to this method.

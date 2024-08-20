@@ -32,7 +32,7 @@ Without plug-ins, the Auto Importer would perform the following steps to import 
 Automation plug-ins are designed to automate the process of data import from various sources. They are ideally used when you need to import data regularly from a source that PiWeb does not support by default. E.g. from a REST api.
 
 {: .note }
-With this module type, the data query and sending to PiWeb has to be implemented. The public PiWeb API can be used for this.
+With this plug-in type, the data query and sending to PiWeb has to be implemented. The public PiWeb API can be used for this.
 
 ![Auto Importer import automation](../../assets/images/plugin_fundamentals/3_ai_automation.png "Auto Importer import automation")
 
@@ -41,6 +41,6 @@ Format plug-ins, on the other hand, are designed to support different data forma
 
 Auto Importer takes over the complete data synchronization with PiWeb.
 
-The module must provide a file grouping logic and the parser. The task of the parser is to generate a logical tree that maps the measurement data so that it can be imported.
+The plug-in must provide a file grouping logic and the parser. The task of the parser is to generate a logical tree that maps the measurement data so that it can be imported.
 
 ![Auto Importer import format](../../assets/images/plugin_fundamentals/3_ai_format.png "Auto Importer import format")

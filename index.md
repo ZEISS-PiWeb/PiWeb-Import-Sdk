@@ -7,7 +7,7 @@ nav_order: 0
 # Welcome to PiWeb Import SDK documentation
 ![PiWeb hero image](assets/images/zeiss_piweb_heroimage.jpg "PiWeb")
 
-Welcome to our Import SDK documentation. This handbook is designed to walk you through the essential steps to quickly set up your development environment and get started with building plug-ins, choosing module types, creating import formats and import automations.
+Welcome to our Import SDK documentation. This handbook is designed to walk you through the essential steps to quickly set up your development environment and get started with building plug-ins, choosing plug-in types, creating import formats and import automations.
 
 The PiWeb-Import-Sdk is the basic framework for creating your own import plug-ins for the PiWeb Auto Importer. By creating plug-ins, it is possible to automate the data import of your own custom file formats or even import data from other sources like REST-APIs or databases.
 

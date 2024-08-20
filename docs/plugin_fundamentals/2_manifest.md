@@ -41,13 +41,13 @@ The manifest describes the plug-in and its content. The following properties can
 **version**: The self managed version of the plug-in.\
 **title**: The title of the plug-in.\
 **description**: The description of the plug-in.\
-**provides**: *Contains an object that provides information about the module. Read below for more information.*
+**provides**: *Contains an object that provides information about the import source. Read below for more information.*
 <!-- manifestVersion? -->
 
-### Provides properties (module definition)
-**type**: *required* ImportAutomation or ImportFormat, see [Choose your module type]({% link docs/getting_started/1_plugin_type.md %}).\
-**title**: *required* The title of the module.\
-**description**: *required* The description of the module.
+### Provides property
+**type**: *required* ImportAutomation or ImportFormat, see [Choose your plug-in type]({% link docs/getting_started/1_plugin_type.md %}).\
+**title**: *required* The title of the import source.\
+**description**: *required* The description of the import source.
 
 ### Minimal example
 The following manifest provides minimal information:
@@ -64,9 +64,8 @@ The following manifest provides minimal information:
   "provides": [
     {
       "type": "ImportAutomation",
-      "id": "ImportModule",
-      "title": "Readonly showcase",
-      "description": "This is a plug-in which showcases the readonly functionality of plug-in UI."
+      "displayName": "Readonly showcase",
+      "summary": "This is a plug-in which showcases the readonly functionality of plug-in UI."
     }
   ]
 }

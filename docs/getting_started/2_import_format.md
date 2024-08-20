@@ -113,7 +113,7 @@ public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilt
 
 An import group is passed to this method. Such an import group contains at least one import file but additional files could be added which should be imported together. For the SimpleTxt format only one Simpletxt file has to be considered.\
 We execute two checks for the import file in the **FilterAsync** method. At first we check whether the import file has the expected file extension **.txt**. Secondly we read the first line of the file and verify whether the line starts with **#Header**. If both checks were successful, we assume that the import file a SimpleTxt file. Therefore we return **FilterResult.Import** as filter result. Otherwise we return **FilterResult.None** so that the file is not imported with our parser for the SimpleTxt format.\
-For further information about the filter method see chapter [Module Import format]({% link docs/plugin_fundamentals/4_import_format.md %}).
+For further information about the filter method see chapter [Import format]({% link docs/plugin_fundamentals/4_import_format.md %}).
 
 ## Create an import file parser
 Finally, you need to implement the second method **CreateImportParser** of the **ImportFormat** class. For this, you have to create an implementation of the **IImportParser**. A parser should read out the information in the import file and transform them into an importable structure. A parser class for the SimpleTxt format with still missing parser functionality could look like this:
@@ -273,7 +273,7 @@ public class SimpleTxtImportParser : IImportParser
 }
 ```
 
-The implementation of the example plug-in is now complete. Further information on implementing an import format plug-in can be found in the chapter [Module Import format]({% link docs/plugin_fundamentals/4_import_format.md %}).
+The implementation of the example plug-in is now complete. Further information on implementing an import format plug-in can be found in the chapter [Import format]({% link docs/plugin_fundamentals/4_import_format.md %}).
 
 ## Run your plug-in
 To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in chapter [Development settings]({% link docs/setup/3_development_settings.md %}). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.

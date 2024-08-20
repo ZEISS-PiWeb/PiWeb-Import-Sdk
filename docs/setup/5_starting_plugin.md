@@ -38,7 +38,7 @@ To ensure that the plug-in has been installed correctly, you can call up the plu
 To test the installed plug-in, an import plan must first be created; an import plan defines a source and a target. To do this, please click on *Create import plan*.\
 ![Create import plan](../../assets/images/setup/5_import_plan.png "Create import plan")
 
-## Import plan with custom module
+## Import plan with custom import source
 If the plug-in has been loaded correctly, the custom import source can be selected as an import source in an import plan. Please adjust all settings according to the screenshot.\
 ![Auto Importer import source](../../assets/images/setup/5_import_source.png "Auto Importer import source")
 

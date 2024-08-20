@@ -2,7 +2,7 @@
 layout: default
 nav_order: 5
 parent: Plug-in fundamentals
-title: Module Import automation
+title: Import automation
 ---
 
 # {{ page.title }}
@@ -19,6 +19,8 @@ Inhalt:
 - Datenupload
     - auf PiWeb API verweisen
 --->
+
+<!-- "Module" entfernen -->
 
 ## IPlugin
 The module must be registered in the Auto Importer when the application is started.
