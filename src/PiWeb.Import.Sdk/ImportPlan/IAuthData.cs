@@ -58,12 +58,12 @@ public interface IAuthData
 	/// refresh token and then return a new refresh token that is usable for a future call. If the current refresh token is still valid
 	/// after it was used (no refresh token rotation necessary), the current refresh token can be returned instead of a new token.
 	/// </param>
-	/// <param name="cancel">A cancellation token to cancel the operation.</param>
+	/// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
 	/// <returns>
 	/// True if a refresh token was available in the authentication data and <paramref name="tokenConsumer"/> was called;
 	/// otherwise, false.
 	/// </returns>
-	Task<bool> ReadAndUpdateRefreshTokenAsync( Func<string, Task<string>> tokenConsumer, CancellationToken cancel = default );
+	Task<bool> ReadAndUpdateRefreshTokenAsync(Func<string, Task<string>> tokenConsumer, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Checks whether the refresh token can be accessed.

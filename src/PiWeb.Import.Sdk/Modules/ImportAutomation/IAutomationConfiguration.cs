@@ -8,11 +8,9 @@
 
 #endregion
 
-using System;
-
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-using ImportSourceDescription;
+using System;
 
 /// <summary>
 /// Represents an automation configuration. Automation configurations specify additional settings for an import automation a user
@@ -30,17 +28,9 @@ public interface IAutomationConfiguration : IDisposable
 	/// This method can be used to update the internal state (e.g. visible) of the defined configuration items and also to update
 	/// the import source properties displayed in the hosting application.
 	/// </remarks>
-	public void Update()
+	void Update()
 	{
 		// Empty, so it does not need to be implemented when not needed.
-	}
-
-	/// <summary>
-	/// Gets the description of the import source.
-	/// </summary>
-	public IImportSourceDescription GetImportSourceDescription()
-	{
-		return DefaultImportSourceDescription.Instance;
 	}
 
 	/// <inheritdoc />
