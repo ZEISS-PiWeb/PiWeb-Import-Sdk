@@ -29,12 +29,12 @@ public interface IImportRunner : IDisposable
 	/// This means that it is expected to return a task quickly and not to block the thread at any point.
 	/// Use <see cref="Task.Run(System.Action)"/> to run synchronous blocking code on a background thread if necessary.
 	/// </summary>
-	Task RunAsync( CancellationToken cancellationToken );
+	Task RunAsync(CancellationToken cancellationToken = default);
 
 	void IDisposable.Dispose()
 	{
 		// Empty, so it does not need to be implemented when not needed.
 	}
-    
+
 	#endregion
 }

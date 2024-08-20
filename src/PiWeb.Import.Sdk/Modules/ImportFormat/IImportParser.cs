@@ -24,14 +24,14 @@ namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 /// <exception cref="OperationCanceledException">Thrown when the operation is canceled.</exception>
 public interface IImportParser
 {
-    /// <summary>
-    /// Creates data to be imported by parsing a given import group.
-    /// </summary>
-    /// <param name="importGroup">The import group to parse.</param>
-    /// <param name="cancellationToken">A cancellation token to signal cancellation of the import.</param>
-    /// <param name="context">Provides information about the import context.</param>
-    Task<ImportData.ImportData> ParseAsync(
-        IImportGroup importGroup,
-        CancellationToken cancellationToken,
-        IParseContext context);
+	/// <summary>
+	/// Creates data to be imported by parsing a given import group.
+	/// </summary>
+	/// <param name="importGroup">The import group to parse.</param>
+	/// <param name="context">Provides information about the import context.</param>
+	/// <param name="cancellationToken">A cancellation token to signal cancellation of the import.</param>
+	Task<ImportData.ImportData> ParseAsync(
+		IImportGroup importGroup,
+		IParseContext context,
+		CancellationToken cancellationToken = default);
 }
