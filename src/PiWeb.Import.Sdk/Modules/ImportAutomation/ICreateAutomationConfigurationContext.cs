@@ -8,6 +8,8 @@
 
 #endregion
 
+using Zeiss.PiWeb.Import.Sdk.ImportPlan;
+
 namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 using ImportSourceDescription;

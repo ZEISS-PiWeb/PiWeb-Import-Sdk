@@ -44,10 +44,10 @@ public interface ICreateImportRunnerContext
 	public IPropertyReader PropertyReader { get; }
 
 	/// <summary>
-	/// A status service that can be used to modify the current status display (activity and recent events)
-	/// of an import runner while it is running.
+	/// A service that can be used to set the current activity of an import runner while it is running. It
+	/// can also be used to post activity events.
 	/// </summary>
-	public IStatusService StatusService { get; }
+	public IActivityService ActivityService { get; }
 
 	#endregion
 }

@@ -8,10 +8,9 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
-
 using System;
-using ImportPlan;
+
+namespace Zeiss.PiWeb.Import.Sdk.ImportPlan;
 
 /// <summary>
 /// Represents the status of the associated import plan.

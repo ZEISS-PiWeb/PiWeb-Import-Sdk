@@ -8,7 +8,7 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Activity;
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 /// <summary>
 /// Enumerates all possible types of import activities.

@@ -8,7 +8,7 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Activity;
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 /// <summary>
 /// Represents the basic properties of an import activity.
@@ -35,13 +35,13 @@ public class ActivityProperties
 
 	/// <summary>
 	/// Indicates whether this activity resulted from an import source error such as a missing import source.
-	/// This property is only respected when <see cref="ActivityType"/> is <see cref="Activity.ActivityType.Suspension"/>.
+	/// This property is only respected when <see cref="ActivityType"/> is <see cref="ImportAutomation.ActivityType.Suspension"/>.
 	/// </summary>
 	public bool IsSourceProblem { get; init; } = false;
 
 	/// <summary>
 	/// Indicates whether this activity resulted from an import target error such as an unreachable target server.
-	/// This property is only respected when <see cref="ActivityType"/> is <see cref="Activity.ActivityType.Suspension"/>.
+	/// This property is only respected when <see cref="ActivityType"/> is <see cref="ImportAutomation.ActivityType.Suspension"/>.
 	/// </summary>
 	public bool IsTargetProblem { get; init; } = false;
 }

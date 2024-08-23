@@ -8,10 +8,10 @@
 
 #endregion
 
-namespace Zeiss.PiWeb.Import.Sdk.Activity;
+namespace Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 /// <summary>
-/// Represents the severity of an import event.
+/// Represents the severity of an event.
 /// </summary>
 public enum EventSeverity
 {
