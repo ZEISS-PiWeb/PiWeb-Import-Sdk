@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiWeb.Sdk.Import", "PiWeb.Sdk.Import\PiWeb.Sdk.Import.csproj", "{D8AF4339-A6C1-4052-AC8B-06850699C2EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiWeb.Sdk.Import.Tests", "PiWeb.Sdk.Import.Tests\PiWeb.Sdk.Import.Tests.csproj", "{DF277217-36E7-4B0D-85FF-828AC320C333}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8AF4339-A6C1-4052-AC8B-06850699C2EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8AF4339-A6C1-4052-AC8B-06850699C2EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8AF4339-A6C1-4052-AC8B-06850699C2EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8AF4339-A6C1-4052-AC8B-06850699C2EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF277217-36E7-4B0D-85FF-828AC320C333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF277217-36E7-4B0D-85FF-828AC320C333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF277217-36E7-4B0D-85FF-828AC320C333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF277217-36E7-4B0D-85FF-828AC320C333}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
