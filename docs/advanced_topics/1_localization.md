@@ -5,8 +5,6 @@ parent: Advanced topics
 title: Localization
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - Mechanismus für Lokalisierung beschreiben
@@ -16,32 +14,35 @@ Inhalt:
 - allgemeine Herangehensweise zur Lokalisierung von UI-Elementen beschreiben
 --->
 
-The Import SDK supports multilingual plug-ins, the content of the manifest as well as other UI elements can be localized. This chapter deals with the use of this feature.
+# {{ page.title }}
+The Import SDK supports multilingual plug-ins, the content of the manifest as well as log, activities and status entries can be localized. This article deals with the use of this feature.
 
 ## Manifest localization
 The plug-in system supports localization of the manifest file, in which the supported language abbreviations appear as additional subfolders in the "locals" subfolder and contain a manifest.json.\
 ![Localization](../../assets/images/plugin_fundamentals/1_localization.png "Localization")
 
-Name value pairs are used.\
-Example content of a localized manifest.json insides locales\en-US\ folder:
+Example content of a localized manifest.json insides `locales\en-US\` folder:
+<!-- TODO Scheme url austauschen -->
 ```json
 {
   "$schema": "../../../schemas/localizations.schema.json",
   "translation": {
-    "title": "English title from plug-in",
-    "ImportAutomation18626.title": "Automation (localization) (Localized for [en-US])"
-  }
+    "title": "My plug-in",
+    "description": "Shows how an import source can be provided by a plug-in.",
+    "importAutomation.displayName": "My import automation",
+    "importAutomation.summary": "This import automation provides its own import source."
+  }  
 }
 ```
-<!-- Besseres Bsp.? -->
 
-The used schema:
+The localization files use a name value schema, i.e. the entire structure does not have to be rebuilt in the same way as the original json. The following schema is used for this.
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "AutoImporterPluginManifestLocalizationsSchema",
   "title": "Manifest schema",
-  "description": "A list of localizations for an PiWeb AutoImporter plug-in",
+  "description": "A list of localizations for a PiWeb Auto Importer plug-in",
   "type": "object",
   "properties": {
     "$schema": {
@@ -71,12 +72,12 @@ The used schema:
           "description": "The localization for the plug-in documentation",
           "type": "string"
         },
-        "<importAutomationId>.title": {
-          "description": "The localization for the plug-in import automation title",
+        "importAutomation.displayName": {
+          "description": "The localization for the plug-in import source display name",
           "type": "string"
         },
-        "<importAutomationId>.description": {
-          "description": "The localization for the plug-in import automation description",
+        "importAutomation.summary": {
+          "description": "The localization for the plug-in import source summary",
           "type": "string"
         }
       }
@@ -84,10 +85,9 @@ The used schema:
   }
 }
 ```
-<!-- TODO Anpassen, Umstellung auf SingleModule -->
 
 ## ILocalizationHandler
-You can use an implementation of the interface ILocalizationHandler to make your own translations. These translations are currently supported in the *IStatusService* by the **PostImportEvent** and **SetActivity** methods and in the *IImportHistoryService* interface for the **AddMessage** method.
+You can use an implementation of the interface `ILocalizationHandler` to make your own translations. These translations are currently supported in the `IStatusService` by the `PostImportEvent` and `SetActivity` methods and in the `IImportHistoryService` interface for the `AddMessage` method.
 
 {: .note }
 These messages are stored semantically and translated into the current language when the application is started. This language does not have to be the language in which the message was created. If the required plug-in is no longer available, there is a fallback to a defined message (usually in English).
@@ -129,30 +129,31 @@ public class LocalizationHandler : ILocalizationHandler
 }
 ```
 
-In the implementation of IPlugin, the custom handler is registered via GetLocalizationHandler.
+In the implementation of `IPlugin`, the custom handler is registered via `CreateLocalizationHandler`.
+
 ```c#
 public class MyPlugin : IPlugin
 {
-    public Task Init(IPluginContext context)
-    {
-        context.RegisterImportAutomation("MyImportModule", new MyImportModule());
-        return Task.CompletedTask;
-    }
+  public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
+  {
+    return new MyImportAutomation();
+  }
 
-    public ILocalizationHandler GetLocalizationHandler(ILocalizationHandlerContext context)
-    {
-        return new LocalizationHandler();
-    }
+  public ILocalizationHandler CreateLocalizationHandler(ICreateLocalizationHandlerContext context)
+  {
+      return new LocalizationHandler();
+  }
 }
 ```
 
-The LocalizationHandler is used automatically when the PostImportEvent of the StatusService is called, for example.
+The `LocalizationHandler` is used automatically when the `PostImportEvent` of the StatusService is called, for example.
+
 ```c#
 public sealed class MyImportRunner : IImportRunner
 {
     private readonly IStatusService _StatusService;
 
-    public MyImportRunner(IImportRunnerContext context)
+    public MyImportRunner(ICreateImportRunnerContext context)
     {
         _StatusService = context.StatusService;
     }
@@ -178,5 +179,5 @@ public sealed class MyImportRunner : IImportRunner
 ```
 
 ## Custom texts and future
-Further translations could take place via a separate implementation, e.g. within the ILocalizationHandler, and could be controlled via a JSON file or similar.\
+Further translations could take place via a separate implementation, e.g. within the `ILocalizationHandler`, and could be controlled via a JSON file or similar.\
 In the future, it is planned that the Import SDK will offer further possibilities for translation, similar to the manifest translation.

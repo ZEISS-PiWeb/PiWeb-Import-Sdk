@@ -5,8 +5,6 @@ parent: Plug-in fundamentals
 title: Import automation
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - Hinweise zur weiteren Umsetzung des Modultyps geben (insbesondere Datenabruf und -upload)
@@ -22,23 +20,23 @@ Inhalt:
 
 <!-- "Module" entfernen -->
 
+# {{ page.title }}
+
 ## IPlugin
 The module must be registered in the Auto Importer when the application is started.
 
 ```c#
 public class MyPlugin : IPlugin
 {
-    public Task Init(IPluginContext context)
+    public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
     {
-        context.RegisterImportAutomation("MyImportModule", new MyImportModule());
-
-        return Task.CompletedTask;
+        return new MyImportAutomation();
     }
 }
 ```
 
-**RegisterImportAutomation:**\
-Registers an import automation. The ID of the Import Automation module and the object (of type **IImportAutomation**) to be registered must be transferred.
+`RegisterImportAutomation:`\
+Registers an import automation. The ID of the Import Automation module and the object (of type `IImportAutomation`) to be registered must be transferred.
 
 ## IImportAutomation
 Represents a custom import automation provided as part of a plug-in. Custom import automations substitute the full Auto Importer import pipeline with custom logic and are available as import sources in an import plan configuration.
@@ -48,15 +46,15 @@ using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 public class MyImportModule : IImportAutomation
 {
-    public Task<IImportRunner> CreateImportRunnerAsync(IImportRunnerContext context)
+    public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
     {
-        return Task.FromResult<IImportRunner>(new MyImportRunner(context));
+        return new MyImportRunner(context);
     }
 }
 ```
 
-**CreateImportRunnerAsync:**\
-Creates a new import runner instance. An import runner is first created and then executed when an import plan is using this import automation as import source is started. Each import plan is expected to use a separate import runner instance. For this reason this method must never return the same *IImportRunner* instance twice. If the import runner cannot be created (e.g. because of invalid import plan settings), a *CreateImportRunnerException* can be thrown. The created instance will be disposed after the import plan is stopped.
+`CreateImportRunner:`\
+Creates a new import runner instance. An import runner is first created and then executed when an import plan is using this import automation as import source is started. Each import plan is expected to use a separate import runner instance. For this reason this method must never return the same `IImportRunner` instance twice. If the import runner cannot be created (e.g. because of invalid import plan settings), a `CreateImportRunnerException` can be thrown. The created instance will be disposed after the import plan is stopped.
 
 ## IImportRunner and communication with PiWeb Server
 Is responsible for processing the cyclical import and reacting to problems and errors accordingly.
@@ -131,5 +129,5 @@ public sealed class ImportRunner : IImportRunner
 }
 ```
 
-**RunAsync:**\
-Executes a custom import automation. This method is called when an import plan is started by the user. The returned Task represents the executing import automation and should not complete until the automation is explicitly stopped by the user. When the user wants to stop the import plan, the given cancellation token is canceled. After this point the returned task is expected to complete eventually, but the current import activity should be completed beforehand. This method needs to be implemented asynchronous. This means that it is expected to return a task quickly and not to block the thread at any point. Use *Task.Run(System.Action)* to run synchronous blocking code on a background thread if necessary.
+`RunAsync:`\
+Executes a custom import automation. This method is called when an import plan is started by the user. The returned Task represents the executing import automation and should not complete until the automation is explicitly stopped by the user. When the user wants to stop the import plan, the given cancellation token is canceled. After this point the returned task is expected to complete eventually, but the current import activity should be completed beforehand. This method needs to be implemented asynchronous. This means that it is expected to return a task quickly and not to block the thread at any point. Use `Task.Run(System.Action)` to run synchronous blocking code on a background thread if necessary.

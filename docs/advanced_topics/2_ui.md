@@ -5,8 +5,6 @@ parent: Advanced topics
 title: Custom UI
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - aufzeigen, wie eigene UI-Elemente integriert werden können
@@ -15,11 +13,12 @@ Inhalt:
 - anhand Beispiel-Plug-in das Vorgehen beschreiben
 --->
 
+# {{ page.title }}
 The Import SDK already provides a large number of configuration elements, but it can happen that these elements are not sufficient. The Import SDK therefore also supports the creation of your own elements.\
-For more information about native elements read chapter [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}).
+For more information about native elements read [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}).
 
 ## Example control element
-This chapter shows the steps required to create your own configuration element. The example of a button is used for this:
+This article shows the steps required to create your own configuration element. The example of a button is used for this:
 ![Control elements](../../assets/images/advanced_topics/2_custom_element.png "Control elements")
 
 ## Needed elements
@@ -63,7 +62,7 @@ A WPF-based UI file must be provided, xaml. As usual with WPF, this file contain
 ```
 
 ## IAutomationConfiguration
-The implementation of the **IAutomationConfiguration** interface can be used to place your own configuration elements; further information on this can be found in the [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}) chapter.
+The implementation of the `IAutomationConfiguration` interface can be used to place your own configuration elements; further information on this can be found in [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}).
 
 ```c#
 using Zeiss.PiWeb.Import.Sdk.ConfigurationItems;
@@ -107,4 +106,4 @@ public class ImportConfiguration : IAutomationConfiguration
 }
 ```
 
-We define properties with the help of the **[ConfigurationItem]** annotation, these properties are initialized accordingly in the constructor. The **Button** property is initialized with our ViewModel **ButtonViewModel**. A callback is passed there, which is executed when the button is clicked, where your own logic can be executed accordingly.
+We define properties with the help of the `[ConfigurationItem]` annotation, these properties are initialized accordingly in the constructor. The `Button` property is initialized with our ViewModel `ButtonViewModel`. A callback is passed there, which is executed when the button is clicked, where your own logic can be executed accordingly.

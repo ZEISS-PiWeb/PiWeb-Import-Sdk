@@ -5,8 +5,6 @@ parent: Advanced topics
 title: Configuration & storage rewrite
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - erklären, wann und wieso ein configuration bzw. storage rewrite notwendig ist
@@ -19,13 +17,16 @@ Inhalt:
     - verhindern, dass man sich mit alten Storage Layouts beschäftigen muss
 --->
 
+# {{ page.title }}
+<!-- TODO Um was geht es hier, Einleitung -->
+
 ## IAutomationConfiguration
 As already known, the desired configurations items are defined in the IAutomationConfiguration implementation:
 ```c#
 using Zeiss.PiWeb.Import.Sdk.ConfigurationItems;
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-public class ImportConfiguration(IAutomationConfigurationContext context) : IAutomationConfiguration
+public class ImportConfiguration(ICreateAutomationConfigurationContext context) : IAutomationConfiguration
 {
     [ConfigurationItem]
     public StringConfigurationItem MigrationValue { get; } = new(context.PropertyStorage, "Migration", "Original Value")
@@ -46,19 +47,20 @@ public class ImportConfiguration(IAutomationConfigurationContext context) : IAut
 ```
 
 ## RewritePropertyStorage in IImportAutomation
-IImportAutomation provides the **RewritePropertyStorage** method. Within this method, the **RewriteReason** can be queried in the context and the user's own configuration can be set accordingly. For example, an ID can be regenerated:
+`IImportAutomation` provides the `RewritePropertyStorage` method. Within this method, the `RewriteReason` can be queried in the context and the user's own configuration can be set accordingly. For example, an ID can be regenerated:
+
 ```c#
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 using Zeiss.PiWeb.Import.Sdk.PropertyStorage;
 
 public class ImportAutomation : IImportAutomation
 {
-    public Task<IImportRunner> CreateImportRunnerAsync(IImportRunnerContext context)
+    public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
     {
-        return Task.FromResult<IImportRunner>(new ImportRunner(context));
+        return new ImportRunner(context);
     }
 
-    public IAutomationConfiguration CreateConfiguration(IAutomationConfigurationContext context)
+    public IAutomationConfiguration CreateConfiguration(ICreateAutomationConfigurationContext context)
     {
         return new ImportConfiguration(context);
     }
@@ -104,4 +106,4 @@ This migration is optional, the plug-in developer has the possibility to make ad
 An example would be splitting hostname and port in a configuration entry: "localhost:1234" into two configuration items, hostname and port.
 So that the hostname and port information is not lost, the developer can split the old entry and store it in the now separate fields without the user having to provide the information again.
 
-To implement this, you would react to **RewriteReason.Migration** in the **RewritePropertyStorage** method. You would read the plug-in version from the *IPropertyStorage* and compare it, if necessary you could now transfer the common entry into two new entries.
+To implement this, you would react to `RewriteReason.Migration` in the `RewritePropertyStorage` method. You would read the plug-in version from the `IPropertyStorage` and compare it, if necessary you could now transfer the common entry into two new entries.

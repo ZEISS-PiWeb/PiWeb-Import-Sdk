@@ -1,17 +1,89 @@
-<a href="{{ '/docs/inprint.html' | relative_url }}">Inprint</a>
+{% comment %}Only pages under docs, root and without nav_exclude{% endcomment %}
+{% assign sorted_pages = site.pages | where_exp: "page", "page.url contains '/docs/' or page.url == '/'" %}
+{% assign sorted_pages = sorted_pages | where_exp: "page", "page.nav_exclude == false or page.nav_exclude == nil" | sort: 'nav_order' %}
 
-{% assign parent = page.parent %}
-{% assign sorted_pages = site.pages | sort:"nav_order" %}
-{% assign current_index = sorted_pages | index: page %}
-{% assign next_page = nil %}
+{% assign parent_page = sorted_pages | where: 'title', page.parent | first %}
+{% assign root_pages = sorted_pages | where: 'parent', nil %}
+{% assign child_pages = sorted_pages | where: 'parent', page.title %}
 
-{% for p in sorted_pages %}
-  {% if p.parent == parent and parent != nil and p.nav_order > page.nav_order %}
-    {% assign next_page = p %}
-    {% break %}
-  {% endif %}
-{% endfor %}
-
-{% if next_page %}
-  <a class="floatright" href="{{ next_page.url | relative_url }}">Next page</a>
+{% if child_pages.size > 0 %}
+  {% comment %}Navigate into children{% endcomment %}
+  {% assign next_page = child_pages.first %}
+{% else %}
+  {% comment %}Navigate siblings{% endcomment %}
+  {% assign sibling_pages = sorted_pages | where: 'parent', page.parent %}
+  {% for p in sibling_pages %}
+    {% if p.nav_order > page.nav_order %}
+      {% assign next_page = p %}
+      {% break %}
+    {% elsif p.nav_order < page.nav_order %}
+      {% assign prev_page = p %}
+    {% endif %}
+  {% endfor %}
 {% endif %}
+
+{% comment %}Navigate to sibling of parent, next section{% endcomment %}
+{% if next_page == nil and parent_page != nil %}
+  {% for p in root_pages %}
+    {% if p.nav_order > parent_page.nav_order %}
+      {% assign next_page = p %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% comment %}Navigate root pages{% endcomment %}
+{% if next_page == nil %}
+  {% for p in root_pages %}
+    {% if p.nav_order > page.nav_order %}
+      {% assign next_page = p %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% comment %}Navigate to parent{% endcomment %}
+{% if prev_page == nil and parent_page != nil and page.nav_order == 1 %}
+  {% assign prev_page = parent_page %}
+{% endif %}
+
+{% comment %}Navigate to sibling of parent, prev section{% endcomment %}
+{% if prev_page == nil and parent_page != nil %}
+  {% for p in root_pages reversed %}
+    {% if p.nav_order < parent_page.nav_order %}
+      {{ p.title }}
+      {% assign prev_page = p %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% comment %}Navigate root pages, call last child{% endcomment %}
+{% if prev_page == nil %}
+  {% for p in root_pages reversed %}
+    {% if p.nav_order < page.nav_order %}
+      {% assign current_child_pages = sorted_pages | where: 'parent', p.title %}
+      {% assign prev_page = current_child_pages.last %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    {% if prev_page %}
+      <a href="{{ prev_page.url | relative_url }}">Previous</a><br />
+      <a href="{{ next_page.url | relative_url }}" style="text-decoration: none; color: inherit;">{{ prev_page.title }}</a>
+    {% endif %}
+  </div>
+  <div>
+    {% if next_page %}
+      <a href="{{ next_page.url | relative_url }}" style="float: right;">Next</a><br />
+      <a href="{{ next_page.url | relative_url }}" style="float: right; text-decoration: none; color: inherit;">{{ next_page.title }}</a>
+    {% endif %}
+  </div>
+</div>
+
+<div style="margin-top: 30px;">
+  <a href="{{ '/docs/inprint.html' | relative_url }}">Inprint</a>
+</div>

@@ -6,7 +6,6 @@ title: Import target
 ---
 
 # {{ page.title }}
-
 The import target represents the storage location for the quality data handled by the developed plug-in. During development, we recommend using [PiWeb Cloud](https://piwebcloud.metrology.zeiss.com){:target="_blank"} to get a fully managed PiWeb Server. However, development is also possible with a new or existing PiWeb Server instance.
 
 ## PiWeb Cloud
@@ -26,19 +25,3 @@ The installation and configuration can be found in the [PiWeb Server tech guide]
 
 A corresponding license is required to operate a PiWeb Server.\
 [Read more about PiWeb software.](https://www.zeiss.com/metrology/en/software/zeiss-piweb.html){:target="_blank"}
-
-{% assign parent = page.parent %}
-{% assign sorted_pages = site.pages | sort:"nav_order" %}
-{% assign current_index = sorted_pages | index: page %}
-{% assign next_page = nil %}
-
-{% for p in sorted_pages %}
-  {% if p.parent == parent and p.nav_order > page.nav_order %}
-    {% assign next_page = p %}
-    {% break %}
-  {% endif %}
-{% endfor %}
-
-{% if next_page %}
-[Weiter]({{ next_page.url }})
-{% endif %}

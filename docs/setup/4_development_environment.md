@@ -6,15 +6,16 @@ title: Development environment
 ---
 
 # {{ page.title }}
-
 In principle, the Import SDK can be used with any text editor. However, we recommend the use of Visual Studio or Rider.
 
-.NET version 8 and the .NET desktop development workload (Visual Studio) are required.
+{: .important }
+.NET version 8 and the .NET SDK are required.
 
 ## Project template
 We provide a project template for Visual Studio and Rider. This contains the minimum project structure to start developing a plug-in.
 
 ### Download and install
+<!-- Auf andere Seite verweisen oder hier beschreiben? -->
 
 ### Rider
 Add the current folder to `Add > New Project... > More Templates > Install Template...` and press `Reload`. On the left hand side should be a new template called `PiWeb AutoImporter Plug-in` at the bottom under `Other`.

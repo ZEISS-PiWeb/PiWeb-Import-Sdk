@@ -24,24 +24,24 @@ Notizen:
 The plug-in which is created here together should be an import automation. This connects to a PiWeb Cloud instance and checks for the presence of a specific part; if this is not present, the plug-in will create it.
 
 {: .note }
-This chapter only covers the minimum functionality, to go deeper we recommend taking a look at the Plugin Fundamentals collection.
+This article only covers the minimum functionality, to go deeper we recommend taking a look at the Plugin Fundamentals collection.
 
 ## Download source code and content
 The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the approach using the project template.
-<!-- TODO zip Datei verlinken/bereistellen, bzw Code in example Ordner unter develop packen -->
+<!-- TODO pip Datei verlinken/bereistellen, bzw Code in example Ordner unter develop packen -->
 
-The following files are required for this automation and are included in the example and in the project template. *manifest.json* defines the content of our plug-in. *Plugin.cs* which represents the entry point into the plug-in, in which it registers the import automation. *ImportAutomation.cs* contains the named automation and provides the necessary import runner, which executes the specific import plans. *ImportRunner.cs* contains this IImportRunner and is responsible for the import loop.
+The following files are required for this automation and are included in the example and in the project template. `manifest.json` defines the content of our plug-in. `Plugin.cs` which represents the entry point into the plug-in, in which it registers the import automation. `ImportAutomation.cs` contains the named automation and provides the necessary import runner, which executes the specific import plans. `ImportRunner.cs` contains this IImportRunner and is responsible for the import loop.
 
 ## Create a new project
-To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in chapter [Development environment]({% link docs/setup/4_development_environment.md %}). Further information about the content of the project template is contained in chapter [Project template]({% link docs/advanced_topics/5_project_template.md %}).
+To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/4_development_environment.md %}). Further information about the content of the project template is contained in [Project template]({% link docs/advanced_topics/5_project_template.md %}).
 
 ## Adapt information in manifest file
-Using the project template generates already a *manifest.json* file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
+Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
 
 ```json
 {
   "$schema": "../schemas/manifest.schema.json",
-  "id": "FirstImportAutomation",
+  "id": "Zeiss.FirstImportAutomation",
   "version": "1.0.0",
   "title": "FirstImportAutomation",
   "description": "This plug-in is used in the Import SDK documentation to create an initial import automation.",
@@ -54,19 +54,19 @@ Using the project template generates already a *manifest.json* file in the proje
 }
 ```
 
-The most important thing here is that you define a unique **id** and **version** for the plug-in, that you use **ImportAutomation** as value for the **type** property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in chapter [Manifest]({% link docs/plugin_fundamentals/2_manifest.md %}).
+The most important thing here is that you define a unique `id` and `version` for the plug-in, that you use `ImportAutomation` as value for the `type` property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/3_manifest.md %}).
 
 ## IPlugin
-First we have to register our import automation with the Auto Importer. This is done in the **IPlugin** implementation using the *GetImportAutomation* method. A new instance of our **ImportAutomation** is passed to this method.
+First we have to register our import automation with the Auto Importer. This is done in the `IPlugin` implementation using the `CreateImportAutomation` method. A new instance of our `ImportAutomation` is returned by this method.
 
-**Plugin.cs:**
+`Plugin.cs:`
 ```c#
 using Zeiss.PiWeb.Import.Sdk;
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 public class Plugin : IPlugin
 {
-    public IImportAutomation GetImportAutomation(IImportAutomationContext context)
+    public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
     {
         return new ImportAutomation();
     }
@@ -74,24 +74,23 @@ public class Plugin : IPlugin
 ```
 
 ## IImportAutomation
-Our **IImportAutomation** implementation in turn registers an **IImportRunner**, which then performs the actual import at runtime.
-This **ImportRunner** is registered in the *CreateImportRunnerAsync* method. As several import plans can use this plugin as a source, it is important to return a unique instance for each one.
+Our `IImportAutomation` implementation in turn registers an `IImportRunner`, which then performs the actual import at runtime.
+This `ImportRunner` is registered in the `CreateImportRunner` method. As several import plans can use this plugin as a source, it is important to return a unique instance for each one.
 
 ```c#
-using System.Threading.Tasks;
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 public class ImportAutomation : IImportAutomation
 {
-    public Task<IImportRunner> CreateImportRunnerAsync(IImportRunnerContext context)
+    public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
     {
-        return Task.FromResult<IImportRunner>(new ImportRunner(context));
+        return new ImportRunner(context);
     }
 }
 ```
 
-`CreateImportRunnerAsync`\
-Creates a new import runner instance. An import runner is first created and then executed when an import plan is using this import automation as import source is started. Each import plan is expected to use a separate import runner instance. For this reason this method must never return the same *IImportRunner* instance twice. If the import runner cannot be created (e.g. because of invalid import plan settings), a *CreateImportRunnerException* can be thrown. The created instance will be disposed after the import plan is stopped.
+`CreateImportRunner`\
+Creates a new import runner instance. An import runner is first created and then executed when an import plan is using this import automation as import source is started. Each import plan is expected to use a separate import runner instance. For this reason this method must never return the same `IImportRunner` instance twice. If the import runner cannot be created (e.g. because of invalid import plan settings), a `CreateImportRunnerException` can be thrown. The created instance will be disposed after the import plan is stopped.
 
 ## IImportRunner
 Is responsible for processing the cyclical import and reacting to problems and errors accordingly. In our example, the Auto Importer connects to our PiWeb Cloud instance and checks for the presence of the part named "FirstImportAutomationPart", the result is displayed to the user via Activities. In addition, the part is created if it is not found. This means that there should always be a part in the second import loop.
@@ -112,13 +111,13 @@ using Zeiss.PiWeb.Import.Sdk.Activity;
 using Zeiss.PiWeb.Import.Sdk.ImportPlan;
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-public class ImportRunner( IImportRunnerContext context ) : IImportRunner
+public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 {
     private const string TargetPartName = "FirstImportAutomationPart";
 
-    private readonly IStatusService _StatusService = context.StatusService;
+	private readonly IStatusService _StatusService = context.StatusService;
 
-    public async Task RunAsync(CancellationToken cancellationToken)
+	public async Task RunAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -144,59 +143,59 @@ public class ImportRunner( IImportRunnerContext context ) : IImportRunner
             var targetPath = PathInformation.Root;
             targetPath += PathElement.Part(TargetPartName);
 
-            // Check existing of that part in the import loop
-            while( !cancellationToken.IsCancellationRequested )
-            {
-                _StatusService.SetActivity(
-                    new ActivityProperties()
-                    {
-                        ActivityType = ActivityType.Normal,
-                        ShortDisplayText = "Checking PiWeb",
-                        DetailedDisplayText = $"Checking PiWeb for {targetPath.ToString()}"
-                    } );
+			// Check existing of that part in the import loop
+			while( !cancellationToken.IsCancellationRequested )
+			{
+				_StatusService.SetActivity(
+					new ActivityProperties()
+					{
+						ActivityType = ActivityType.Normal,
+						ShortDisplayText = "Checking PiWeb",
+						DetailedDisplayText = $"Checking PiWeb for {targetPath.ToString()}"
+					} );
 
-                // Request PiWeb API and check for part
-                var targetPart =
-                    ( await restClient.GetParts( targetPath, depth: 0, cancellationToken: cancellationToken ).ConfigureAwait( false ) )
-                    .FirstOrDefault();
+				// Request PiWeb API and check for part
+				var targetPart =
+					( await restClient.GetParts( targetPath, depth: 0, cancellationToken: cancellationToken ).ConfigureAwait( false ) )
+					.FirstOrDefault();
 
-                if( targetPart != null )
-                {
-                    // Part is known in database
+				if( targetPart != null )
+				{
+					// Part is known in database
 
-                    _StatusService.SetActivity(
-                        new ActivityProperties()
-                        {
-                            ActivityType = ActivityType.Normal,
-                            ShortDisplayText = "Part exists",
-                            DetailedDisplayText = $"{targetPath.ToString()} exists in database"
-                        } );
-                }
-                else
-                {
-                    // Part is unknown in database
+					_StatusService.SetActivity(
+						new ActivityProperties()
+						{
+							ActivityType = ActivityType.Normal,
+							ShortDisplayText = "Part exists",
+							DetailedDisplayText = $"{targetPath.ToString()} exists in database"
+						} );
+				}
+				else
+				{
+					// Part is unknown in database
 
-                    _StatusService.SetActivity(
-                        new ActivityProperties()
-                        {
-                            ActivityType = ActivityType.Suspension,
-                            ShortDisplayText = "Part does NOT exists",
-                            DetailedDisplayText = $"{targetPath.ToString()} not found in database, creating it"
-                        } );
+					_StatusService.SetActivity(
+						new ActivityProperties()
+						{
+							ActivityType = ActivityType.Suspension,
+							ShortDisplayText = "Part does NOT exists",
+							DetailedDisplayText = $"{targetPath.ToString()} not found in database, creating it"
+						} );
 
-                    // Create that part
-                    var part = new InspectionPlanPartDto
-                    {
-                        Uuid = Guid.NewGuid(),
-                        Path = targetPath
-                    };
+					// Create that part
+					var part = new InspectionPlanPartDto
+					{
+						Uuid = Guid.NewGuid(),
+						Path = targetPath
+					};
 
-                    await restClient.CreateParts( [part], cancellationToken: cancellationToken ).ConfigureAwait( false );
-                }
+					await restClient.CreateParts( [part], cancellationToken: cancellationToken ).ConfigureAwait( false );
+				}
 
-                await Task.Delay( TimeSpan.FromSeconds( 5 ), cancellationToken ).ConfigureAwait( false );
-            }
-        }
+				await Task.Delay( TimeSpan.FromSeconds( 5 ), cancellationToken ).ConfigureAwait( false );
+			}
+		}
         catch (OperationCanceledException)
         {
             // ignore
@@ -212,7 +211,7 @@ First, we define our part name as a constant so that we can search for this name
 private const string TargetPartName = "FirstImportAutomationPart";
 ```
 
-We also provide the **IStatusService** from the context. This is used to communicate with the Auto Importer and make status changes known. The **IImportRunnerContext** is provided by the Import SDK through dependency injection.
+We also provide the `IStatusService` from the context. This is used to communicate with the Auto Importer and make status changes known. The `ICreateImportRunnerContext` is provided by the Import SDK through dependency injection.
 
 ```c#
 private readonly IStatusService _StatusService = context.StatusService;
@@ -221,9 +220,9 @@ private readonly IStatusService _StatusService = context.StatusService;
 ```c#
 public async Task RunAsync(CancellationToken cancellationToken)
 ```
-*RunAsync* provides the import loop for our plugin. This means that it connects to the PiWeb Cloud instance and checks whether our desired part already exists; if this is not the case, the part is created.
+`RunAsync` provides the import loop for our plugin. This means that it connects to the PiWeb Cloud instance and checks whether our desired part already exists; if this is not the case, the part is created.
 
-The basic structure is the while loop, which repeatedly executes the desired import logic. We secure this with a try catch block, as the termination of the import plan leads to an **OperationCanceledException**, where appropriate closing procedures should then be carried out to safely terminate the import.
+The basic structure is the while loop, which repeatedly executes the desired import logic. We secure this with a try catch block, as the termination of the import plan leads to an `OperationCanceledException`, where appropriate closing procedures should then be carried out to safely terminate the import.
 
 ```c#
 public async Task RunAsync(CancellationToken cancellationToken)
@@ -257,7 +256,7 @@ var authenticationHandler = authData.AuthType switch
 };
 ```
 
-Next, we use the PiWeb API to establish the connection, this is done via a REST client. To do this, we use the *ImportTarget* information provided via the context.
+Next, we use the PiWeb API to establish the connection, this is done via a REST client. To do this, we use the `ImportTarget` information provided via the context.
 
 ```c#
 using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAddress))
@@ -266,14 +265,14 @@ using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAd
 using var restClient = builder.CreateDataServiceRestClient();
 ```
 
-The desired part substructure is now created. In this simple example, we assume that our **TargetPartName** is located directly under the root of the server. This structure is required to query the PiWeb server.
+The desired part substructure is now created. In this simple example, we assume that our `TargetPartName` is located directly under the root of the server. This structure is required to query the PiWeb server.
 
 ```c#
 var targetPath = PathInformation.Root;
 targetPath += PathElement.Part(TargetPartName);
 ```
 
-Now our actual import loop starts. We make our activity known to the Auto Importer via the **_StatusService**.
+Now our actual import loop starts. We make our activity known to the Auto Importer via the `_StatusService`.
 
 ```c#
 _StatusService.SetActivity(
@@ -328,20 +327,20 @@ else
         Path = targetPath
     };
 
-    await restClient.CreateParts( [part], cancellationToken: cancellationToken ).ConfigureAwait( false );
+    await restClient.CreateParts([part], cancellationToken: cancellationToken).ConfigureAwait(false);
 }
 ```
 
 As a final action, we delay the following loop pass by 5 seconds to keep the load on the instance low.
 
 ```c#
-await Task.Delay( TimeSpan.FromSeconds( 5 ), cancellationToken ).ConfigureAwait( false );
+await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 ```
 
 We now have the necessary code for our import automation test and can execute it.
 
 ## Running the plug-in
-To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in chapter [Development settings]({% link docs/setup/3_development_settings.md %}). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.\
+To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [Development settings]({% link docs/setup/3_development_settings.md %}). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.\
 ![Installed plug-in](../../assets/images/getting_started/3_management_view.png "Installed plug-in")
 
 We also need an import plan that uses our import source and uses the existing cloud instance as the target. To do this, we create a new import plan using the green plus icon and configure it as shown in the screenshot.\

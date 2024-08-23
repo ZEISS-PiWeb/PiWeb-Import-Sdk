@@ -5,8 +5,6 @@ parent: Plug-in fundamentals
 title: User configuration & storage
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - aufzeigen, wie Auto Importer UI um Konfigurationselemente erweitert werden kann und wie Einstellungen gespeichert werden
@@ -17,28 +15,30 @@ Inhalt:
 - Storage bzw. Speicherung der Einstellungen erklären
 --->
 
+# {{ page.title }}
+
 ## CreateConfiguration
-Besides **CreateImportRunnerAsync** from chapter [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) you can use **CreateConfiguration** to load custom configuration items.
+Besides `CreateImportRunner` from [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) you can use `CreateConfiguration` to load custom configuration items.
 
 Loading the configuration in IImportAutomation:
 ```c#
 using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
-public class MyImportModule : IImportAutomation
+public class MyImportAutomation : IImportAutomation
 {
-    public Task<IImportRunner> CreateImportRunnerAsync(IImportRunnerContext context)
+    public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
     {
-        return Task.FromResult<IImportRunner>(new MyImportRunner(context));
+        return new MyImportRunner(context);
     }
 
-    public IAutomationConfiguration CreateConfiguration(IAutomationConfigurationContext context)
+    public IAutomationConfiguration CreateConfiguration(ICreateAutomationConfigurationContext context)
     {
         return new AutomationConfiguration(context.PropertyStorage);
     }
 }
 ```
 
-**CreateConfiguration:** Creates a new automation configuration instance. An automation configuration is first created when an import plan uses this import automation as import source. Each import plan is expected to use a separate automation configuration instance. For this reason this method must never return the same *IAutomationConfiguration* instance twice.\
+`CreateConfiguration:` Creates a new automation configuration instance. An automation configuration is first created when an import plan uses this import automation as import source. Each import plan is expected to use a separate automation configuration instance. For this reason this method must never return the same `IAutomationConfiguration` instance twice.\
 IAutomationConfiguration allows you to create your own configuration items for the ImportPlan, for example API-Urls.
 
 ## IAutomationConfiguration
@@ -161,7 +161,7 @@ public BoolConfigurationItem BeforeImportSource { get; } = new()
 ```
 
 ## Storage
-You can access **IPropertyStorage** in your configuration class via dependancy injection.\
+You can access `IPropertyStorage` in your configuration class via dependancy injection.\
 The defined ConfigurationItems are thus automatically saved and read out accordingly.
 
 ```c#
@@ -174,15 +174,15 @@ public class ImportConfiguration(IPropertyStorage storage) : IAutomationConfigur
     {
         Title = "Disable all items",
         Section = _CustomSection,
-        Tooltip = "If this item is checked, all items provided by this module are in readonly mode.",
+        Tooltip = "If this item is checked, all items provided by this plug-in are in readonly mode.",
         Priority = 5
     };
 ```
 
 ### Use property values
-The IImportRunner can read the storage via the IImportRunnerContext and thus use the values for import purposes.
+The IImportRunner can read the storage via the ICreateImportRunnerContext and thus use the values for import purposes.
 ```c#
-public ImportRunner(IImportRunnerContext importRunnerContext)
+public ImportRunner(ICreateImportRunnerContext importRunnerContext)
 {
     _Hostname = importRunnerContext.PropertyStorage.ReadString(nameof(ImportConfiguration.Hostname));
 }

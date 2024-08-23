@@ -5,8 +5,6 @@ parent: Plug-in fundamentals
 title: Plug-in structure
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - allgemeinen Aufbau eines Plug-ins beschreiben
@@ -24,21 +22,23 @@ Inhalt:
     - Flag in Projekteigenschaften, um zu markieren, dass es ein C#-Plug-in ist (damit alle Abhängigkeiten in die Ausgabe gelegt werden)
 --->
 
+# {{ page.title }}
+
 ## Folder structure of a plug-in
-**manifest.json** and assemblies must be located in the root directory of the plug-in folder.
+`manifest.json` and assemblies must be located in the root directory of the plug-in folder.
 
 ![Folder structure](../../assets/images/plugin_fundamentals/1_folder.png "Folder structure")
 
 ## Auto Importer plug-ins folder
-Plug-in folders must be placed under Auto Importer **"Plugins"** folder.\
-The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see chapter [Development mode]({% link docs/setup/3_development_settings.md %})). As a rule, you therefore need admin rights to install and customize plug-ins.
+Plug-in folders must be placed under Auto Importer `"Plugins"` folder.\
+The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see [Development mode]({% link docs/setup/3_development_settings.md %})). As a rule, you therefore need admin rights to install and customize plug-ins.
 
 ## Start assembly
-The **assemblyPath** property in manifest.json defines the start assembly. If assemblyPath is not specified, the **id** is used to determine the name of the assembly.\
-The given assembly must provide a class that implements **IPlugin**, read chapter [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) for more information about IPlugin.
+The `assemblyPath` property in manifest.json defines the start assembly. If assemblyPath is not specified, the `id` is used to determine the name of the assembly.\
+The given assembly must provide a class that implements `IPlugin`, read [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) for more information about IPlugin.
 
 ## Localization
-The plug-in system supports localization of the manifest file, in which the supported language abbreviations appear as additional subfolders in the "locals" subfolder and contain a manifest.json. See chapter [Localization]({% link docs/advanced_topics/1_localization.md %}) for more details.\
+The plug-in system supports localization of the manifest file, in which the supported language abbreviations appear as additional subfolders in the "locals" subfolder and contain a manifest.json. See [Localization]({% link docs/advanced_topics/1_localization.md %}) for more details.\
 ![Localization](../../assets/images/plugin_fundamentals/1_localization.png "Localization")
 
 ## Project settings

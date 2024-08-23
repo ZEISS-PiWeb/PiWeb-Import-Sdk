@@ -6,5 +6,4 @@ title: Advanced topics
 ---
 
 # {{ page.title }}
-
-This chapter is about the deeper background of plug-in development, make sure you have the basic knowledge.
+This section is about the deeper background of plug-in development, make sure you have the basic knowledge.

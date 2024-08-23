@@ -5,8 +5,6 @@ parent: Plug-in fundamentals
 title: Import monitoring
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - aufzeigen, wie Monitoring der Ausführung des Plug-ins möglich ist
@@ -17,6 +15,7 @@ Inhalt:
 - Events
 --->
 
+# {{ page.title }}
 There are various ways to monitor the Auto Importer and thus the developed plug-in and to track problems and activities.
 
 The **application log** is used by the development team and support to track program steps. This should be used for debugging purposes and problems in the program flow.
@@ -26,10 +25,10 @@ The **import log** is important for the user, e.g. measurement engineer. Various
 **Activities** can be used in the Auto Importer itself to present the current status to the user. There is also the **status log**, which shows the user the last actions of the import plan.
 
 ## Application log
-*IPluginContext* provides a logger that can be used to write to the application log:
+`IPluginInitContext` provides a logger that can be used to write to the application log:
 
 ```c#
-public Task Init(IPluginContext context)
+public Task InitAsync(IPluginInitContext context)
 {
     var logger = context.Logger;
 
@@ -39,8 +38,6 @@ public Task Init(IPluginContext context)
     logger.LogWarning("Plug-in test message with parameter: {parameter}", 5);
     logger.LogError(new Exception("Test exception"), "Plug-in test message");
     logger.LogInformation("Current UI culture: {cultureName}", CultureInfo.CurrentUICulture.Name);
-
-    context.RegisterImportAutomation("MyImportModule", new MyImportModule());
 
     return Task.CompletedTask;
 }
@@ -61,11 +58,11 @@ Example message:\
 In addition to the option of recording information in the log, information can also be noted in the status log:\
 ![Activity log](../../assets/images/plugin_fundamentals/7_activitylog.png "Activity log")
 
-As with the logger, the context also provides the **StatusService** of type *IStatusService*.
+As with the logger, the context also provides the `StatusService` of type `IStatusService`.
 ```c#
 private readonly IStatusService _StatusService;
 
-public MyImportRunner(IImportRunnerContext context)
+public MyImportRunner(ICreateImportRunnerContext context)
 {
     _StatusService = context.StatusService;
 }
@@ -131,13 +128,13 @@ public class ActivityProperties
 
 	/// <summary>
 	/// The detailed text to display. A localization handler will be used to localize this text.
-	/// Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and formatting.
+	/// Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and formatting.
 	/// </summary>
 	public string DetailedDisplayText { get; init; } = string.Empty;
 
 	/// <summary>
 	/// The short text to display. A localization handler will be used to localize this text with the given
-	/// arguments. Implement <see cref="IPlugin.GetLocalizationHandler"/> to specify your own localization and
+	/// arguments. Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and
 	/// formatting.
 	/// </summary>
 	public string ShortDisplayText { get; init; } = string.Empty;
