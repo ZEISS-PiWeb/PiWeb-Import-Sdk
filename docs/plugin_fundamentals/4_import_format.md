@@ -2,7 +2,7 @@
 layout: default
 nav_order: 4
 parent: Plug-in fundamentals
-title: Import format plug-ins
+title: Import format
 ---
 
 # {{ page.title }}
@@ -288,3 +288,53 @@ If not only the information within an import file should be imported, additional
 foreach (var rawData in importGroup.AdditionalFiles)
     measurement.AddAdditionalData(rawData.Name, rawData.GetDataStream());
 ```
+
+## Define import format configuration
+The last method of the `IImportFormat` interface is the `CreateConfiguration` method were the default import configuration for the import format can be defined like in the following example.
+
+```c#
+public IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigurationContext context)
+    {
+        return new ImportFormatConfiguration
+        {
+            SupportsPathRules = true,
+            SupportsAttributeMapping = true,
+            DefaultAttributeMappingConfiguration = new AttributeMappingConfiguration
+            {
+                MappingRules =
+                [
+                    new MappingRule
+                    {
+                        MappingTarget = MappingTarget.MeasuredValue,
+                        AttributeKey = 1, // Measured Value
+                        ValueExpression = "$Value"
+                    },
+                    new MappingRule
+                    {
+                        MappingTarget = MappingTarget.Measurement,
+                        AttributeKey = 4, // Time
+                        ValueExpression = "$Date",
+                        MappingCultureName = "de-DE"
+                    }
+                ]
+            }
+        };
+    }
+```
+
+The `SupportsPathRules` property of the `ImportFormatConfiguration` class specifies whether the import format supports the usage and configuration of path rules. When the value is `false` the path rules tab in the import configuration view does not exist for the format. With `SupportsAttributeMapping` property can be defined whether the import format supports the usage of attribute mappings. When the value is `true` the attribute mappings tab is visible in the import configuration view and default mapping entries can be defined with the property `DefaultAttributeMappingConfiguration`. In the example one mapping entry for the measured value and one for the measurement date is created.
+
+## Run import format plug-ins
+How to install a plug-in is described in [Starting plug-in]({% link docs/setup/5_starting_plugin.md %}). When an import format plug-in is installed and active the new import format is listed in the import configuration view of the Auto Importer. This view can be opened by clicking on the `Configure` button in the `Settings` tab of the import plan. 
+
+![Auto Importer import plan](../../assets/images/plugin_fundamentals/4_import_plan_settings.png "Auto Importer import plan")
+
+The new import format should be listed in the format list. According the implemented `ImportFormatConfiguration` the tabs for attribute mappings and path rules are visible or not. When default entries for the attribute mappings are defined they should be displayed in the attribute mappings tab.
+
+![Auto Importer import configuration](../../assets/images/plugin_fundamentals/4_import_configuration.png "Auto Importer import configuration")
+
+By starting the import plan and place a file of the import format in the specified import folder the successful import with the import format plug-in can be tested. The import result can be monitored in the import history. The import history opens by clicking on `Show history` in the `Status` tab of the import plan.
+
+![Auto Importer import history](../../assets/images/plugin_fundamentals/4_import_history.png "Auto Importer import history")
+
+
