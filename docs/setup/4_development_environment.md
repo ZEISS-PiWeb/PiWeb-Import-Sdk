@@ -44,7 +44,7 @@ The Import SDK nuget is required for the development of Auto Importer plug-ins. 
 {: .important }
 > Please ensure that this assembly is not copied to the output:
 > ```xml
-> <PackageReference Include="Zeiss.PiWeb.Import.Sdk" Version="$(ImportSdkNuGetVersion)">
+> <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="$(ImportSdkNuGetVersion)">
 >    <Private>false</Private>
 >     <ExcludeAssets>runtime</ExcludeAssets>
 > </PackageReference>

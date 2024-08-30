@@ -23,8 +23,8 @@ Inhalt:
 ## IAutomationConfiguration
 As already known, the desired configurations items are defined in the IAutomationConfiguration implementation:
 ```c#
-using Zeiss.PiWeb.Import.Sdk.ConfigurationItems;
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public class ImportConfiguration(ICreateAutomationConfigurationContext context) : IAutomationConfiguration
 {
@@ -50,8 +50,8 @@ public class ImportConfiguration(ICreateAutomationConfigurationContext context) 
 `IImportAutomation` provides the `RewritePropertyStorage` method. Within this method, the `RewriteReason` can be queried in the context and the user's own configuration can be set accordingly. For example, an ID can be regenerated:
 
 ```c#
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
-using Zeiss.PiWeb.Import.Sdk.PropertyStorage;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.PropertyStorage;
 
 public class ImportAutomation : IImportAutomation
 {
@@ -78,7 +78,7 @@ public class ImportAutomation : IImportAutomation
 
 ### RewriteReason
 ```c#
-namespace Zeiss.PiWeb.Import.Sdk.PropertyStorage
+namespace Zeiss.PiWeb.Sdk.Import.PropertyStorage
 {
   /// <summary>
   /// Enumerates possible reasons for an property storage rewrite.

@@ -22,7 +22,7 @@ Besides `CreateImportRunner` from [Create your first import automation]({% link 
 
 Loading the configuration in IImportAutomation:
 ```c#
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public class MyImportAutomation : IImportAutomation
 {
@@ -45,9 +45,9 @@ IAutomationConfiguration allows you to create your own configuration items for t
 Represents an automation configuration. Automation configurations specify additional settings for an import automation an user can edit to affect the import automation behavior for an import plan.
 
 ```c#
-using Zeiss.PiWeb.Import.Sdk.ConfigurationItems;
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
-using Zeiss.PiWeb.Import.Sdk.PropertyStorage;
+using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.PropertyStorage;
 
 public class AutomationConfiguration(IPropertyStorage storage) : IAutomationConfiguration
 {
@@ -90,7 +90,7 @@ Different sections and priorites for configuration items can be adressed:
 
 The Import SDK already provides the familiar sections and priorites:
 ```c#
-namespace Zeiss.PiWeb.Import.Sdk.ConfigurationItems
+namespace Zeiss.PiWeb.Sdk.Import.ConfigurationItems
 {
   public static class WellKnownSections
   {

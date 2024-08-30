@@ -61,8 +61,8 @@ First we have to register our import automation with the Auto Importer. This is 
 
 `Plugin.cs:`
 ```c#
-using Zeiss.PiWeb.Import.Sdk;
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public class Plugin : IPlugin
 {
@@ -78,7 +78,7 @@ Our `IImportAutomation` implementation in turn registers an `IImportRunner`, whi
 This `ImportRunner` is registered in the `CreateImportRunner` method. As several import plans can use this plugin as a source, it is important to return a unique instance for each one.
 
 ```c#
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public class ImportAutomation : IImportAutomation
 {
@@ -107,15 +107,14 @@ using Zeiss.PiWeb.Api.Core;
 using Zeiss.PiWeb.Api.Rest.Common.Authentication;
 using Zeiss.PiWeb.Api.Rest.Dtos.Data;
 using Zeiss.PiWeb.Api.Rest.HttpClient.Builder;
-using Zeiss.PiWeb.Import.Sdk.Activity;
-using Zeiss.PiWeb.Import.Sdk.ImportPlan;
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.ImportPlan;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 {
     private const string TargetPartName = "FirstImportAutomationPart";
 
-	private readonly IStatusService _StatusService = context.StatusService;
+	private readonly IActivityService _ActivityService = context.ActivityService;
 
 	public async Task RunAsync(CancellationToken cancellationToken)
     {
@@ -146,7 +145,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 			// Check existing of that part in the import loop
 			while( !cancellationToken.IsCancellationRequested )
 			{
-				_StatusService.SetActivity(
+				_ActivityService.SetActivity(
 					new ActivityProperties()
 					{
 						ActivityType = ActivityType.Normal,
@@ -163,7 +162,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 				{
 					// Part is known in database
 
-					_StatusService.SetActivity(
+					_ActivityService.SetActivity(
 						new ActivityProperties()
 						{
 							ActivityType = ActivityType.Normal,
@@ -175,7 +174,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 				{
 					// Part is unknown in database
 
-					_StatusService.SetActivity(
+					_ActivityService.SetActivity(
 						new ActivityProperties()
 						{
 							ActivityType = ActivityType.Suspension,
@@ -211,10 +210,10 @@ First, we define our part name as a constant so that we can search for this name
 private const string TargetPartName = "FirstImportAutomationPart";
 ```
 
-We also provide the `IStatusService` from the context. This is used to communicate with the Auto Importer and make status changes known. The `ICreateImportRunnerContext` is provided by the Import SDK through dependency injection.
+We also provide the `IActivityService` from the context. This is used to communicate with the Auto Importer and make status changes known. The `ICreateImportRunnerContext` is provided by the Import SDK through dependency injection.
 
 ```c#
-private readonly IStatusService _StatusService = context.StatusService;
+private readonly IActivityService _ActivityService = context.ActivityService;
 ```
 
 ```c#
@@ -272,10 +271,10 @@ var targetPath = PathInformation.Root;
 targetPath += PathElement.Part(TargetPartName);
 ```
 
-Now our actual import loop starts. We make our activity known to the Auto Importer via the `_StatusService`.
+Now our actual import loop starts. We make our activity known to the Auto Importer via the `_ActivityService`.
 
 ```c#
-_StatusService.SetActivity(
+_ActivityService.SetActivity(
     new ActivityProperties()
     {
         ActivityType = ActivityType.Normal,
@@ -300,7 +299,7 @@ if( targetPart != null )
 {
     // Part is known in database
 
-    _StatusService.SetActivity(
+    _ActivityService.SetActivity(
         new ActivityProperties()
         {
             ActivityType = ActivityType.Normal,
@@ -312,7 +311,7 @@ else
 {
     // Part is unknown in database
 
-    _StatusService.SetActivity(
+    _ActivityService.SetActivity(
         new ActivityProperties()
         {
             ActivityType = ActivityType.Suspension,

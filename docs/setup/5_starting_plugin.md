@@ -9,7 +9,9 @@ title: Starting a plug-in
 This article describes the use of the plug-in from the user's perspective, i.e., how a compiled plug-in is installed and how it is used in the import plan. It is assumed that the user already has a finished plug-in.
 
 ## Download compiled example plug-in
-<!-- TODO Plug-in link zu pip bereitstellen -->
+We provide a ready-to-use plug-in (pip file) under the following link:\
+[StartingAPlugin.pip](../../assets/pips/StartingAPlugin.pip){:target="_blank"}\
+Please download and select in the following installation process.
 
 ## Plug-in installation
 A plug-in can be installed in various ways, see [Deployment]({% link docs/deployment.md %}). We assume here that the installation takes place via the `Install plug-in` button within the Auto Importer.

@@ -42,7 +42,7 @@ Registers an import automation. The ID of the Import Automation module and the o
 Represents a custom import automation provided as part of a plug-in. Custom import automations substitute the full Auto Importer import pipeline with custom logic and are available as import sources in an import plan configuration.
 
 ```c#
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public class MyImportModule : IImportAutomation
 {
@@ -64,7 +64,7 @@ https://github.com/ZEISS-PiWeb/PiWeb-Api
 
 Here is a simple example which queries a desired target part from the PiWeb server and sends measurements to the server:
 ```c#
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public sealed class ImportRunner : IImportRunner
 {

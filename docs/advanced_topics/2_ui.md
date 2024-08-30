@@ -30,7 +30,7 @@ This article shows the steps required to create your own configuration element. 
 Represents the base implementation for IConfigurationItem which is recommended for any configuration item. This class is the basis for the ViewModel for our button:
 ```c#
 using CommunityToolkit.Mvvm.Input;
-using Zeiss.PiWeb.Import.Sdk.ConfigurationItems;
+using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
 
 public sealed class ButtonViewModel( Action callback ) : ConfigurationItemBase
 {
@@ -65,9 +65,9 @@ A WPF-based UI file must be provided, xaml. As usual with WPF, this file contain
 The implementation of the `IAutomationConfiguration` interface can be used to place your own configuration elements; further information on this can be found in [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}).
 
 ```c#
-using Zeiss.PiWeb.Import.Sdk.ConfigurationItems;
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
-using Zeiss.PiWeb.Import.Sdk.PropertyStorage;
+using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.PropertyStorage;
 
 public class ImportConfiguration : IAutomationConfiguration
 {

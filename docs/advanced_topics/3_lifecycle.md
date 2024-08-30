@@ -22,7 +22,7 @@ The lifecycle describes when which class is instantiated by the Auto Importer an
 All available plug-ins are loaded when the application is started. To do this, the `IPlugin` implementation of the plug-in is called up using the `CreateImportAutomation` method.
 
 ```c#
-using Zeiss.PiWeb.Import.Sdk;
+using Zeiss.PiWeb.Sdk.Import;
 
 public class Plugin : IPlugin
 {
@@ -80,7 +80,7 @@ public MyImportRunner(ICreateImportRunnerContext importRunnerContext)
 After initializing the `IRunner`, the import loop is started via `RunAsync`.
 
 ```c#
-using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public sealed class MyImportRunner : IImportRunner
 {

@@ -20,11 +20,16 @@ There are various ways to monitor the Auto Importer and thus the developed plug-
 
 The **application log** is used by the development team and support to track program steps. This should be used for debugging purposes and problems in the program flow.
 
-The **import log** is important for the user, e.g. measurement engineer. Various steps in the import can be traced there.
+The **import log** is important for the user, e.g. measurement engineer. Various steps in the import can be traced there. This is only available for import formats.
 
-**Activities** can be used in the Auto Importer itself to present the current status to the user. There is also the **status log**, which shows the user the last actions of the import plan.
+{: .note }
+The import log cannot be used by plug-ins for import automation.
+
+**Activities** and **events** can be used in the Auto Importer itself to present the current (and the previous) status to the user.
 
 ## Application log
+The application log is a global log file that can be written to by all plug-ins and the Auto Importer itself. Import information could therefore be lost, which is why it is recommended to only use this log as a debug or in the event of program problems.
+
 `IPluginInitContext` provides a logger that can be used to write to the application log:
 
 ```c#
@@ -44,74 +49,117 @@ public Task InitAsync(IPluginInitContext context)
 ```
 
 Log messages appear within the application log:\
-![Show application log](../../assets/images/plugin_fundamentals/7_applog.png "Show application log")
+![Show application log](../../assets/images/plugin_fundamentals/7_applogbutton.png "Show application log")
+
+{: .note }
+The application log can also be found under `%AppData%\..\Local\Zeiss\PiWeb`.
 
 Example message:\
-![Log content](../../assets/images/plugin_fundamentals/7_logcontent.png "Log content")
-
-<!-- TODO Dateipfad zum Log bereitstellen -->
+![Log content](../../assets/images/plugin_fundamentals/7_applogcontent.png "Log content")
 
 ## Import log
+The import log is used to document import processes. This log file is located in the respective import folder and is therefore specific to the import plan. It mentions the file being processed and, in addition to the date and time, also provides information about parts, characteristics and measurements. This log should be used if import processes are to be traced.
 
+{: .note }
+The import log is only available for import formats. A separate solution should be used to log import processes in import automations, e.g. a separate logging file.
 
-## Status log
-In addition to the option of recording information in the log, information can also be noted in the status log:\
-![Activity log](../../assets/images/plugin_fundamentals/7_activitylog.png "Activity log")
-
-As with the logger, the context also provides the `StatusService` of type `IStatusService`.
+`IFilterContext` provides the `ImportHistoryService` a service that can be used to write to the import log:
 ```c#
-private readonly IStatusService _StatusService;
+using Zeiss.PiWeb.Sdk.Import.ImportFiles;
+using Zeiss.PiWeb.Sdk.Import.ImportHistory;
 
-public MyImportRunner(ICreateImportRunnerContext context)
+public class LoggingTestImportGroupFilter : IImportGroupFilter
 {
-    _StatusService = context.StatusService;
-}
-
-public async Task RunAsync(CancellationToken cancellationToken)
-{
-    try
+    public ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
     {
-        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+        if (!importGroup.PrimaryFile.HasExtension(".itl"))
+            return ValueTask.FromResult(FilterResult.None);
 
-        _StatusService.SetActivity(
-            new ActivityProperties()
-            {
-                ActivityType = ActivityType.Normal,
-                ShortDisplayText = "Stage {0}",
-                DetailedDisplayText = "Stage {0} - Some more details"
-            },
-            1);
+        if (importGroup.PrimaryFile.BaseName.Contains("grouping-error", StringComparison.OrdinalIgnoreCase))
+            context.ImportHistoryService.AddMessage(MessageSeverity.Error, "GroupingError");
 
-        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+        if (importGroup.PrimaryFile.BaseName.Contains("grouping-warning", StringComparison.OrdinalIgnoreCase))
+            context.ImportHistoryService.AddMessage(MessageSeverity.Warning, "GroupingWarning");
 
-        _StatusService.ClearActivity();
+        if (importGroup.PrimaryFile.BaseName.Contains("grouping-info", StringComparison.OrdinalIgnoreCase))
+            context.ImportHistoryService.AddMessage(MessageSeverity.Info, "GroupingInfo");
 
-        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-
-        _StatusService.SetActivity(
-            new ActivityProperties()
-            {
-                ActivityType = ActivityType.Normal,
-                DetailedDisplayText = "Stage 2 - Waiting {0} seconds"
-            },
-            5);
-
-        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-        
-        _StatusService.SetActivity(
-            new ActivityProperties()
-            {
-                ActivityType = ActivityType.Suspension,
-                ShortDisplayText = "Some error occured",
-                DetailedDisplayText = "Some error occured",
-                IsSourceProblem = true
-            });
-
-        await Task.Delay(TimeSpan.FromMilliseconds(-1), cancellationToken).ConfigureAwait(false);
+        return ValueTask.FromResult(FilterResult.Import);
     }
-    catch (OperationCanceledException)
+}
+```
+
+Log messages appear within the import log:\
+![Show import log](../../assets/images/plugin_fundamentals/7_importlogbutton.png "Show import log")
+
+Example message:\
+![Import log content](../../assets/images/plugin_fundamentals/7_importlogcontent.png "Import log content")
+
+## Activities
+Activities give the Auto Importer user the opportunity to stay informed about current activities of the import plan. There are two different display formats. 
+`ShortDisplayText` is used in the import plan listing to identify activities across all import plans. In the detailed view of an import plan, you will also see the `DetailedDisplayText` at the top under the name of the import plan.\
+In addition, these recorded activities are also noted as events and listed collectively under **Latest events**, see screenshot.\
+![Activities](../../assets/images/plugin_fundamentals/7_activities.png "Activities")
+
+`ICreateImportRunnerContext` provides the `IActivityService` that can be used to create activites:
+```c#
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
+
+public sealed class MyImportRunner : IImportRunner
+{
+    private readonly IActivityService _ActivityService;
+
+    public MyImportRunner(ICreateImportRunnerContext context)
     {
-        // Do nothing
+        _ActivityService = context.ActivityService;
+    }
+
+    public async Task RunAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+
+            _ActivityService.SetActivity(
+                new ActivityProperties()
+                {
+                    ActivityType = ActivityType.Normal,
+                    ShortDisplayText = "Stage {0}",
+                    DetailedDisplayText = "Stage {0} - Some more details"
+                },
+                1);
+
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+
+            _ActivityService.ClearActivity();
+
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+
+            _ActivityService.SetActivity(
+                new ActivityProperties()
+                {
+                    ActivityType = ActivityType.Normal,
+                    DetailedDisplayText = "Stage 2 - Waiting {0} seconds"
+                },
+                5);
+
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+            
+            _ActivityService.SetActivity(
+                new ActivityProperties()
+                {
+                    ActivityType = ActivityType.Suspension,
+                    ShortDisplayText = "Some error occured",
+                    DetailedDisplayText = "Some error occured",
+                    IsSourceProblem = true
+                });
+
+            await Task.Delay(TimeSpan.FromMilliseconds(-1), cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            // Do nothing
+        }
     }
 }
 ```
@@ -169,5 +217,38 @@ public enum ActivityType
 }
 ```
 
-## Activities
+## Events
+The last 10 events are displayed in the detailed view of an import plan. This allows the user to quickly obtain an overview of the last processes in the import plan.
 
+As already mentioned, events are created automatically when the activity changes. However, it is also possible to create events explicitly, i.e. the activities area remains unchanged.
+
+`IActivityService` provides the `PostActivityEvent` method for this purpose:
+```c#
+using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
+
+public sealed class MyImportRunner : IImportRunner
+{
+    private readonly IActivityService _ActivityService;
+
+    public MyImportRunner(ICreateImportRunnerContext context)
+    {
+        _ActivityService = context.ActivityService;
+    }
+
+    public async Task RunAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+
+            _ActivityService.PostActivityEvent(EventSeverity.Info, "Direct event writing");
+        }
+        catch (OperationCanceledException)
+        {
+            // Do nothing
+        }
+    }
+}
+```
+
+![Latest events](../../assets/images/plugin_fundamentals/7_events.png "Latest events")

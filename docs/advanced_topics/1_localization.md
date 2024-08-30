@@ -87,7 +87,7 @@ The localization files use a name value schema, i.e. the entire structure does n
 ```
 
 ## ILocalizationHandler
-You can use an implementation of the interface `ILocalizationHandler` to make your own translations. These translations are currently supported in the `IStatusService` by the `PostImportEvent` and `SetActivity` methods and in the `IImportHistoryService` interface for the `AddMessage` method.
+You can use an implementation of the interface `ILocalizationHandler` to make your own translations. These translations are currently supported in the `IActivityService` by the `PostImportEvent` and `SetActivity` methods and in the `IImportHistoryService` interface for the `AddMessage` method.
 
 {: .note }
 These messages are stored semantically and translated into the current language when the application is started. This language does not have to be the language in which the message was created. If the required plug-in is no longer available, there is a fallback to a defined message (usually in English).
@@ -151,22 +151,22 @@ The `LocalizationHandler` is used automatically when the `PostImportEvent` of th
 ```c#
 public sealed class MyImportRunner : IImportRunner
 {
-    private readonly IStatusService _StatusService;
+    private readonly IActivityService _ActivityService;
 
     public MyImportRunner(ICreateImportRunnerContext context)
     {
-        _StatusService = context.StatusService;
+        _ActivityService = context.StatusService;
     }
 
     public async Task RunAsync(CancellationToken cancellationToken)
     {
         try
         {
-            _StatusService.PostImportEvent(EventSeverity.Info, "Info");
-            _StatusService.PostImportEvent(EventSeverity.Info, "InfoWithArg", 1);
+            _ActivityService.PostImportEvent(EventSeverity.Info, "Info");
+            _ActivityService.PostImportEvent(EventSeverity.Info, "InfoWithArg", 1);
 
-            _StatusService.PostImportEvent(EventSeverity.Error, "Error");
-            _StatusService.PostImportEvent(EventSeverity.Error, "ErrorWithArg", 1);
+            _ActivityService.PostImportEvent(EventSeverity.Error, "Error");
+            _ActivityService.PostImportEvent(EventSeverity.Error, "ErrorWithArg", 1);
 
             await Task.Delay(TimeSpan.FromMilliseconds(-1), cancellationToken).ConfigureAwait(false);
         }
