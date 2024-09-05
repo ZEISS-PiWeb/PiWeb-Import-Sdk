@@ -2,6 +2,8 @@
 layout: default
 nav_order: 7
 title: Troubleshooting
+
+nav_exclude: true
 ---
 
 # {{ page.title }}

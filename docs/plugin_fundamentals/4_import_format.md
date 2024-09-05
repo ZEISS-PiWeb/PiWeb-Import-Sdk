@@ -5,8 +5,6 @@ parent: Plug-in fundamentals
 title: Import format
 ---
 
-# {{ page.title }}
-
 <!---
 Ziele:
 - Hinweise zur Implementierung des Modultyps geben (insbesondere Dateigruppierung, Parsen, Prüfplan bauen)
@@ -23,7 +21,8 @@ Inhalt:
         - AttributeTemplates erklären
 --->
 
-This article describes the implementation of an import format plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/2_plugin_type.md %}). The focus in this arcticle is on the implementation of the grouping and parsing functionality. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/3_manifest.md %}). The development of a simple example for an import format plug-in can be found in [Create your first import format]({% link docs/advanced_topics/5_project_template.md %}).
+# {{ page.title }}
+This article describes the implementation of an import format plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/2_plugin_type.md %}). The focus in this arcticle is on the implementation of the grouping and parsing functionality. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/3_manifest.md %}). The development of a simple example for an import format plug-in can be found in [Create your first import format]({% link docs/getting_started/2_import_format.md %}).
 
 ## Implementing IImportFormat
 The interface `IImportFormat` represents the import format that should be added as a new format for the Auto Importer via the plug-in. Each import format plug-in needs an implementation of the `IImportFormat` interface. An instance of the implementation of this interfaces has to be returned in the method `CreateImportFormat` of the class which implements the `IPlugin` interface like in the following example.
