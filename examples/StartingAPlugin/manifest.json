@@ -1,0 +1,20 @@
+{
+    "id": "Zeiss.StartingAPlugin",
+    "version": "1.0.0",
+    "title": "Starting a plug-in",
+    "description": "This is a documentation plug-in to demonstrate how to start a first plug-in.",
+
+    "contact": "info.metrology.de@zeiss.com",
+    "documentation": "https://zeiss-piweb.github.io/PiWeb-Import-Sdk/",
+    "homepage": "https://www.zeiss.de/messtechnik/produkte/software/piweb.html",
+    "issueTracker": "https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/issues",
+    "licenseName": "BSD-3-Clause",
+    "licenseUrl": "https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/blob/develop/LICENSE.txt",
+    "sourceCode": "https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk",
+
+    "provides": {
+        "type": "ImportAutomation",
+        "displayName": "Our custom import source",
+        "summary": "This import automation does only change the status and activity of an import plan."
+    }
+}
