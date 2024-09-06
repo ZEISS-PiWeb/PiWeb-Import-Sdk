@@ -1,0 +1,11 @@
+{
+    "id": "Zeiss.FirstImportAutomation",
+    "title": "FirstImportAutomation",
+    "description": "This plug-in is used in the Import SDK documentation to create an initial import automation.",
+
+    "provides": {
+        "type": "ImportAutomation",
+        "displayName": "FirstImportAutomation",
+        "summary": "This automation checks a given PiWeb server for the existence of the 'FirstImportAutomationPart' part below the root node."
+    }
+}
