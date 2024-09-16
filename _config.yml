@@ -9,10 +9,10 @@ url: https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk
 
 # Aux links for the upper right navigation
 aux_links:
-  "ZEISS PiWeb":
-    - "//www.zeiss.com/metrology/products/software/piweb.html"
+  "PiWeb Import SDK 1.0":
+    - "https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk"
 
-aux_links_new_tab: true
+aux_links_new_tab: false
 
 callouts:
   note:

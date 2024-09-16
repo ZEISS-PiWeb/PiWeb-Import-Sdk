@@ -1,0 +1,19 @@
+#content-header-bar {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#content-title {
+  margin-top: -1rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.framed {
+  box-shadow: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px dashed black;
+}

@@ -1,24 +1,33 @@
 ---
-title: Home
+title: Introduction
 layout: home
 nav_order: 1
 ---
 
-# Welcome to PiWeb Import SDK documentation
-![PiWeb hero image](assets/images/zeiss_piweb_heroimage.jpg "PiWeb")
+<!---
+Aim:
+- Give a short explanation of what the context of this SDK
+  - What is PiWeb
+  - What is the Auto Importer, why is it needed
+  - What is the import sdk used for
+  - Why do we need plugins
+- Explain what this documentation aims to do
+- Explain the basic structure of the documentation 
+--->
 
-Welcome to our Import SDK documentation. This handbook is designed to walk you through the essential steps to quickly set up your development environment and get started with building plug-ins, choosing plug-in types, creating import formats and import automations.
+# Introduction
 
-The PiWeb-Import-Sdk is the basic framework for creating your own import plug-ins for the PiWeb Auto Importer. By creating plug-ins, it is possible to automate the data import of your own custom file formats or even import data from other sources like REST-APIs or databases.
+[ZEISS PiWeb software](https://www.zeiss.de/messtechnik/produkte/software/piweb.html){:target="_blank"} is a set of applications to store, manage and evaluate measurement data usually used for quality assurance in industrial production and other fields. While the PiWeb backend stores data in a structured way and makes it available to the network, PiWeb clients provide statistical and graphical evaluation and reporting. Data to be stored in PiWeb often comes directly from measuring machines producing output files of various formats containing measurement values. To always have current measurement data available, the import of these files needs to be automated.
 
-### What is the PiWeb Auto Importer?
-The PiWeb Auto Importer is an application of the [ZEISS PiWeb software](https://www.zeiss.de/messtechnik/produkte/software/piweb.html){:target="_blank"}. PiWeb applications enable the management, provision and evaluation of measurement data typically encountered in the field of industrial measurement technology.
+PiWeb Auto Importer (as part of ZEISS PiWeb software) is an application that allows to automate the import of data files by watching one or more filesystem folders and automatically uploading the measurements of any file that appears in these folders. 
 
-The measurement data to manage, however, is provided by sources like measuring machines. To make such measurement data available for evaluation in PiWeb applications, it needs to be imported from its source into the PiWeb data backend. Most commonly measuring machines output their measurements as files in the file system. In this case, the Auto Importer can be used to automate the import and backup of such measurement files as soon as they appear. It provides a configuration UI and can be setup to run either as an application in the background or even fully automated as a Windows service.
+![Measuring flow](../assets/images/setup/2_measuring_flow.png "Measuring flow"){: .framed }
 
-### Why write an import plug-in?
-While the Auto Importer has built-in support for most common file formats of measurement data, it does not know how to handle more customer specific file formats. Plug-ins can be used to add seamless support for such custom formats while still leaving the tasks of file detection, file backup and windows service management to the Auto Importer.
+Although PiWeb Auto Importer understands most of the common formats typically output by measuring machines, support for customer specific file formats or entirely different data sources like REST services is often required. For this reason PiWeb Auto Importer can be extended via custom plugins. The PiWeb Import SDK is used to write such custom plugins.
 
-Another use case for writing plug-ins is importing data from sources other than files such as rest services or databases.
+This documentation will give you the necessary tools to write your own PiWeb Auto Importer plugins. It will also help you to understand the inner concepts and workings of such plugins and the infrastructure provided by PiWeb Auto Importer for configuring imports, running windows services and monitoring the configured imports.
 
-Setup your needed environment: [Setup]({% link docs/setup/1_import_target.md %}).
+In the next section [Setup]({% link docs/setup/index.md %}) we will show you everything necessary for getting your development environment ready to write plugins. In [Getting Started]({% link docs/getting_started/index.md %}) we will write a first very simple plugin. After that, [Plugin Fundamentals]({% link docs/plugin_fundamentals/index.md %}) covers more detailed explanations for the most important aspects of writing plugins. The following section [Advanced Topics]({% link docs/advanced_topics/index.md %}) focuses on making plugins more customizable. Finally [Troubleshooting]({% link docs/troubleshooting.md %}) focuses on analyzing and debugging your plugins.
+
+{: .note }
+This document is still a draft. Some content is still missing and existing content needs a final revision.
