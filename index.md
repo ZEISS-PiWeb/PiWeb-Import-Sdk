@@ -21,7 +21,7 @@ Aim:
 
 PiWeb Auto Importer (as part of ZEISS PiWeb software) is an application that allows to automate the import of data files by watching one or more filesystem folders and automatically uploading the measurements of any file that appears in these folders. 
 
-![Measuring flow](../assets/images/setup/2_measuring_flow.png "Measuring flow"){: .framed }
+![Measuring flow](assets/images/setup/2_measuring_flow.png "Measuring flow"){: .framed }
 
 Although PiWeb Auto Importer understands most of the common formats typically output by measuring machines, support for customer specific file formats or entirely different data sources like REST services is often required. For this reason PiWeb Auto Importer can be extended via custom plugins. The PiWeb Import SDK is used to write such custom plugins.
 
