@@ -24,14 +24,14 @@ namespace Zeiss.FirstImportAutomation;
 public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 {
     /// <summary>
-    ///     Defined name for the part under which import is to take place.
+    /// Defined name for the part under which import is to take place.
     /// </summary>
     private const string TargetPartName = "FirstImportAutomationPart";
 
     /// <summary>
-    ///     IActivityService, retrieved by ICreateImportRunnerContext for later use.
+    /// IActivityService, retrieved by ICreateImportRunnerContext for later use.
     /// </summary>
-    private readonly IActivityService _statusService = context.ActivityService;
+    private readonly IActivityService _activityService = context.ActivityService;
 
     public async Task RunAsync(CancellationToken cancellationToken)
     {
@@ -63,7 +63,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
             while (!cancellationToken.IsCancellationRequested)
             {
                 // Inform user that the plug-in is currently active
-                _statusService.SetActivity(
+                _activityService.SetActivity(
                     new ActivityProperties()
                     {
                         ActivityType = ActivityType.Normal,
@@ -80,7 +80,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
                 {
                     // Part is known in database
 
-                    _statusService.SetActivity(
+                    _activityService.SetActivity(
                         new ActivityProperties()
                         {
                             ActivityType = ActivityType.Normal,
@@ -93,7 +93,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
                 {
                     // Part is unknown in database
 
-                    _statusService.SetActivity(
+                    _activityService.SetActivity(
                         new ActivityProperties()
                         {
                             ActivityType = ActivityType.Suspension,
