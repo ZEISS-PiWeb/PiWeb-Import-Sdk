@@ -6,6 +6,8 @@
   "type": "object",
   "properties": {
     "$schema": {
+      "title": "Schema",
+      "description": "Pointer to the schema against which this document should be validated.",
       "type": "string"
     },
     "translation": {
@@ -21,16 +23,19 @@
           "type": "string"
         },
         "homepage": {
-          "description": "The localization for the plug-in homepage. This can be used to provide language specific URLs if necessary.",
-          "type": "string"
+          "description": "The localization for the plug-in homepage address. This can be used to provide language specific homepage URLs if necessary.",
+          "type": "string",
+          "format": "uri-reference"
         },
         "contact": {
-          "description": "The localization for the plug-in contact.",
-          "type": "string"
+          "description": "The localization for the plug-in contact. This can be used to provide language specific contact addresses.",
+          "type": "string",
+          "format": "email"
         },
         "documentation": {
-          "description": "The localization for the plug-in documentation.",
-          "type": "string"
+          "description": "The localization for the plug-in documentation address. This can be used to provide language specific documentation URLs if necessary.",
+          "type": "string",
+          "format": "uri-reference"
         },
         "provides.displayName": {
           "description": "The localization for the display name of the provided import automation or import format.",

@@ -10,130 +10,86 @@
     "description",
     "provides"
   ],
-  "additionalProperties": true,
   "properties": {
     "$schema": {
-      "type": "string",
       "title": "Schema",
-      "description": "Pointer to the schema against which this document should be validated."
-    },
-    "id": {
-      "description": "The unique identifier of the plug-in",
+      "description": "Pointer to the schema against which this document should be validated.",
       "type": "string"
     },
+    "id": {
+      "title": "Plugin ID",
+      "description": "The unique identifier of the plug-in.",
+      "type": "string",
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-zA-Z0-9-_.]+$"
+    },
     "assemblyPath": {
-      "description": "The path to the plug-in assembly.",
-      "format": "uri-reference",
-      "pattern": ".*\\.dll$",
+      "description": "The path to the plug-in assembly. This path must be relative to the folder containing the manifest and must not contain any \"..\" path segments. If this property is not defined, the plug-in assembly is assumed to be in the same folder as the manifest and named like the plug-in id. E.g.: \"MyPluginId.dll\"",
       "type": "string"
     },
     "localesPath": {
-      "description": "A custom path to the plug-in's localizations. Default is the folder 'locales'.",
-      "format": "uri-reference",
+      "description": "The path to the plug-in localization folder. This path must be relative to the folder containing the manifest and must not contain any \"..\" path segments. Default is the folder 'locales'. If this property is not defined, the localization folder is assumed to be named \"locales\" in the same folder as the manifest.",
       "type": "string"
     },
     "author": {
-      "description": "The author of the plug-in",
+      "description": "The author of the plug-in.",
       "type": "string"
     },
     "company": {
-      "description": "The company that provided the plug-in",
+      "description": "The company that provided the plug-in.",
       "type": "string"
     },
     "contact": {
-      "description": "The contact email address of the plug-in author or company",
-      "format": "email",
-      "pattern": "^[\\w-\\\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
-      "type": "string"
+      "description": "The contact email address of the plug-in author or company.",
+      "type": "string",
+      "format": "email"
     },
     "homepage": {
-      "description": "The homepage with details for the plug-in",
-      "format": "uri-reference",
-      "pattern": "https?:\/\/(www\\.)?[-a-zA-Z0-9@:%._\\\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\\\+.~#?&/=]*)",
-      "type": "string"
+      "description": "The address of the homepage for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"
     },
     "issueTracker": {
-      "description": "The issue tracker for the plug-in",
-      "format": "uri-reference",
-      "pattern": "https?:\/\/(www\\.)?[-a-zA-Z0-9@:%._\\\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\\\+.~#?&/=]*)",
-      "type": "string"
+      "description": "The address of the issue tracker for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"
     },
     "licenseName": {
-      "description": "The licence type of the plug-in",
-      "type": "string",
-      "enum": [
-        "AFL-3.0",
-        "Apache-2.0",
-        "Artistic-2.0",
-        "BSL-1.0",
-        "BSD 2-Clause",
-        "BSD-3-Clause",
-        "BSD-3-Clause-Clear",
-        "BSD-4-Clause",
-        "0BSD",
-        "CC",
-        "CC0-1.0",
-        "CC-BY-4.0",
-        "CC-BY-SA-4.0",
-        "WTFPL",
-        "ECL-2.0",
-        "EPL-1.0",
-        "EPL-2.0",
-        "EUPL-1.1",
-        "AGPL-3.0",
-        "GPL",
-        "GPL-2.0",
-        "GPL-3.0",
-        "LGPL",
-        "LGPL-2.1",
-        "LGPL-3.0",
-        "ISC",
-        "LPPL-1.3c",
-        "MS-PL",
-        "MIT",
-        "MPL-2.0",
-        "OSL-3.0",
-        "PostgreSQL",
-        "OFL-1.1",
-        "NCSA",
-        "Unlicense",
-        "Zlib"
-      ]
+      "description": "The name of the licence of the plug-in.",
+      "type": "string"
     },
     "licenseUrl": {
-      "description": "The licence url for the plug-in",
-      "format": "uri-reference",
-      "pattern": "https?:\/\/(www\\.)?[-a-zA-Z0-9@:%._\\\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\\\+.~#?&/=]*)",
-      "type": "string"
+      "description": "The address of the license of the plug-in.",
+      "type": "string",
+      "format": "uri-reference"      
     },
     "sourceCode": {
-      "description": "The source code url for the plug-in",
-      "format": "uri-reference",
-      "pattern": "https?:\/\/(www\\.)?[-a-zA-Z0-9@:%._\\\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\\\+.~#?&/=]*)",
-      "type": "string"
+      "description": "The address of the source code for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"      
     },
     "documentation": {
-      "description": "The documentation url for the plug-in",
-      "format": "uri-reference",
-      "pattern": "https?:\/\/(www\\.)?[-a-zA-Z0-9@:%._\\\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\\\+.~#?&/=]*)",
-      "type": "string"
+      "description": "The address of the documentation for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"      
     },
     "version": {
-      "description": "The version of the plug-in",
+      "description": "The plug-in version. This must be a valid semver version (https://semver.org/lang/de/). This version is used to determine plug-in upgrades and downgrades.",
       "type": "string",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
-      "$comment": "Pattern source was https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string but simplified"
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-((0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\\+([0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*))?$",
+      "$comment": "Pattern source was https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string but without capture information."
     },
     "title": {
-      "description": "The title of the plug-in",
+      "description": "The title of the plug-in.",
       "type": "string"
     },
     "description": {
-      "description": "The description of the plug-in",
+      "description": "The description of the plug-in.",
       "type": "string"
     },
     "provides": {
-      "oneOf": [
+      "anyOf": [
         {
           "type": "object",
           "required": [
@@ -141,19 +97,18 @@
             "displayName",
             "summary"
           ],
-          "additionalProperties": false,
           "properties": {
             "type": {
-              "const": "ImportAutomation",
-              "description": "The type of the plug-in is an import automation"
+              "description": "The plugin provides an import automation.",
+              "const": "ImportAutomation"              
             },
             "displayName": {
-              "type": "string",
-              "description": "The display name of the plug-in import automation"
+              "description": "The display name of the import automation.",
+              "type": "string"              
             },
             "summary": {
-              "type": "string",
-              "description": "The summary of the plug-in import automation"
+              "description": "The summary of the import automation.",
+              "type": "string"              
             }
           }
         },
@@ -163,23 +118,26 @@
             "type",
             "displayName"
           ],
-          "additionalProperties": false,
           "properties": {
             "type": {
-              "const": "ImportFormat",
-              "description": "The type of the plug-in is an import format"
+              "description": "The plugin provides an import format.",
+              "const": "ImportFormat"
             },
             "displayName": {
-              "type": "string",
-              "description": "The display name of the plug-in import format"
+              "description": "The display name of the import format.",
+              "type": "string"
             },
             "defaultPriority": {
-              "type": "integer",
-              "description": "The default priority of the plug-in import format execution. Built-in formats are using the range 100-1000. If the priority of a format is less than 100 then it is able to handle import files before the built-in formats. If the priority of a format is greater than 1000 the format will only be used if no built-in format handles the file."
+              "description": "The default priority of the import format. Import formats are processed in order of their priority. Any built-in import formats are guaranteed to be in the range of 100-1000. If the priority of a format is less than 100 then it is able to handle import files before the built-in formats. If the priority of a format is greater than 1000 the format will only be used if no built-in format handles the file.",
+              "type": "integer"              
             },
             "fileExtensions": {
+              "description": "The associated file extensions of this format. This information is used to create masks for file selection dialogs. E.g. [\".txt\", \".csv\"]. Wildcards may not be inserted.",
               "type": "array",
-              "description": "The associated file extensions of this format. This information is used to create masks for file selection dialogs. E.g. [\".txt\", \".csv\"]. Wildcards are not supported."
+              "uniqueItems" : true,
+              "items": {
+                "type": "string"
+              }             
             }
           }
         }
