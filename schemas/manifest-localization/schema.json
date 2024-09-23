@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PiWebImportPluginManifestLocalizationSchema",
+  "title": "PiWeb import plug-in manifest localization schema",
+  "description": "Describes the localization file for a PiWeb import plug-in manifest.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "translation": {
+      "type": "object",
+      "description": "The list of localizations for the plug-in.",
+      "properties": {
+        "title": {
+          "description": "The localization for the plug-in title.",
+          "type": "string"
+        },
+        "description": {
+          "description": "The localization for the plug-in description.",
+          "type": "string"
+        },
+        "homepage": {
+          "description": "The localization for the plug-in homepage. This can be used to provide language specific URLs if necessary.",
+          "type": "string"
+        },
+        "contact": {
+          "description": "The localization for the plug-in contact.",
+          "type": "string"
+        },
+        "documentation": {
+          "description": "The localization for the plug-in documentation.",
+          "type": "string"
+        },
+        "provides.displayName": {
+          "description": "The localization for the display name of the provided import automation or import format.",
+          "type": "string"
+        },
+        "provides.summary": {
+          "description": "The localization for the summary of the provided import automation.",
+          "type": "string"
+        }
+      }
+    }    
+  }
+}
