@@ -16,8 +16,13 @@
       "description": "Pointer to the schema against which this document should be validated.",
       "type": "string"
     },
+    "manifestVersion": {
+      "title": "Manifest version",
+      "description": "The version of the manifest file.",
+      "const": 1
+    },
     "id": {
-      "title": "Plugin ID",
+      "title": "Plug-in ID",
       "description": "The unique identifier of the plug-in.",
       "type": "string",
       "maxLength": 48,
@@ -99,7 +104,7 @@
           ],
           "properties": {
             "type": {
-              "description": "The plugin provides an import automation.",
+              "description": "The type of module this plug-in provides. Either \"ImportAutomation\" or \"ImportFormat\".",
               "const": "ImportAutomation"              
             },
             "displayName": {
@@ -120,11 +125,11 @@
           ],
           "properties": {
             "type": {
-              "description": "The plugin provides an import format.",
+              "description": "The type of module this plug-in provides. Either \"ImportAutomation\" or \"ImportFormat\".",
               "const": "ImportFormat"
             },
             "displayName": {
-              "description": "The display name of the import format.",
+              "description": "The display name of the import autmation or import format.",
               "type": "string"
             },
             "defaultPriority": {
