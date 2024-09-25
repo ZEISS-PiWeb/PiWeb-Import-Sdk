@@ -1,9 +1,10 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "PiWebImportPluginManifestSchema",
   "title": "PiWeb import plug-in manifest schema",
   "description": "Describes a PiWeb import plug-in manifest.",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "id",
     "title",
@@ -67,17 +68,17 @@
     "licenseUrl": {
       "description": "The address of the license of the plug-in.",
       "type": "string",
-      "format": "uri-reference"      
+      "format": "uri-reference"
     },
     "sourceCode": {
       "description": "The address of the source code for the plug-in.",
       "type": "string",
-      "format": "uri-reference"      
+      "format": "uri-reference"
     },
     "documentation": {
       "description": "The address of the documentation for the plug-in.",
       "type": "string",
-      "format": "uri-reference"      
+      "format": "uri-reference"
     },
     "version": {
       "description": "The plug-in version. This must be a valid semver version (https://semver.org/lang/de/). This version is used to determine plug-in upgrades and downgrades.",
@@ -86,67 +87,93 @@
       "$comment": "Pattern source was https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string but without capture information."
     },
     "title": {
-      "description": "The title of the plug-in.",
+      "description": "The title of the plug-in. Used to display the plug-in when managing plug-ins.",
       "type": "string"
     },
     "description": {
-      "description": "The description of the plug-in.",
+      "description": "The description of the plug-in. Used to show more information about the plug-in when managing plug-ins.",
       "type": "string"
     },
     "provides": {
-      "anyOf": [
-        {
-          "type": "object",
-          "required": [
-            "type",
-            "displayName",
-            "summary"
-          ],
-          "properties": {
-            "type": {
-              "description": "The type of module this plug-in provides. Either \"ImportAutomation\" or \"ImportFormat\".",
-              "const": "ImportAutomation"              
-            },
-            "displayName": {
-              "description": "The display name of the import automation.",
-              "type": "string"              
-            },
-            "summary": {
-              "description": "The summary of the import automation.",
-              "type": "string"              
-            }
+      "description": "Contains more information about the import format or import automation provided by this plug-in.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "description": "Specifies whether this plug-in provides an import format or an import automation.",
+          "type": "string",
+          "enum": [
+            "ImportAutomation",
+            "ImportFormat"
+          ]
+        }
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "ImportAutomation"
           }
-        },
-        {
-          "type": "object",
-          "required": [
-            "type",
-            "displayName"
-          ],
-          "properties": {
-            "type": {
-              "description": "The type of module this plug-in provides. Either \"ImportAutomation\" or \"ImportFormat\".",
-              "const": "ImportFormat"
-            },
-            "displayName": {
-              "description": "The display name of the import autmation or import format.",
+        }
+      },
+      "then": {
+        "additionalProperties": false,
+        "required": [
+          "displayName",
+          "summary"
+        ],
+        "properties": {
+          "type": {
+            "description": "Specifies whether this plug-in provides an import format or an import automation.",
+            "type": "string",
+            "enum": [
+              "ImportAutomation",
+              "ImportFormat"
+            ]
+          },
+          "displayName": {
+            "description": "The name to be used to display the provided import automation.",
+            "type": "string"
+          },
+          "summary": {
+            "description": "A short description of what the provided import automation does. Used for display purposes.",
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "additionalProperties": false,
+        "required": [
+          "displayName"
+        ],
+        "properties": {
+          "type": {
+            "description": "Specifies whether this plug-in provides an import format or an import automation.",
+            "type": "string",
+            "enum": [
+              "ImportAutomation",
+              "ImportFormat"
+            ]
+          },
+          "displayName": {
+            "description": "The name to be used to display the provided import format.",
+            "type": "string"
+          },
+          "defaultPriority": {
+            "description": "The default priority of the provided import format. Import formats are processed in order of their priority. Any built-in import formats are guaranteed to be in the range of 100-10000. If the priority of a format is less than 100 then it is able to handle import files before the built-in formats. If the priority of a format is greater than 10000 the format will only be used if no built-in format handles the file.",
+            "type": "integer"
+          },
+          "fileExtensions": {
+            "description": "The associated file extensions of the provided import format. This information is used to create masks for file selection dialogs. E.g. [\".txt\", \".csv\"]. Wildcards may not be inserted.",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
               "type": "string"
-            },
-            "defaultPriority": {
-              "description": "The default priority of the import format. Import formats are processed in order of their priority. Any built-in import formats are guaranteed to be in the range of 100-1000. If the priority of a format is less than 100 then it is able to handle import files before the built-in formats. If the priority of a format is greater than 1000 the format will only be used if no built-in format handles the file.",
-              "type": "integer"              
-            },
-            "fileExtensions": {
-              "description": "The associated file extensions of this format. This information is used to create masks for file selection dialogs. E.g. [\".txt\", \".csv\"]. Wildcards may not be inserted.",
-              "type": "array",
-              "uniqueItems" : true,
-              "items": {
-                "type": "string"
-              }             
             }
           }
         }
-      ]
+      }
     }
   }
 }
