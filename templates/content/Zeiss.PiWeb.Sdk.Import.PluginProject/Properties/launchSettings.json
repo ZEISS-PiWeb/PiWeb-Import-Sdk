@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AutoImporter": {
+      "commandName": "Executable",
+      "workingDirectory": "$(ProjectDir)",
+      "executablePath": "%ProgramFiles%\\Zeiss\\PiWeb\\AutoImporter.exe",
+      "commandLineArgs": "-pluginSearchPaths $(OutDir)"
+    }
+  }
+}
