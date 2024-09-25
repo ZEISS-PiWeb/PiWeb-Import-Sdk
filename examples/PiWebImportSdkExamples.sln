@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstImportFormat", "FirstImportFormat\FirstImportFormat.csproj", "{21224634-FEEC-48B7-9B9E-355CC20B1B85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{F24BEAEE-81F7-4A28-922E-4D10E3EE1CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F24BEAEE-81F7-4A28-922E-4D10E3EE1CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F24BEAEE-81F7-4A28-922E-4D10E3EE1CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21224634-FEEC-48B7-9B9E-355CC20B1B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21224634-FEEC-48B7-9B9E-355CC20B1B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21224634-FEEC-48B7-9B9E-355CC20B1B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21224634-FEEC-48B7-9B9E-355CC20B1B85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
