@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Zeiss.PiWeb.Sdk.Import.ProjectTemplates</PackageId>
+    <Title>PiWeb-Import-Sdk Project Templates</Title>
+    <Company>Carl Zeiss Industrielle Messtechnik GmbH</Company>
+    <Authors>$(Company)</Authors>
+    <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) $(Company)</Copyright>
+    <Description>Project templates for creating new plugins for the PiWeb-Import-Sdk.</Description>
+    <PackageTags>dotnet-new;templates;zeiss;piweb;auto importer;plugin;import;sdk</PackageTags>
+    <PackageIcon>logo_128x128.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)\</PackageOutputPath>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="content\**" PackagePath="content" Exclude="content\**\bin\**;content\**\obj\**" />
+    <None Include="..\img\logo_128x128.png" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+</Project>
