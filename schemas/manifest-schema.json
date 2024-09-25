@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "PiWebImportPluginManifestSchema",
+  "title": "PiWeb import plug-in manifest schema",
+  "description": "Describes a PiWeb import plug-in manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "description",
+    "provides"
+  ],
+  "properties": {
+    "$schema": {
+      "title": "Schema",
+      "description": "Pointer to the schema against which this document should be validated.",
+      "type": "string"
+    },
+    "manifestVersion": {
+      "title": "Manifest version",
+      "description": "The version of the manifest file.",
+      "const": 1
+    },
+    "id": {
+      "title": "Plug-in ID",
+      "description": "The unique identifier of the plug-in.",
+      "type": "string",
+      "maxLength": 48,
+      "minLength": 1,
+      "pattern": "^[a-zA-Z0-9-_.]+$"
+    },
+    "assemblyPath": {
+      "description": "The path to the plug-in assembly. This path must be relative to the folder containing the manifest and must not contain any \"..\" path segments. If this property is not defined, the plug-in assembly is assumed to be in the same folder as the manifest and named like the plug-in id. E.g.: \"MyPluginId.dll\"",
+      "type": "string"
+    },
+    "localesPath": {
+      "description": "The path to the plug-in localization folder. This path must be relative to the folder containing the manifest and must not contain any \"..\" path segments. Default is the folder 'locales'. If this property is not defined, the localization folder is assumed to be named \"locales\" in the same folder as the manifest.",
+      "type": "string"
+    },
+    "author": {
+      "description": "The author of the plug-in.",
+      "type": "string"
+    },
+    "company": {
+      "description": "The company that provided the plug-in.",
+      "type": "string"
+    },
+    "contact": {
+      "description": "The contact email address of the plug-in author or company.",
+      "type": "string",
+      "format": "email"
+    },
+    "homepage": {
+      "description": "The address of the homepage for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "issueTracker": {
+      "description": "The address of the issue tracker for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "licenseName": {
+      "description": "The name of the licence of the plug-in.",
+      "type": "string"
+    },
+    "licenseUrl": {
+      "description": "The address of the license of the plug-in.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "sourceCode": {
+      "description": "The address of the source code for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "documentation": {
+      "description": "The address of the documentation for the plug-in.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "version": {
+      "description": "The plug-in version. This must be a valid semver version (https://semver.org/lang/de/). This version is used to determine plug-in upgrades and downgrades.",
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-((0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\\+([0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*))?$",
+      "$comment": "Pattern source was https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string but without capture information."
+    },
+    "title": {
+      "description": "The title of the plug-in. Used to display the plug-in when managing plug-ins.",
+      "type": "string"
+    },
+    "description": {
+      "description": "The description of the plug-in. Used to show more information about the plug-in when managing plug-ins.",
+      "type": "string"
+    },
+    "provides": {
+      "description": "Contains more information about the import format or import automation provided by this plug-in.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "description": "Specifies whether this plug-in provides an import format or an import automation.",
+          "type": "string",
+          "enum": [
+            "ImportAutomation",
+            "ImportFormat"
+          ]
+        }
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "ImportAutomation"
+          }
+        }
+      },
+      "then": {
+        "additionalProperties": false,
+        "required": [
+          "displayName",
+          "summary"
+        ],
+        "properties": {
+          "type": {
+            "description": "Specifies whether this plug-in provides an import format or an import automation.",
+            "type": "string",
+            "enum": [
+              "ImportAutomation",
+              "ImportFormat"
+            ]
+          },
+          "displayName": {
+            "description": "The name to be used to display the provided import automation.",
+            "type": "string"
+          },
+          "summary": {
+            "description": "A short description of what the provided import automation does. Used for display purposes.",
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "additionalProperties": false,
+        "required": [
+          "displayName"
+        ],
+        "properties": {
+          "type": {
+            "description": "Specifies whether this plug-in provides an import format or an import automation.",
+            "type": "string",
+            "enum": [
+              "ImportAutomation",
+              "ImportFormat"
+            ]
+          },
+          "displayName": {
+            "description": "The name to be used to display the provided import format.",
+            "type": "string"
+          },
+          "defaultPriority": {
+            "description": "The default priority of the provided import format. Import formats are processed in order of their priority. Any built-in import formats are guaranteed to be in the range of 100-10000. If the priority of a format is less than 100 then it is able to handle import files before the built-in formats. If the priority of a format is greater than 10000 the format will only be used if no built-in format handles the file.",
+            "type": "integer"
+          },
+          "fileExtensions": {
+            "description": "The associated file extensions of the provided import format. This information is used to create masks for file selection dialogs. E.g. [\".txt\", \".csv\"]. Wildcards may not be inserted.",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

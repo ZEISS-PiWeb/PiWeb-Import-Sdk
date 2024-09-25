@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Zeiss",
+  "classifications": [ "Zeiss", "PiWeb", "Auto Importer" ], 
+  "name": "PiWeb-Import-Sdk Plugin",
+  "description": "Project for creating a new plugin for the PiWeb-Import-Sdk",
+  "identity": "Zeiss.PiWeb.Sdk.Import.PluginProject",
+  "shortName": "piweb-import-plugin",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "Zeiss.PiWeb.Sdk.Import.PluginProject",
+  "preferNameDirectory" : true,
+  "symbols":{
+    "PluginType": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "The type of plugin.",
+      "displayName": "Plugin type",
+      "defaultValue": "importFormat",
+      "choices": [
+        {
+          "choice": "ImportFormat",
+          "displayName": "Import format",
+          "description": "Create import format plugin"
+        },
+        {
+          "choice": "ImportAutomation",
+          "displayName": "Import automation",
+          "description": "Create import automation plugin"
+        }
+      ]
+    },
+    "UseFormatModule": {
+      "type": "computed",
+      "value": "(PluginType == \"ImportFormat\")"
+    },
+    "UseAutomationModule": {
+      "type": "computed",
+      "value": "(PluginType == \"ImportAutomation\")"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "UseFormatModule",
+          "exclude": [
+            "ImportAutomation.cs",
+            "ImportRunner.cs",
+            "AutomationConfiguration.cs"
+          ]
+        },
+        {
+          "condition": "UseAutomationModule",
+          "exclude": [
+            "ImportFormat.cs",
+            "ImportParser.cs"
+          ]
+        }
+      ]
+    }
+  ]
+}

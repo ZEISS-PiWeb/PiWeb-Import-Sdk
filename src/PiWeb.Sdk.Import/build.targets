@@ -1,0 +1,33 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <PropertyGroup>
+    <!-- Whether to create a .pip package file when building -->
+    <GeneratePluginPackageOnBuild Condition=" '$(GeneratePluginPackageOnBuild)' == '' ">false</GeneratePluginPackageOnBuild>
+  </PropertyGroup>
+
+  <!-- Calls _GeneratePluginPackage after building when 'GeneratePluginPackageOnBuild' == true -->
+  <Target Name="PackPluginAfterBuild"
+          AfterTargets="Build"
+          Condition=" '$(GeneratePluginPackageOnBuild)' == 'true' "
+          DependsOnTargets="_GeneratePluginPackage">
+  </Target>
+
+  <!-- This target can be manually called to pack the project as .pip package file -->
+  <Target Name="PackPlugin" 
+          DependsOnTargets="_GeneratePluginPackage">
+  </Target>
+
+  <!-- Creates a .pip package file for the project -->
+  <Target Name="_GeneratePluginPackage" 
+          DependsOnTargets="Build">
+    
+    <ZipDirectory SourceDirectory="$(OutputPath)"
+                  DestinationFile="$(PackageOutputPath)\$(AssemblyName)@$(Version).pip"
+                  Overwrite="true" />
+    
+    <Message Text="Successfully created plugin package '$(PackageOutputPath)\$(AssemblyName)@$(Version).pip'."
+             Importance="high" />
+             
+  </Target>
+  
+</Project>

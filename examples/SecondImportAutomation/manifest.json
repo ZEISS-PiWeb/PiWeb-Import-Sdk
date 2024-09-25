@@ -1,0 +1,12 @@
+{
+    "id": "Zeiss.SecondImportAutomation",
+    "version": "1.0.0",
+    "title": "SecondImportAutomation",
+    "description": "This plug-in is used in the Import SDK documentation to create an import automation.",
+
+    "provides": {
+        "type": "ImportAutomation",
+        "displayName": "SecondImportAutomation",
+        "summary": "This automation reads and writes parts and measurements to a given PiWeb Server."
+    }
+}

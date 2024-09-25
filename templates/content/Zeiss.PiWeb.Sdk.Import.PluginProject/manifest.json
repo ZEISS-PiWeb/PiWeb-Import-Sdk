@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
+  "id": "Zeiss.PiWeb.Sdk.Import.PluginProject",
+  "version": "1.0.0",
+  "title": "Zeiss.PiWeb.Sdk.Import.PluginProject",
+  "description": "TODO: Add description for Zeiss.PiWeb.Sdk.Import.PluginProject",
+
+  //#if (UseAutomationModule)
+  "provides": {
+    "type": "ImportAutomation",
+    "displayName": "Zeiss.PiWeb.Sdk.Import.PluginProject import automation",
+    "summary": "TODO: Add summary for import automation"
+  }
+  //#endif
+  //#if (UseFormatModule)
+  "provides": {
+    "type": "ImportFormat",
+    "displayName": "Zeiss.PiWeb.Sdk.Import.PluginProject import format"
+  }
+  //#endif
+}

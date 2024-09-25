@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Zeiss.PiWeb.Sdk.Import</AssemblyName>
+    <RootNamespace>Zeiss.PiWeb.Sdk</RootNamespace>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="NuGet package specifications">
+    <Version>1.0.0</Version>
+    <Title>ZEISS PiWeb Import SDK</Title>    
+    <AssemblyTitle>$(Title)</AssemblyTitle>    
+    <Product>$(Title)</Product>    
+    <Company>Carl Zeiss Industrielle Messtechnik GmbH</Company>
+    <Authors>$(Company)</Authors>
+    <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) $(Company)</Copyright>
+    <Description>An SDK that allows creating plugins for customized data import to PiWeb.</Description>
+    <Trademark>PiWeb</Trademark>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>ZEISS PiWeb Import SDK</PackageTags>
+    <PackageIcon>logo_128x128.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\readme.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\img\logo_128x128.png" Pack="true" PackagePath="\" />
+    <Content Include="build.targets" Pack="true" PackagePath="build/$(PackageId).targets" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="Zeiss.PiWeb.Sdk.Import.Tests" />
+  </ItemGroup>
+
+</Project>
