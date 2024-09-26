@@ -275,11 +275,11 @@ public class SimpleTxtImportParser : IImportParser
 The implementation of the example plug-in is now complete. Further information on implementing an import format plug-in can be found in the [Import format]({% link docs/plugin_fundamentals/4_import_format.md %}).
 
 ## Run your plug-in
-To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [Development settings]({% link docs/setup/3_development_settings.md %}). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.
+To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [Development settings]({% link docs/setup/4_development_settings.md %}). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.
 
 ![Plug-in management view](../../assets/images/getting_started/2_plugin_view_simpletxt.png "Plug-in management view")
 
-The functionality of the plug-in can be tested by importing the example file. Therefore create a new default import plan in the Auto Importer. In the import plan, select a connection with the PiWeb cloud or a PiWeb server (find more information in [Import destination]({% link docs/setup/1_import_target.md %})) and define an import folder where you place the example file. A configuration of the import plan could look like this:
+The functionality of the plug-in can be tested by importing the example file. Therefore create a new default import plan in the Auto Importer. In the import plan, select a connection with the PiWeb cloud or a PiWeb server (find more information in [PiWeb backend]({% link docs/setup/2_piweb_backend.md %})) and define an import folder where you place the example file. A configuration of the import plan could look like this:
 
 ![Auto Importer import plan](../../assets/images/getting_started/2_import_plan_settings.png "Auto Importer import plan")
 

@@ -31,7 +31,7 @@ Inhalt:
 
 ## Auto Importer plug-ins folder
 Plug-in folders must be placed under Auto Importer `"Plugins"` folder.\
-The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see [Development mode]({% link docs/setup/3_development_settings.md %})). As a rule, you therefore need admin rights to install and customize plug-ins.
+The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see [Development mode]({% link docs/setup/4_development_settings.md %})). As a rule, you therefore need admin rights to install and customize plug-ins.
 
 ## Start assembly
 The `assemblyPath` property in manifest.json defines the start assembly. If assemblyPath is not specified, the `id` is used to determine the name of the assembly.\
