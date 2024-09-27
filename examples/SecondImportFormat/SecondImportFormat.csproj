@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>
+    <RootNamespace>Zeiss.SecondImportFormat</RootNamespace>
+    <PackageId>Zeiss.SecondImportFormat</PackageId>
+    <Authors>Carl Zeiss IMT GmbH</Authors>
+    <Company>Carl Zeiss IMT GmbH</Company>
+    <Product>Zeiss.SecondImportFormat</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="manifest.json" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="SampleData/**" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
+  
+</Project>
