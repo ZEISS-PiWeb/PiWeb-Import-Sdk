@@ -8,12 +8,8 @@
 
 #endregion
 
-#region usings
-
 using Zeiss.PiWeb.Sdk.Import.ImportFiles;
 using Zeiss.PiWeb.Sdk.Import.Modules.ImportFormat;
-
-#endregion
 
 namespace Zeiss.SecondImportFormat;
 
