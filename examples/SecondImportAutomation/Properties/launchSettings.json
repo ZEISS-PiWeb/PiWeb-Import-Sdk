@@ -2,8 +2,9 @@
     "profiles": {
         "AutoImporter": {
             "commandName": "Executable",
-            "executablePath": "C:\\Program Files\\Zeiss\\PiWeb\\AutoImporter.exe",
-            "commandLineArgs": "-pluginSearchPaths $(MSBuildThisFileDirectory)\\bin\\Debug -language en"
+            "workingDirectory": "$(ProjectDir)",
+            "executablePath": "%ProgramFiles%\\Zeiss\\PiWeb\\AutoImporter.exe",
+            "commandLineArgs": "-pluginSearchPaths $(OutDir)"
         }
     }
 }

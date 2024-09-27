@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <AssemblyName>Zeiss.StartingAPlugin</AssemblyName>
-        <RootNamespace>Zeiss.StartingAPlugin</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>
+    <AssemblyName>Zeiss.StartingAPlugin</AssemblyName>
+    <RootNamespace>Zeiss.StartingAPlugin</RootNamespace>
+    <Authors>Carl Zeiss IMT GmbH</Authors>
+    <Company>Carl Zeiss IMT GmbH</Company>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <None Update="manifest.json" CopyToOutputDirectory="PreserveNewest"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime"/>
+    <PackageReference Include="Zeiss.PiWeb.Api.Rest" Version="9.0.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0-beta0058-97">
-            <Private>false</Private>
-            <ExcludeAssets>runtime</ExcludeAssets>
-        </PackageReference>
-
-        <PackageReference Include="Zeiss.PiWeb.Api.Rest" Version="8.4.0-beta0004-137" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Update="manifest.json" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
 
 </Project>

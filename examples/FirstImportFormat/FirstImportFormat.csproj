@@ -3,24 +3,21 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <AssemblyName>SimpleTxtFormat</AssemblyName>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>
     <RootNamespace>Zeiss.FirstImportFormat</RootNamespace>
-    <PackageId>Zeiss.FirstImportFormat</PackageId>
-    <Authors>Zeiss.FirstImportFormat</Authors>
-    <Company>Zeiss IMT GmbH</Company>
+    <Authors>Carl Zeiss IMT GmbH</Authors>
+    <Company>Carl Zeiss IMT GmbH</Company>
     <Product>Zeiss.FirstImportFormat</Product>
+    <PackageId>Zeiss.FirstImportFormat</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="manifest.json" CopyToOutputDirectory="PreserveNewest"/>
-    <None Update="SampleData/**" CopyToOutputDirectory="PreserveNewest"/>
+    <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0-beta0058-97">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
+    <None Update="manifest.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
-  
+
 </Project>
