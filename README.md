@@ -26,6 +26,6 @@ Getting started is as easy as creating a new C# project in your favorite IDE, ad
 ### Learn more
 
 * More information about the ZEISS PiWeb software can be found on the [PiWeb homepage](https://www.zeiss.de/messtechnik/produkte/software/piweb.html).
-* Our [import plugin documentation]() explains how to write plugins.
+* Our [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/) explains how to write plugins.
 * The [PiWeb domain model](https://zeiss-piweb.github.io/PiWeb-Api/general#gi-model) explains how data is structured in the backend. Import plugins create import data structured like this.
 * The [PiWeb-API](https://github.com/ZEISS-PiWeb/PiWeb-Api) is an open source implementation of the REST-API provided by the data backend. It may be used within import plugins if direct access to the backend is required.
