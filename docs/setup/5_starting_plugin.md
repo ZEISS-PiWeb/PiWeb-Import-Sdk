@@ -3,6 +3,8 @@ layout: default
 nav_order: 5
 parent: Setup
 title: Starting a plug-in
+
+nav_exclude: true
 ---
 
 # {{ page.title }}
