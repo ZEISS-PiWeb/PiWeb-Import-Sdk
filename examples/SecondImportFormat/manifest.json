@@ -1,0 +1,14 @@
+{
+  "id": "SimpleTxtFormatExtended",
+  "version": "1.0.0",
+  "title": "SimpleTxt Format Extended",
+  "description": "The SimpleTxt Format is a simple format for the demonstration of import format plug-ins. This is the extended version of the plug-in.",
+  "author": "Zeiss",
+  "provides": {
+    "type": "ImportFormat",
+    "displayName": "SimpleTxt",
+    "fileExtensions": [
+      ".txt"
+    ]
+  }
+}

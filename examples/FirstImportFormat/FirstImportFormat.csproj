@@ -5,14 +5,15 @@
     <Nullable>enable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>
-    <RootNamespace>Zeiss.FirstImportAutomation</RootNamespace>
+    <RootNamespace>Zeiss.FirstImportFormat</RootNamespace>
     <Authors>Carl Zeiss IMT GmbH</Authors>
     <Company>Carl Zeiss IMT GmbH</Company>
+    <Product>Zeiss.FirstImportFormat</Product>
+    <PackageId>Zeiss.FirstImportFormat</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime"/>
-    <PackageReference Include="Zeiss.PiWeb.Api.Rest" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

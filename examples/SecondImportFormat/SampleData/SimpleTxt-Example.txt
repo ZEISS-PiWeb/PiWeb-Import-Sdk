@@ -1,0 +1,7 @@
+#Header
+Date: 2024-08-14 14:39:05
+Text: Test measurement
+
+#Characteristic,Value
+CharA, 2.4
+CharB, 1.6
