@@ -1,14 +1,12 @@
 {
-  "id": "SimpleTxtFormatExtended",
-  "version": "1.0.0",
-  "title": "SimpleTxt Format Extended",
-  "description": "The SimpleTxt Format is a simple format for the demonstration of import format plug-ins. This is the extended version of the plug-in.",
-  "author": "Zeiss",
-  "provides": {
-    "type": "ImportFormat",
-    "displayName": "SimpleTxt",
-    "fileExtensions": [
-      ".txt"
-    ]
-  }
+    "id": "Zeiss.SecondImportFormat",
+    "version": "1.0.0",
+    "title": "Second Import Format",
+    "description": "This plug-in is used in the Import SDK documentation to create an import format plug-in. With this plug-in files of the SimpleTxt format can be imported.",
+    "provides": {
+        "type": "ImportFormat",
+        "displayName": "SimpleTxt",
+        "defaultPriority":  10,
+        "fileExtensions": [".txt"]
+    }
 }

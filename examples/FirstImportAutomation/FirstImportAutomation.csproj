@@ -8,6 +8,7 @@
     <RootNamespace>Zeiss.FirstImportAutomation</RootNamespace>
     <Authors>Carl Zeiss IMT GmbH</Authors>
     <Company>Carl Zeiss IMT GmbH</Company>
+    <AssemblyName>Zeiss.FirstImportAutomation</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

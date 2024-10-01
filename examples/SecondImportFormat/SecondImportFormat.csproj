@@ -10,6 +10,7 @@
     <Authors>Carl Zeiss IMT GmbH</Authors>
     <Company>Carl Zeiss IMT GmbH</Company>
     <Product>Zeiss.SecondImportFormat</Product>
+    <AssemblyName>Zeiss.SecondImportFormat</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

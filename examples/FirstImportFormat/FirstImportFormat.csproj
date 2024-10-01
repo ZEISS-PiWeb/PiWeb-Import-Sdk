@@ -10,6 +10,7 @@
     <Company>Carl Zeiss IMT GmbH</Company>
     <Product>Zeiss.FirstImportFormat</Product>
     <PackageId>Zeiss.FirstImportFormat</PackageId>
+    <AssemblyName>Zeiss.FirstImportFormat</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
