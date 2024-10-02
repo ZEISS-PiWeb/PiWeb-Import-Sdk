@@ -21,7 +21,7 @@ Another use case for writing plugins is importing data from sources other than f
 > [!NOTE]
 > The initial version of the PiWeb-Import-Sdk is still in development. The linked import plugin documentation is currently only a skeleton without actual content.
 
-Getting started is as easy as creating a new C# project in your favorite IDE, adding a plugin manifest and linking the [Zeiss.PiWeb.Import.Sdk](https://www.nuget.org/packages/Zeiss.PiWeb.Import.Sdk/) NuGet. To make this even easier, we provide a project template you can use as a starting point. More detailed information about this can be found in our [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
+Getting started is as easy as creating a new C# project in your favorite IDE, adding a plugin manifest and linking the [Zeiss.PiWeb.Sdk.Import](https://www.nuget.org/packages/Zeiss.PiWeb.Sdk.Import/) NuGet. To make this even easier, we provide a project template you can use as a starting point. More detailed information about this can be found in our [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
 
 ### Learn more
 
