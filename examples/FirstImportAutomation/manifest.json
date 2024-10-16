@@ -1,4 +1,5 @@
 {
+    "$schema": "https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
     "id": "Zeiss.FirstImportAutomation",
     "title": "First Import Automation",
     "description": "This plug-in is used in the Import SDK documentation to create an initial import automation.",

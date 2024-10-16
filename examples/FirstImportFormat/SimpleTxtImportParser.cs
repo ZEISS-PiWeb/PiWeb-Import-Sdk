@@ -56,10 +56,10 @@ public class SimpleTxtImportParser : IImportParser
             switch (attribute)
             {
                 case "Date":
-                    measurement.SetAttribute(4,value);
+                    measurement.SetAttribute(4, value);
                     break;
                 case "Text":
-                    measurement.SetAttribute(9,value);
+                    measurement.SetAttribute(9, value);
                     break;
             }
 
@@ -77,7 +77,7 @@ public class SimpleTxtImportParser : IImportParser
 
             var characteristic = root.AddCharacteristic(characteristicName);
             var measuredValue = measurement.AddMeasuredValue(characteristic);
-            measuredValue.SetAttribute(1,double.Parse(value));
+            measuredValue.SetAttribute(1, double.Parse(value));
         }
 
         return new ImportData(root);

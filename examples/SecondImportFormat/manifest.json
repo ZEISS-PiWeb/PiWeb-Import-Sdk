@@ -1,4 +1,5 @@
 {
+    "$schema": "https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
     "id": "Zeiss.SecondImportFormat",
     "version": "1.0.0",
     "title": "Second Import Format",
@@ -6,7 +7,7 @@
     "provides": {
         "type": "ImportFormat",
         "displayName": "SimpleTxt",
-        "defaultPriority":  10,
-        "fileExtensions": [".txt"]
+        "defaultPriority": 10,
+        "fileExtensions": [ ".txt" ]
     }
 }

@@ -1,4 +1,5 @@
 {
+    "$schema": "https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
     "id": "Zeiss.SecondImportAutomation",
     "version": "1.0.0",
     "title": "Second Import Automation",

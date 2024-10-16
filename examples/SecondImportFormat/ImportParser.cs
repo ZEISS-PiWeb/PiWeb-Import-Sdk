@@ -45,7 +45,7 @@ public class ImportParser : IImportParser
             var attribute = rowItems[0].Trim();
             var value = rowItems[1].Trim();
 
-            measurement.SetVariable(attribute,value);
+            measurement.SetVariable(attribute, value);
         }
 
         // Parse measured value for each characteristic.
@@ -60,7 +60,7 @@ public class ImportParser : IImportParser
 
             var characteristic = root.AddCharacteristic(characteristicName);
             var measuredValue = measurement.AddMeasuredValue(characteristic);
-            measuredValue.SetVariable("Value",double.Parse(value));
+            measuredValue.SetVariable("Value", double.Parse(value));
         }
 
         // Add additional data.
