@@ -20,10 +20,10 @@ After installing the *.NET SDK* you can use can use your favorite IDE to develop
 .NET provides command line tooling for installing project templates from NuGet. To install our project template, open a terminal and run `dotnet new install Zeiss.PiWeb.Sdk.Import.ProjectTemplates`. IDEs supporting this mechanism will now offer a template called `PiWeb-Import-Sdk Plugin` when creating a new project.
 
 ### Usage in Visual Studio
-![Usage in Visual Studio](../../assets/images/setup/UsageInVisualStudio.gif "Usage in Visual Studio"){: .bare }
+![Usage in Visual Studio](../../assets/images/setup/1_usage_in_visualstudio.gif "Usage in Visual Studio"){: .bare }
 
 ### Usage in Rider
-![Usage in Rider](../../assets/images/setup/usage_in_rider.png "Usage in Rider"){: .bare }
+![Usage in Rider](../../assets/images/setup/1_usage_in_rider.png "Usage in Rider"){: .bare }
 
 {: .important }
 Rider < 2024.1 does not support entering values for optional parameters for custom project templates.

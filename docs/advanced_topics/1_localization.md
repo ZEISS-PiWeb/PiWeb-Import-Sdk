@@ -22,10 +22,10 @@ The plug-in system supports localization of the manifest file, in which the supp
 ![Localization](../../assets/images/plugin_fundamentals/1_localization.png "Localization")
 
 Example content of a localized manifest.json insides `locales\en-US\` folder:
-<!-- TODO Scheme url austauschen -->
+
 ```json
 {
-  "$schema": "../../../schemas/localizations.schema.json",
+  "$schema": "https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-localization-schema.json",
   "translation": {
     "title": "My plug-in",
     "description": "Shows how an import source can be provided by a plug-in.",
@@ -39,49 +39,54 @@ The localization files use a name value schema, i.e. the entire structure does n
 
 ```json
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "AutoImporterPluginManifestLocalizationsSchema",
-  "title": "Manifest schema",
-  "description": "A list of localizations for a PiWeb Auto Importer plug-in",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "PiWebImportPluginManifestLocalizationSchema",
+  "title": "PiWeb import plug-in manifest localization schema",
+  "description": "Describes the localization file for a PiWeb import plug-in manifest.",
   "type": "object",
   "properties": {
     "$schema": {
+      "title": "Schema",
+      "description": "Pointer to the schema against which this document should be validated.",
       "type": "string"
     },
     "translation": {
       "type": "object",
-      "description": "The list of localizations for the plug-in",
+      "description": "The list of localizations for the plug-in.",
       "properties": {
         "title": {
-          "description": "The localization for the plug-in title",
+          "description": "The localization for the plug-in title.",
           "type": "string"
         },
         "description": {
-          "description": "The localization for the plug-in description",
+          "description": "The localization for the plug-in description.",
           "type": "string"
         },
         "homepage": {
-          "description": "The localization for the plug-in homepage",
-          "type": "string"
+          "description": "The localization for the plug-in homepage address. This can be used to provide language specific homepage URLs if necessary.",
+          "type": "string",
+          "format": "uri-reference"
         },
         "contact": {
-          "description": "The localization for the plug-in contact",
-          "type": "string"
+          "description": "The localization for the plug-in contact. This can be used to provide language specific contact addresses.",
+          "type": "string",
+          "format": "email"
         },
         "documentation": {
-          "description": "The localization for the plug-in documentation",
+          "description": "The localization for the plug-in documentation address. This can be used to provide language specific documentation URLs if necessary.",
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "provides.displayName": {
+          "description": "The localization for the display name of the provided import automation or import format.",
           "type": "string"
         },
-        "importAutomation.displayName": {
-          "description": "The localization for the plug-in import source display name",
-          "type": "string"
-        },
-        "importAutomation.summary": {
-          "description": "The localization for the plug-in import source summary",
+        "provides.summary": {
+          "description": "The localization for the summary of the provided import automation.",
           "type": "string"
         }
       }
-    }    
+    }
   }
 }
 ```

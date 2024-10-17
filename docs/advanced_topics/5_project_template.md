@@ -3,6 +3,8 @@ layout: default
 nav_order: 5
 parent: Advanced topics
 title: Project template
+
+nav_exclude: true
 ---
 
 # {{ page.title }}

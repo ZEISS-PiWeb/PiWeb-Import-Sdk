@@ -9,38 +9,8 @@ $btn-primary-color: $zeiss-azure;
 
 .note {
     border-left: 5px solid $zeiss-cyan !important;
-}
-
+  }
+  
 .important {
     border-left: 5px solid #834BE4 !important;
-}
-
-footer.site-footer {
-    display: none;
-}
-
-.main {
-    max-width: 60rem !important;
-}
-
-img {
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.75);
-    margin-top: 10px;
-}
-
-code {
-    font-size: 14px !important;
-}
-
-p {
-    // TODO Diskussion
-    text-align: start;
-}
-
-h1 {
-    margin-bottom: 0.5em !important;
-}
-
-h4 {
-    font-weight: bold !important;
 }

@@ -22,7 +22,7 @@ Inhalt:
 Import format plug-ins allow you to import files of previously unsupported file formats with the Auto Importer. In this article we will show you, how you can create an import format plug-in for a simple measurement file. 
 
 ## Get the example file
-We want to write a plug-in for an example file format called SimpleTxt. The following information of a single measurement contained in a SimpleTxt file should be imported.\
+We want to write a plug-in for an example file format called SimpleTxt. The following information of a single measurement contained in a SimpleTxt file should be imported.
 
 ```
 #Header
@@ -36,11 +36,11 @@ CharB, 1.6
 
 A SimpleTxt file has to start with `#Header` in the first line. The following lines contains information about the measurement like the measurement date and the operator name. After the header part follows a list of the characteristics and the corresponding measured values. This part begins after the line starting with `#Characterstic`.
 
-You can download the example file here to test your plug-in: 
-<!-- TODO: Provide example file and link to it -->
+You can download the example file here to test your plug-in:\
+[SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/FirstImportFormat/SampleData/SimpleTxt-Example.txt){:target="_blank"}
 
 ## Create a new project
-To start the development of the import format plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/1_development_environment.md %}). Further information about the content of the project template is contained in [Project template]({% link docs/advanced_topics/5_project_template.md %}).
+To start the development of the import format plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/1_development_environment.md %}#project-templates).
 
 ## Adapt information in manifest file
 Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
@@ -275,11 +275,11 @@ public class SimpleTxtImportParser : IImportParser
 The implementation of the example plug-in is now complete. Further information on implementing an import format plug-in can be found in the [Import format]({% link docs/plugin_fundamentals/4_import_format.md %}).
 
 ## Run your plug-in
-To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [Development settings]({% link docs/setup/4_development_settings.md %}). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.
+To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [PiWeb Auto Importer]({% link docs/setup/3_piweb_auto_importer.md %}#plug-in-search-paths). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.
 
 ![Plug-in management view](../../assets/images/getting_started/2_plugin_view_simpletxt.png "Plug-in management view")
 
-The functionality of the plug-in can be tested by importing the example file. Therefore create a new default import plan in the Auto Importer. In the import plan, select a connection with the PiWeb cloud or a PiWeb server (find more information in [PiWeb backend]({% link docs/setup/2_piweb_backend.md %})) and define an import folder where you place the example file. A configuration of the import plan could look like this:
+The functionality of the plug-in can be tested by importing the example file. Therefore create a new default import plan in the Auto Importer. In the import plan, select a connection with the PiWeb Cloud or a PiWeb Server (find more information in [PiWeb backend]({% link docs/setup/2_piweb_backend.md %})) and define an import folder where you place the example file. A configuration of the import plan could look like this:
 
 ![Auto Importer import plan](../../assets/images/getting_started/2_import_plan_settings.png "Auto Importer import plan")
 
@@ -291,8 +291,6 @@ When the SimpleTxt format is listed in the import configuration dialog and the e
 
 ![Auto Importer import history](../../assets/images/getting_started/2_import_history.png "Auto Importer import history")
 
-You can also open a PiWeb Planner and connect to your PiWeb cloud or PiWeb server. A new measurement with measured values for the characteristics `CharA` and `CharB` should be exist.
+You can also open a PiWeb Planner and connect to your PiWeb Cloud or PiWeb Server. A new measurement with measured values for the characteristics `CharA` and `CharB` should be exist.
 
 ![Planner measurement view](../../assets/images/getting_started/2_planner_measurement.png "Planner measurement view")
-
-When the import failed you can find helpful information about possible next steps for a solution in the [Troubleshooting]({% link docs/troubleshooting.md %}).
