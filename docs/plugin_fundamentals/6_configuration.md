@@ -17,6 +17,11 @@ Inhalt:
 
 # {{ page.title }}
 
+The user configurations are about enabling the user to make settings via UI elements. These settings can be used to influence the behavior of import automation. This is used, for example, to specify source addresses.
+
+{: .note }
+User configurations are only available for import automations.
+
 ## CreateConfiguration
 Besides `CreateImportRunner` from [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) you can use `CreateConfiguration` to load custom configuration items.
 

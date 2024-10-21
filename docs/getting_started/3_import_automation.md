@@ -32,7 +32,7 @@ The plug-in presented here can be downloaded in its complete form. However, the 
 The following files are required for this automation and are included in the example and in the project template. `manifest.json` defines the content of our plug-in. `Plugin.cs` which represents the entry point into the plug-in, in which it registers the import automation. `ImportAutomation.cs` contains the named automation and provides the necessary import runner, which executes the specific import plans. `ImportRunner.cs` contains this IImportRunner and is responsible for the import loop.
 
 ## Create a new project
-To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/1_development_environment.md %}). Further information about the content of the project template is contained in [Project template]({% link docs/advanced_topics/5_project_template.md %}).
+To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/1_development_environment.md %}#project-templates).
 
 ## Adapt information in manifest file
 Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
@@ -46,7 +46,7 @@ Using the project template generates already a `manifest.json` file in the proje
     "provides": {
         "type": "ImportAutomation",
         "displayName": "FirstImportAutomation",
-        "summary": "This automation checks a given PiWeb server for the existence of the 'FirstImportAutomationPart' part below the root node."
+        "summary": "This automation checks a given PiWeb Server for the existence of the 'FirstImportAutomationPart' part below the root node."
     }
 }
 
@@ -285,7 +285,7 @@ using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAd
 using var restClient = builder.CreateDataServiceRestClient();
 ```
 
-The desired part substructure is now created. In this simple example, we assume that our `TargetPartName` is located directly under the root of the server. This structure is required to query the PiWeb server.
+The desired part substructure is now created. In this simple example, we assume that our `TargetPartName` is located directly under the root of the server. This structure is required to query the PiWeb Server.
 
 ```c#
 // Target part path information
@@ -368,7 +368,7 @@ We now have the necessary code for our import automation test and can execute it
 
 ## Running the plug-in
 ### Start via command line
-To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [Development settings]({% link docs/setup/4_development_settings.md %}). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.\
+To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [PiWeb Auto Importer]({% link docs/setup/3_piweb_auto_importer.md %}#plug-in-search-paths). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.\
 ![Installed plug-in](../../assets/images/getting_started/3_management_view.png "Installed plug-in")
 
 We also need an import plan that uses our import source and uses the existing cloud instance as the target. To do this, we create a new import plan using the green plus icon and configure it as shown in the screenshot.\

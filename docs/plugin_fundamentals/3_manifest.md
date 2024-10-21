@@ -21,9 +21,8 @@ The manifest.json file defines the content of a plug-in. It contains information
 
 ## Schema
 A schema is used to define and validate the content of mainfest.json. This can be viewed under\
-TODO.\
+[manifest-schema.json](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json)\
 Only manifest files that adhere to this schema can be loaded by the Auto Importer.
-<!-- Schema auf github bereitstellen. unter develop extra schema ordner, dann v1 v2 -->
 
 ## Manifest properties
 The following properties can be used to provide information to the Auto Importer / user:
@@ -32,7 +31,7 @@ The following properties can be used to provide information to the Auto Importer
 
 | Property name | Required | Description | Example |
 | - | - | - | - |
-| \$schema | |URL to json schema file, for validation | TODO |
+| \$schema | |URL to json schema file, for validation | https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/tags/release/1.0.0/schemas/manifest-schema.json |
 | id | required | The unique identifier of the plug-in | Zeiss.FirstImportAutomation |
 | title | required | The title of the plug-in | FirstImportAutomation |
 | description | required | The description of the plug-in | This plug-in is used in the Import SDK documentation to create an initial import automation. |
@@ -79,7 +78,7 @@ The following manifest provides minimal information:
   "provides": {
     "type": "ImportAutomation",
     "displayName": "FirstImportAutomation",
-    "summary": "This automation checks a given PiWeb server for the existence of the 'FirstImportAutomationPart' part below the root node."
+    "summary": "This automation checks a given PiWeb Server for the existence of the 'FirstImportAutomationPart' part below the root node."
   }
 }
 ```

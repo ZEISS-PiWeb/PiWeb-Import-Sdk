@@ -21,7 +21,7 @@ Name: **DevelopmentMode** as a string with the value: **True**
 
 If development mode is active (restart is required), this is displayed accordingly in the title bar of the Auto Importer.
 
-![Active development mode in Auto Importer](../../assets/images/setup/3_dev_mode.png "Active development mode in Auto Importer")
+![Active development mode in Auto Importer](../../assets/images/setup/4_dev_mode.png "Active development mode in Auto Importer")
 
 ## Command for external plug-in folder
 The development mode makes it possible to load plug-ins from a given folder in the Auto Importer via a start parameter:\
@@ -33,7 +33,6 @@ There should be a subfolder for each plug-in in this folder. [Read more about st
 To check whether the Auto Importer has loaded the desired plug-in, you can go to `File > Plug-ins...`.\
 There you will see a list of all known plug-ins and their load status.
 
-![Plug-in management view](../../assets/images/setup/3_plugin_management.png "Plug-in management view")
+![Plug-in management view](../../assets/images/setup/4_plugin_management_error.png "Plug-in management view")
 
 If a plug-in could not be loaded, this is displayed accordingly. Clicking on a plug-in calls up the plug-in information in the right-hand area. The loading problems are also listed there.
-You can find more information on this at [Troubleshooting]({% link docs/troubleshooting.md %}).

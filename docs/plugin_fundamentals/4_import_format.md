@@ -24,6 +24,9 @@ Inhalt:
 # {{ page.title }}
 This article describes the implementation of an import format plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/2_plugin_type.md %}). The focus in this arcticle is on the implementation of the grouping and parsing functionality. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/3_manifest.md %}). The development of a simple example for an import format plug-in can be found in [Create your first import format]({% link docs/getting_started/2_import_format.md %}).
 
+## Download source code and content
+The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the necassary code. You can find the source code at the [GitHub repository](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SecondImportFormat).
+
 ## Implementing IImportFormat
 The interface `IImportFormat` represents the import format that should be added as a new format for the Auto Importer via the plug-in. Each import format plug-in needs an implementation of the `IImportFormat` interface. An instance of the implementation of this interfaces has to be returned in the method `CreateImportFormat` of the class which implements the `IPlugin` interface like in the following example.
 
@@ -126,7 +129,7 @@ As shown in the example, the `IFilterContext` can be used to search for files in
 As mentioned at the beginning each import format has to define an import group filter. The Auto Importer can then ask all import formats in sequence whether an import file belongs to the respective format. Once an import group filter returns as a filter result that the primary file of the import group belongs to the format, the filter methods of the subsequent formats are no longer called for this import group.  
 The order in which the import formats are asked by the Auto Importer depends on the priority of the import format. Each built-in import format is already assigned a priority. For import format plug-ins, the priority can be set with the `priority` property in the manifest file (see [Manifest]({% link docs/plugin_fundamentals/3_manifest.md %})). Built-in formats have a priority value between 100 and 1000. Accordingly, the numerical value for the priority of the import format plug-in can be selected as follows:
 * If the priority of a format is less than 100 then it is able to handle import files before the built-in formats.
-* If the priority of a format is greater than 1000 the format will only be used if no built-in format handles the file.
+* If the priority of a format is greater than 2000 the format will only be used if no built-in format handles the file.
 * If no priority value is defined in the manifest the default priority of 50 is used.
 
 ## Parsing import files

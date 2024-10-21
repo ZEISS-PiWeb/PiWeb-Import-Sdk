@@ -21,6 +21,11 @@ The compiled plug-in must be packed together with the manifest file in a **pip**
 This works via the install function in the Auto Importer, via drag & drop into the Auto Importer window and via file system.\
 As a plug-in developer, you can use the build process from the Import SDK. The pip file is actually a zip file, i.e. it can also be created in other ways and then renamed.
 
+## Download compiled example plug-in
+We provide a ready-to-use plug-in (pip file) under the following link:\
+[StartingAPlugin.pip](../../assets/pips/StartingAPlugin.pip){:target="_blank"}\
+This can be used to run a plug-in installation.
+
 ## Install option
 The Auto Importer provides an installer option, for which the following steps must be carried out:
 

@@ -31,11 +31,10 @@ Inhalt:
 
 ## Auto Importer plug-ins folder
 Plug-in folders must be placed under Auto Importer `"Plugins"` folder.\
-The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see [Development mode]({% link docs/setup/4_development_settings.md %})). As a rule, you therefore need admin rights to install and customize plug-ins.
+The AutoImporter only loads plug-ins from its program directory (exception is the DeveloperMode see [PiWeb Auto Importer]({% link docs/setup/3_piweb_auto_importer.md %}#plug-in-search-paths)). As a rule, you therefore need admin rights to install and customize plug-ins.
 
 ## Start assembly
-The `assemblyPath` property in manifest.json defines the start assembly. If assemblyPath is not specified, the `id` is used to determine the name of the assembly.\
-The given assembly must provide a class that implements `IPlugin`, read [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) for more information about IPlugin.
+The `assemblyPath` property in manifest.json defines the start assembly. If assemblyPath is not specified, the `id` is used to determine the name of the assembly. The given assembly must provide a class that implements `IPlugin`, read [Import automation]({% link docs/plugin_fundamentals/5_import_automation.md %}#iplugin) for more information about IPlugin.
 
 ## Localization
 The plug-in system supports localization of the manifest file, in which the supported language abbreviations appear as additional subfolders in the "locals" subfolder and contain a manifest.json. See [Localization]({% link docs/advanced_topics/1_localization.md %}) for more details.\
@@ -43,9 +42,9 @@ The plug-in system supports localization of the manifest file, in which the supp
 
 ## Project settings
 ### Nuget
-The Nuget import SDK provided by us is required for plug-in development. Please integrate this into your project:
-<!-- NuGet Link, off. Repo? -->
+The Nuget import SDK provided by us is required for plug-in development. Please integrate this into your project:\
+`<PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime"/>`
 
 ### Project file
-The reference to the Import SDK-NuGet needs a flag to not be copied to the output.\
+The reference to the Import SDK-NuGet needs a flag to not be copied to the output, see above.\
 Also make sure to mark the project as a C# plug-in (so that all dependencies appear in the output).
