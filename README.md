@@ -18,13 +18,9 @@ While the Auto Importer has built-in support for most common file formats of mea
 Another use case for writing plugins is importing data from sources other than files such as rest services or databases.
 
 ### How to write an import plugin?
-> [!NOTE]
-> The initial version of the PiWeb-Import-Sdk is still in development. The linked import plugin documentation is currently only a skeleton without actual content.
-
 Getting started is as easy as creating a new C# project in your favorite IDE, adding a plugin manifest and linking the [Zeiss.PiWeb.Sdk.Import](https://www.nuget.org/packages/Zeiss.PiWeb.Sdk.Import/) NuGet. To make this even easier, we provide a project template you can use as a starting point. More detailed information about this can be found in our [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
 
 ### Learn more
-
 * More information about the ZEISS PiWeb software can be found on the [PiWeb homepage](https://www.zeiss.de/messtechnik/produkte/software/piweb.html).
 * Our [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/) explains how to write plugins.
 * The [PiWeb domain model](https://zeiss-piweb.github.io/PiWeb-Api/general#gi-model) explains how data is structured in the backend. Import plugins create import data structured like this.
