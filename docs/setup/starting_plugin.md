@@ -12,7 +12,7 @@ This article describes the use of the plug-in from the user's perspective, i.e.,
 
 ## Download compiled example plug-in
 We provide a ready-to-use plug-in (pip file) under the following link:\
-[StartingAPlugin.pip](../../assets/pips/StartingAPlugin.pip){:target="_blank"}\
+[Zeiss.StartingAPlugin@1.0.0.pip](../../assets/pips/Zeiss.StartingAPlugin%401.0.0.pip){:target="_blank"}\
 Please download and select in the following installation process.
 
 ## Plug-in installation
@@ -34,20 +34,20 @@ This will open the file explorer with filtering for Auto Importer plug-in files.
 
 ## Check plug-in
 To ensure that the plug-in has been installed correctly, you can call up the plug-in management view (`File > Plug-ins...`) again. The loaded plug-in will now appear there.\
-![Plug-in management view](../../assets/images/setup/5_manifest.png "Plug-in management view")
+![Plug-in management view](../../assets/images/setup/starting_plugin/manifest.png "Plug-in management view")
 
 ## Create import plan
 To test the installed plug-in, an import plan must first be created; an import plan defines a source and a target. To do this, please click on `Create import plan`.\
-![Create import plan](../../assets/images/setup/5_import_plan.png "Create import plan")
+![Create import plan](../../assets/images/setup/starting_plugin/import_plan.png "Create import plan")
 
 ## Import plan with custom import source
 If the plug-in has been loaded correctly, the custom import source can be selected as an import source in an import plan. Please adjust all settings according to the screenshot.\
-![Auto Importer import source](../../assets/images/setup/5_import_source.png "Auto Importer import source")
+![Auto Importer import source](../../assets/images/setup/starting_plugin/import_source.png "Auto Importer import source")
 
 To select your cloud database as the destination, please go to Select connection and select Auto.\
-![Cloud connection](../../assets/images/setup/5_cloud.png "Cloud connection")
+![Cloud connection](../../assets/images/setup/starting_plugin/cloud.png "Cloud connection")
 
 Via `Run`, the import plan is started with this configuration. The plug-in only demonstrates the switching of the activity and status log. At the end of the execution, an error is provoked.\
-![Running the plug-in](../../assets/images/setup/5_run.png "Running the plug-in")
+![Running the plug-in](../../assets/images/setup/starting_plugin/run.png "Running the plug-in")
 
-You can find out more about import visualization options at [Import monitoring]({% link docs/plugin_fundamentals/7_monitoring.md %}). The following chapters describe the minimum source code required for a plug-in.
+You can find out more about import visualization options at [Import monitoring]({% link docs/plugin_fundamentals/monitoring.md %}). The following chapters describe the minimum source code required for a plug-in.

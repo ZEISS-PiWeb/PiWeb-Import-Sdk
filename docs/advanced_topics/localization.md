@@ -19,7 +19,7 @@ The Import SDK supports multilingual plug-ins, the content of the manifest as we
 
 ## Manifest localization
 The plug-in system supports localization of the manifest file, in which the supported language abbreviations appear as additional subfolders in the "locals" subfolder and contain a manifest.json.\
-![Localization](../../assets/images/plugin_fundamentals/1_localization.png "Localization")
+![Localization](../../assets/images/advanced_topics/localization/localization.png "Localization")
 
 Example content of a localized manifest.json insides `locales\en-US\` folder:
 

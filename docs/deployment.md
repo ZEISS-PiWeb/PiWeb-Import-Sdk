@@ -23,7 +23,7 @@ As a plug-in developer, you can use the build process from the Import SDK. The p
 
 ## Download compiled example plug-in
 We provide a ready-to-use plug-in (pip file) under the following link:\
-[StartingAPlugin.pip](../../assets/pips/StartingAPlugin.pip){:target="_blank"}\
+[Zeiss.StartingAPlugin@1.0.0.pip](../assets/pips/Zeiss.StartingAPlugin%401.0.0.pip){:target="_blank"}\
 This can be used to run a plug-in installation.
 
 ## Install option

@@ -15,11 +15,11 @@ Inhalt:
 
 # {{ page.title }}
 The Import SDK already provides a large number of configuration elements, but it can happen that these elements are not sufficient. The Import SDK therefore also supports the creation of your own elements.\
-For more information about native elements read [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}).
+For more information about native elements read [User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %}).
 
 ## Example control element
 This article shows the steps required to create your own configuration element. The example of a button is used for this:
-![Control elements](../../assets/images/advanced_topics/2_custom_element.png "Control elements")
+![Control elements](../../assets/images/advanced_topics/ui/custom_element.png "Control elements")
 
 ## Needed elements
 1. ButtonViewModel.cs
@@ -62,7 +62,7 @@ A WPF-based UI file must be provided, xaml. As usual with WPF, this file contain
 ```
 
 ## IAutomationConfiguration
-The implementation of the `IAutomationConfiguration` interface can be used to place your own configuration elements; further information on this can be found in [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}).
+The implementation of the `IAutomationConfiguration` interface can be used to place your own configuration elements; further information on this can be found in [User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %}).
 
 ```c#
 using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
