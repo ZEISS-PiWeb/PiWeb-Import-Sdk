@@ -49,13 +49,13 @@ public Task InitAsync(IPluginInitContext context)
 ```
 
 Log messages appear within the application log:\
-![Show application log](../../assets/images/plugin_fundamentals/7_applogbutton.png "Show application log")
+![Show application log](../../assets/images/plugin_fundamentals/monitoring/applogbutton.png "Show application log")
 
 {: .note }
 The application log can also be found under `%AppData%\..\Local\Zeiss\PiWeb`.
 
 Example message:\
-![Log content](../../assets/images/plugin_fundamentals/7_applogcontent.png "Log content")
+![Log content](../../assets/images/plugin_fundamentals/monitoring/applogcontent.png "Log content")
 
 ## Import log
 The import log is used to document import processes. This log file is located in the respective import folder and is therefore specific to the import plan. It mentions the file being processed and, in addition to the date and time, also provides information about parts, characteristics and measurements. This log should be used if import processes are to be traced.
@@ -90,16 +90,16 @@ public class LoggingTestImportGroupFilter : IImportGroupFilter
 ```
 
 Log messages appear within the import log:\
-![Show import log](../../assets/images/plugin_fundamentals/7_importlogbutton.png "Show import log")
+![Show import log](../../assets/images/plugin_fundamentals/monitoring/importlogbutton.png "Show import log")
 
 Example message:\
-![Import log content](../../assets/images/plugin_fundamentals/7_importlogcontent.png "Import log content")
+![Import log content](../../assets/images/plugin_fundamentals/monitoring/importlogcontent.png "Import log content")
 
 ## Activities
 Activities give the Auto Importer user the opportunity to stay informed about current activities of the import plan. There are two different display formats. 
 `ShortDisplayText` is used in the import plan listing to identify activities across all import plans. In the detailed view of an import plan, you will also see the `DetailedDisplayText` at the top under the name of the import plan.\
 In addition, these recorded activities are also noted as events and listed collectively under **Latest events**, see screenshot.\
-![Activities](../../assets/images/plugin_fundamentals/7_activities.png "Activities")
+![Activities](../../assets/images/plugin_fundamentals/monitoring/activities.png "Activities")
 
 `ICreateImportRunnerContext` provides the `IActivityService` that can be used to create activites:
 ```c#
@@ -251,4 +251,4 @@ public sealed class MyImportRunner : IImportRunner
 }
 ```
 
-![Latest events](../../assets/images/plugin_fundamentals/7_events.png "Latest events")
+![Latest events](../../assets/images/plugin_fundamentals/monitoring/events.png "Latest events")

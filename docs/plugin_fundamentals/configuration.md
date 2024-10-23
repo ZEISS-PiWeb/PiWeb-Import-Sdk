@@ -23,7 +23,7 @@ The user configurations are about enabling the user to make settings via UI elem
 User configurations are only available for import automations.
 
 ## CreateConfiguration
-Besides `CreateImportRunner` from [Create your first import automation]({% link docs/getting_started/3_import_automation.md %}) you can use `CreateConfiguration` to load custom configuration items.
+Besides `CreateImportRunner` from [Create your first import automation]({% link docs/getting_started/import_automation.md %}) you can use `CreateConfiguration` to load custom configuration items.
 
 Loading the configuration in IImportAutomation:
 ```c#
@@ -84,14 +84,14 @@ The Import SDK provides predefined types: bool, int, double, select, status and 
 * StringConfigurationItemPropertyViewModel
 
 Example of different types:\
-![Configuration example](../../assets/images/plugin_fundamentals/6_config_example.png "Configuration example")
+![Configuration example](../../assets/images/plugin_fundamentals/configuration/config_example.png "Configuration example")
 
 It is also possible to place a description text anywhere via TextDescriptionItemPropertyViewModel:\
-![TextDescriptionItemPropertyViewModel](../../assets/images/plugin_fundamentals/6_textitem.png "TextDescriptionItemPropertyViewModel")
+![TextDescriptionItemPropertyViewModel](../../assets/images/plugin_fundamentals/configuration/textitem.png "TextDescriptionItemPropertyViewModel")
 
 ### Configuration section and priority
 Different sections and priorites for configuration items can be adressed:\
-![Configuration order](../../assets/images/plugin_fundamentals/6_config_order.png "Configuration order")
+![Configuration order](../../assets/images/plugin_fundamentals/configuration/config_order.png "Configuration order")
 
 The Import SDK already provides the familiar sections and priorites:
 ```c#

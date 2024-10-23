@@ -60,7 +60,7 @@ public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
 }
 ```
 
-Constructor (`MyImportRunner`) of your `IImportRunner` is called. You should provide the values set by the configuration items. Read [User configuration & storage]({% link docs/plugin_fundamentals/6_configuration.md %}) for information about storage usage.
+Constructor (`MyImportRunner`) of your `IImportRunner` is called. You should provide the values set by the configuration items. Read [User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %}) for information about storage usage.
 
 ```c#
 private readonly ICreateImportRunnerContext _ImportRunnerContext;
@@ -111,7 +111,7 @@ public sealed class MyImportRunner : IImportRunner
 
 ## Import format
 
-In general, an import format plug-in is loaded in the Auto Importer in similar way as an import automation plug-in. In contrast to the import automation plug-in, however, the import group builder and the import parser of the import format plug-in are integrated into the existing import process of the Auto Importer. The basic differences between the two plug-in types can be found in [Plug-in type]({% link docs/plugin_fundamentals/2_plugin_type.md %}).
+In general, an import format plug-in is loaded in the Auto Importer in similar way as an import automation plug-in. In contrast to the import automation plug-in, however, the import group builder and the import parser of the import format plug-in are integrated into the existing import process of the Auto Importer. The basic differences between the two plug-in types can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}).
 
 ### 1. Load plug-in
 An import format plug-in is loaded when the Auto Importer is started. To do this, the `CreateImportFormat` method of the `IPlugin` implementation is called.

@@ -53,7 +53,7 @@ The following properties can be used to provide information to the Auto Importer
 
 | Property name | Required | Description | Example |
 | - | - | - | - |
-| type | required | ImportAutomation, see [Choose your plug-in type]({% link docs/getting_started/1_plugin_type.md %}) | ImportAutomation |
+| type | required | ImportAutomation, see [Choose your plug-in type]({% link docs/getting_started/plugin_type.md %}) | ImportAutomation |
 | displayName | required | The display name of the import source | Our custom import source |
 | summary | required | The summary of the import source | This import automation does only change the status and activity of an import plan. |
 
@@ -61,7 +61,7 @@ The following properties can be used to provide information to the Auto Importer
 
 | Property name | Required | Description | Example |
 | - | - | - | - |
-| type | required | ImportFormat, see [Choose your plug-in type]({% link docs/getting_started/1_plugin_type.md %}) | ImportFormat |
+| type | required | ImportFormat, see [Choose your plug-in type]({% link docs/getting_started/plugin_type.md %}) | ImportFormat |
 | displayName | required | The display name of the import source | Our custom import source |
 | defaultPriority | | The default priority of the plugin import format execution. Built-in formats are using the range 100-1000. If the priority of a format is less than 100 then it is able to handle import files before the built-in formats. If the priority of a format is greater than 1000 the format will only be used if no built-in format handles the file | 50 |
 | fileExtensions | | The associated file extensions of this format. This information is used to create masks for file selection dialogs. Wildcards are not supported | [\".txt\", \".csv\"] |
@@ -85,6 +85,6 @@ The following manifest provides minimal information:
 
 This is what the plug-in with the minimal manifest looks like in the Auto Importer:
 
-![Auto Importer plug-in view](../../assets/images/plugin_fundamentals/3_plugin_view.png "Auto Importer plug-in view")
+![Auto Importer plug-in view](../../assets/images/plugin_fundamentals/manifest/plugin_view.png "Auto Importer plug-in view")
 
-![Auto Importer import plan](../../assets/images/plugin_fundamentals/3_import_plan.png "Auto Importer import plan")
+![Auto Importer import plan](../../assets/images/plugin_fundamentals/manifest/import_plan.png "Auto Importer import plan")

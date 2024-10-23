@@ -32,7 +32,7 @@ The plug-in presented here can be downloaded in its complete form. However, the 
 The following files are required for this automation and are included in the example and in the project template. `manifest.json` defines the content of our plug-in. `Plugin.cs` which represents the entry point into the plug-in, in which it registers the import automation. `ImportAutomation.cs` contains the named automation and provides the necessary import runner, which executes the specific import plans. `ImportRunner.cs` contains this IImportRunner and is responsible for the import loop.
 
 ## Create a new project
-To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/1_development_environment.md %}#project-templates).
+To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/development_environment.md %}#project-templates).
 
 ## Adapt information in manifest file
 Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
@@ -52,7 +52,7 @@ Using the project template generates already a `manifest.json` file in the proje
 
 ```
 
-The most important thing here is that you define a unique `id` and `version` for the plug-in, that you use `ImportAutomation` as value for the `type` property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/3_manifest.md %}).
+The most important thing here is that you define a unique `id` and `version` for the plug-in, that you use `ImportAutomation` as value for the `type` property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
 
 ## IPlugin
 First we have to register our import automation with the Auto Importer. This is done in the `IPlugin` implementation using the `CreateImportAutomation` method. A new instance of our `ImportAutomation` is returned by this method.
@@ -307,7 +307,7 @@ _statusService.SetActivity(
 );
 ```
 
-![Auto Importer events](../../assets/images/getting_started/3_events.png "Auto Importer events")
+![Auto Importer events](../../assets/images/getting_started/import_automation/events.png "Auto Importer events")
 
 Now we request the PiWeb Cloud instance using our part structure. This returns the existing part if it is already known, otherwise null.
 
@@ -368,14 +368,14 @@ We now have the necessary code for our import automation test and can execute it
 
 ## Running the plug-in
 ### Start via command line
-To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [PiWeb Auto Importer]({% link docs/setup/3_piweb_auto_importer.md %}#plug-in-search-paths). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.\
-![Installed plug-in](../../assets/images/getting_started/3_management_view.png "Installed plug-in")
+To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [PiWeb Auto Importer]({% link docs/setup/piweb_auto_importer.md %}#plug-in-search-paths). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.\
+![Installed plug-in](../../assets/images/getting_started/import_automation/management_view.png "Installed plug-in")
 
 We also need an import plan that uses our import source and uses the existing cloud instance as the target. To do this, we create a new import plan using the green plus icon and configure it as shown in the screenshot.\
-![Import plan](../../assets/images/getting_started/3_import_plan.png "Import plan")
+![Import plan](../../assets/images/getting_started/import_automation/import_plan.png "Import plan")
 
 If we now click on Start, the automation is executed and after the third import loop it should look like this:\
-![Finished plug-in](../../assets/images/getting_started/3_finished.png "Finished plug-in")
+![Finished plug-in](../../assets/images/getting_started/import_automation/finished.png "Finished plug-in")
 
 ### Start from Visual Studio
 It is possible to transfer the commands directly from Visual Studio to the Auto Importer. To do this, use the following `launchSettings.json`:
@@ -397,4 +397,4 @@ It is possible to transfer the commands directly from Visual Studio to the Auto 
 
  You can also define the debug properties manually, see the following screenshot:
 
- ![Debug options](../../assets/images/getting_started/3_visualstudio_command.png "Debug options")
+ ![Debug options](../../assets/images/getting_started/import_automation/visualstudio_command.png "Debug options")
