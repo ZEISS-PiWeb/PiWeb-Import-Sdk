@@ -3,9 +3,12 @@ ZEISS PiWeb-Import-Sdk
 
 [![Build on develop](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/actions/workflows/develop.yml/badge.svg?branch=develop&event=push)](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/actions/workflows/develop.yml)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Nuget](https://img.shields.io/nuget/v/Zeiss.PiWeb.Import.Sdk?style=flat&logo=nuget)](https://www.nuget.org/packages/Zeiss.PiWeb.Import.Sdk/)
+[![Nuget](https://img.shields.io/nuget/v/Zeiss.PiWeb.Sdk.Import?style=flat&logo=nuget)](https://www.nuget.org/packages/Zeiss.PiWeb.Sdk.Import/)
 
 The PiWeb-Import-Sdk is the basic framework for creating your own import plugins for the PiWeb Auto Importer. By creating plugins, it is possible to automate the data import of your own custom file formats or even import data from other sources like REST-APIs or databases.
+
+> [!NOTE]
+> You can find our documentation for plug-in developers under [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
 
 ### What is the PiWeb Auto Importer?
 The PiWeb Auto Importer is an application of the [ZEISS PiWeb software](https://www.zeiss.de/messtechnik/produkte/software/piweb.html). PiWeb applications enable the management, provision and evaluation of measurement data typically encountered in the field of industrial measurement technology.
@@ -19,6 +22,14 @@ Another use case for writing plugins is importing data from sources other than f
 
 ### How to write an import plugin?
 Getting started is as easy as creating a new C# project in your favorite IDE, adding a plugin manifest and linking the [Zeiss.PiWeb.Sdk.Import](https://www.nuget.org/packages/Zeiss.PiWeb.Sdk.Import/) NuGet. To make this even easier, we provide a project template you can use as a starting point. More detailed information about this can be found in our [import plugin documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
+
+### Version compatibility
+The following table lists which versions of PiWeb will support plug-ins written against which version of the Import SDK:
+
+| PiWeb version | Import SDK version |
+| - | - |
+| &ge; 2025.R1.* | 1.0 |
+| &le; 8.6.* | not supported |
 
 ### Learn more
 * More information about the ZEISS PiWeb software can be found on the [PiWeb homepage](https://www.zeiss.de/messtechnik/produkte/software/piweb.html).
