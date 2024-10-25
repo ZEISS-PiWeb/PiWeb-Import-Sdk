@@ -2,7 +2,7 @@
 layout: default
 nav_order: 1
 parent: Getting started
-title: Choose your plug-in type
+title: Choose a plug-in type
 ---
 
 <!---
@@ -17,20 +17,22 @@ Inhalt:
 --->
 
 # {{ page.title }}
-The PiWeb Import SDK provides two different types of plug-ins: **import format** and **import automation**. These plug-ins are designed to allow customized data import to PiWeb.
+PiWeb offers multiple types of import plug-ins, all of which are written using the PiWeb Import SDK. The main difference between these import plug-in types lies in which part of the built-in import process is replaced or extended by the plug-in. Currently there are two types of import plug-ins available:
+- *Import format plug-ins* and
+- *Import automation plug-ins*
 
-## Format plug-ins
-Format plug-ins, on the other hand, are designed to support different data formats. They are used when you need to import data in a file format that PiWeb does not support natively.\
-Read [Create your first import format]({% link docs/getting_started/import_format.md %}) to start with your first Format.
+Before we can start to write our first plug-in, you must choose which one of those two plug-in types you want to create.
 
-## Automation plug-ins
-Automation plug-ins are designed to automate the process of data import from various sources. They are ideally used when you need to import data regularly from a source that PiWeb does not support by default. E.g. from a REST api.\
-Read [Create your first import automation]({% link docs/getting_started/import_automation.md %}) to start with your first Automation.
+## Import format plug-ins
+Import format plug-ins add a new file format to the built-in filesystem based import automation of the *PiWeb Auto Importer*. The plug-in implementation can decide which files should be handled, how multiple files need to be grouped together (if necessary) and how to interpret the file contents as inspection plan and measurement data. Other aspects, such as watching for new import files, updating import logs and uploading data, are still handled by the PiWeb Auto Importer and cannot be customized with this plug-in type.  
+Write import format plug-ins when you need to import files of a format that PiWeb does not support natively. For more in-depth information about how import format plug-ins work, see [Import format]({% link docs/plugin_fundamentals/import_format.md %}) in our plug-in fundamentals.
 
-## Choice
-The choice of plug-in type depends on the specific use case:
+## Import automation plug-ins
+Import automation plug-ins fully replace the built-in file based import automation with a custom import automation. Implementing such a custom import automation allows for complete freedom in fetching and writing import data. For example it is possible to fetch data from sources like a REST API instead of the filesystem. However, this also means that the usual PiWeb Auto Importer infrastructure of managing and watching the filesystem, import data post processing (attribute mapping and path rules) and even uploading inspection plan and measurement data is not available to these import automation plug-ins. Instead, creating or editing any data on the PiWeb backend is usually implemented by integrating and using the PiWeb API directly (although the Auto Importer will provide the access credentials configured in the import plan).  
+Write import automation plug-ins when you need to import data from other sources than the filesystem or when other restrictions prevent you from using import format plug-ins. Avoid writing import automation plug-ins when the task is solvable by writing an import format plug-in as these plug-ins are far easier to implement. For more in-depth information about how import automation plug-ins work, see [Import automation]({% link docs/plugin_fundamentals/import_automation.md %}) in our plug-in fundamentals.
 
-- If you need to import data from a non-file-based source, then an **automation plug-in** is the ideal choice.
-- If you need to import data from a file-based format, then a **format plug-in** would be the best choice.
+## How to continue?
+Based on the choice you made, we can now create our first plug-in by following the steps in either [Create your first import format]({% link docs/getting_started/import_format.md %}) or [Create your first import automation]({% link docs/getting_started/import_automation.md %}).
 
-For more detailed information on the application cases and the technical approach, refer to the plug-in fundamentals [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}).
+{: .note }
+If you do not have a concrete use case yet and only want to explore the plug-in feature of the PiWeb Auto Importer, we generally recommend to start with an import format plug-in.
