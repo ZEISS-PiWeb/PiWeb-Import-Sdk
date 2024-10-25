@@ -39,15 +39,15 @@ Using the project template generates already a `manifest.json` file in the proje
 
 ```json
 {
-    "id": "Zeiss.FirstImportAutomation",
-    "title": "FirstImportAutomation",
-    "description": "This plug-in is used in the Import SDK documentation to create an initial import automation.",
+  "id": "Zeiss.FirstImportAutomation",
+  "title": "FirstImportAutomation",
+  "description": "This plug-in is used in the Import SDK documentation to create an initial import automation.",
 
-    "provides": {
-        "type": "ImportAutomation",
-        "displayName": "FirstImportAutomation",
-        "summary": "This automation checks a given PiWeb Server for the existence of the 'FirstImportAutomationPart' part below the root node."
-    }
+  "provides": {
+    "type": "ImportAutomation",
+    "displayName": "FirstImportAutomation",
+    "summary": "This automation checks a given PiWeb Server for the existence of the 'FirstImportAutomationPart' part below the root node."
+  }
 }
 
 ```
@@ -66,11 +66,11 @@ namespace Zeiss.FirstImportAutomation;
 
 public class Plugin : IPlugin
 {
-    public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
-    {
-        // Registration of a new instance of IImportAutomation with Auto Importer
-        return new ImportAutomation();
-    }
+  public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
+  {
+    // Registration of a new instance of IImportAutomation with Auto Importer
+    return new ImportAutomation();
+  }
 }
 ```
 
@@ -85,11 +85,11 @@ namespace Zeiss.FirstImportAutomation;
 
 public class ImportAutomation : IImportAutomation
 {
-    public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
-    {
-        // Creation of a new instance of IImportRunner, called for every import plan
-        return new ImportRunner(context);
-    }
+  public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
+  {
+    // Creation of a new instance of IImportRunner, called for every import plan
+    return new ImportRunner(context);
+  }
 }
 ```
 
@@ -116,101 +116,103 @@ namespace Zeiss.FirstImportAutomation;
 
 public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 {
-    /// <summary>
-    ///     Defined name for the part under which import is to take place.
-    /// </summary>
-    private const string TargetPartName = "FirstImportAutomationPart";
+  /// <summary>
+  ///   Defined name for the part under which import is to take place.
+  /// </summary>
+  private const string TargetPartName = "FirstImportAutomationPart";
 
-    /// <summary>
-    ///     IActivityService, retrieved by ICreateImportRunnerContext for later use.
-    /// </summary>
-    private readonly IActivityService _statusService = context.ActivityService;
+  /// <summary>
+  ///   IActivityService, retrieved by ICreateImportRunnerContext for later use.
+  /// </summary>
+  private readonly IActivityService _statusService = context.ActivityService;
 
-    public async Task RunAsync(CancellationToken cancellationToken)
+  public async Task RunAsync(CancellationToken cancellationToken)
+  {
+    try
     {
-        try
+      // Define authentication
+      var authData = context.ImportTarget.AuthData;
+
+      var authenticationHandler = authData.AuthType switch
+      {
+        AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
+        AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
+        AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
+        AuthType.OIDC => NonInteractiveAuthenticationHandler.OIDC(authData.ReadAndUpdateRefreshTokenAsync),
+        _ => null
+      };
+
+      // Rest client for PiWeb API
+      using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAddress))
+        .SetAuthenticationHandler(authenticationHandler);
+
+      using var restClient = builder.CreateDataServiceRestClient();
+
+      // Target part path information
+      var targetPath = PathInformation.Root;
+      targetPath += PathElement.Part(TargetPartName);
+
+      // Check existing of that part in the import loop
+      while (!cancellationToken.IsCancellationRequested)
+      {
+        // Inform user that the plug-in is currently active
+        _statusService.SetActivity(
+          new ActivityProperties()
+          {
+            ActivityType = ActivityType.Normal,
+            ShortDisplayText = "Checking PiWeb",
+            DetailedDisplayText = $"Checking PiWeb for {targetPath}"
+          });
+
+        // Request PiWeb API and check for part
+        var knownParts = await restClient
+                                .GetParts(targetPath, depth: 0, cancellationToken: cancellationToken)
+                                .ConfigureAwait(false);
+        var targetPart = knownParts.FirstOrDefault();
+
+        if (targetPart != null)
         {
-            // Define authentication
-            var authData = context.ImportTarget.AuthData;
+          // Part is known in database
 
-            var authenticationHandler = authData.AuthType switch
+          _statusService.SetActivity(
+            new ActivityProperties()
             {
-                AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
-                AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
-                AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
-                AuthType.OIDC => NonInteractiveAuthenticationHandler.OIDC(authData.ReadAndUpdateRefreshTokenAsync),
-                _ => null
-            };
-
-            // Rest client for PiWeb API
-            using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAddress))
-                .SetAuthenticationHandler(authenticationHandler);
-
-            using var restClient = builder.CreateDataServiceRestClient();
-
-            // Target part path information
-            var targetPath = PathInformation.Root;
-            targetPath += PathElement.Part(TargetPartName);
-
-            // Check existing of that part in the import loop
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                // Inform user that the plug-in is currently active
-                _statusService.SetActivity(
-                    new ActivityProperties()
-                    {
-                        ActivityType = ActivityType.Normal,
-                        ShortDisplayText = "Checking PiWeb",
-                        DetailedDisplayText = $"Checking PiWeb for {targetPath}"
-                    });
-
-                // Request PiWeb API and check for part
-                var knownParts = await restClient.GetParts(targetPath, depth: 0, cancellationToken: cancellationToken).ConfigureAwait(false);
-                var targetPart = knownParts.FirstOrDefault();
-
-                if (targetPart != null)
-                {
-                    // Part is known in database
-
-                    _statusService.SetActivity(
-                        new ActivityProperties()
-                        {
-                            ActivityType = ActivityType.Normal,
-                            ShortDisplayText = "Part exists",
-                            DetailedDisplayText = $"{targetPath} exists in database"
-                        });
-                }
-                else
-                {
-                    // Part is unknown in database
-
-                    _statusService.SetActivity(
-                        new ActivityProperties()
-                        {
-                            ActivityType = ActivityType.Suspension,
-                            ShortDisplayText = "Part does NOT exists",
-                            DetailedDisplayText = $"{targetPath} not found in database, creating it"
-                        });
-
-                    // Create that part
-                    var part = new InspectionPlanPartDto
-                    {
-                        Uuid = Guid.NewGuid(),
-                        Path = targetPath
-                    };
-
-                    await restClient.CreateParts([part], cancellationToken: cancellationToken).ConfigureAwait(false);
-                }
-
-                // Delay next import loop, save load on the server
-                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-            }
+              ActivityType = ActivityType.Normal,
+              ShortDisplayText = "Part exists",
+              DetailedDisplayText = $"{targetPath} exists in database"
+            });
         }
-        catch (OperationCanceledException)
+        else
         {
-            // Normally, the last save operation should be processed here, as the import plan has been stopped
+          // Part is unknown in database
+
+          _statusService.SetActivity(
+            new ActivityProperties()
+            {
+              ActivityType = ActivityType.Suspension,
+              ShortDisplayText = "Part does NOT exists",
+              DetailedDisplayText = $"{targetPath} not found in database, creating it"
+            });
+
+          // Create that part
+          var part = new InspectionPlanPartDto
+          {
+            Uuid = Guid.NewGuid(),
+            Path = targetPath
+          };
+
+          await restClient.CreateParts([part], cancellationToken: cancellationToken).ConfigureAwait(false);
         }
+
+        // Delay next import loop, save load on the server
+        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+      }
     }
+    catch (OperationCanceledException)
+    {
+      // Normally, the last save operation should be processed here, as the import plan has been stopped
+    }
+  }
 }
 ```
 {% endcapture %}
@@ -221,16 +223,16 @@ First, we define our part name as a constant so that we can search for this name
 
 ```c#
 /// <summary>
-///     Defined name for the part under which import is to take place.
+///   Defined name for the part under which import is to take place.
 /// </summary>
-    private const string TargetPartName = "FirstImportAutomationPart";
+  private const string TargetPartName = "FirstImportAutomationPart";
 ```
 
 We also provide the `IActivityService` from the context. This is used to communicate with the Auto Importer and make status changes known. The `ICreateImportRunnerContext` is provided by the Import SDK through dependency injection.
 
 ```c#
 /// <summary>
-///     IActivityService, retrieved by ICreateImportRunnerContext for later use.
+///   IActivityService, retrieved by ICreateImportRunnerContext for later use.
 /// </summary>
 private readonly IActivityService _statusService = context.ActivityService;
 ```
@@ -245,17 +247,17 @@ The basic structure is the while loop, which repeatedly executes the desired imp
 ```c#
 public async Task RunAsync(CancellationToken cancellationToken)
 {
-    try
+  try
+  {
+    while( !cancellationToken.IsCancellationRequested )
     {
-        while( !cancellationToken.IsCancellationRequested )
-        {
-            // Import loop
-        }
+      // Import loop
     }
-    catch (OperationCanceledException)
-    {
-        // ignore
-    }
+  }
+  catch (OperationCanceledException)
+  {
+    // ignore
+  }
 }
 ```
 
@@ -267,11 +269,11 @@ var authData = context.ImportTarget.AuthData;
 
 var authenticationHandler = authData.AuthType switch
 {
-    AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
-    AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
-    AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
-    AuthType.OIDC => NonInteractiveAuthenticationHandler.OIDC(authData.ReadAndUpdateRefreshTokenAsync),
-    _ => null
+  AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
+  AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
+  AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
+  AuthType.OIDC => NonInteractiveAuthenticationHandler.OIDC(authData.ReadAndUpdateRefreshTokenAsync),
+  _ => null
 };
 ```
 
@@ -280,7 +282,7 @@ Next, we use the PiWeb API to establish the connection, this is done via a REST 
 ```c#
 // Rest client for PiWeb API
 using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAddress))
-    .SetAuthenticationHandler(authenticationHandler);
+  .SetAuthenticationHandler(authenticationHandler);
 
 using var restClient = builder.CreateDataServiceRestClient();
 ```
@@ -298,12 +300,12 @@ Now our actual import loop starts. We make our activity known to the Auto Import
 ```c#
 // Inform user that the plug-in is currently active
 _statusService.SetActivity(
-    new ActivityProperties()
-    {
-        ActivityType = ActivityType.Normal,
-        ShortDisplayText = "Checking PiWeb",
-        DetailedDisplayText = $"Checking PiWeb for {targetPath}"
-    }
+  new ActivityProperties()
+  {
+    ActivityType = ActivityType.Normal,
+    ShortDisplayText = "Checking PiWeb",
+    DetailedDisplayText = $"Checking PiWeb for {targetPath}"
+  }
 );
 ```
 
@@ -313,7 +315,9 @@ Now we request the PiWeb Cloud instance using our part structure. This returns t
 
 ```c#
 // Request PiWeb API and check for part
-var knownParts = await restClient.GetParts(targetPath, depth: 0, cancellationToken: cancellationToken).ConfigureAwait(false);
+var knownParts = await restClient
+                        .GetParts(targetPath, depth: 0, cancellationToken: cancellationToken)
+                        .ConfigureAwait(false);
 var targetPart = knownParts.FirstOrDefault();
 ```
 
@@ -322,38 +326,38 @@ If our part is available, we display this accordingly in the Auto Importer. If i
 ```c#
 if (targetPart != null)
 {
-    // Part is known in database
+  // Part is known in database
 
-    _statusService.SetActivity(
-        new ActivityProperties()
-        {
-            ActivityType = ActivityType.Normal,
-            ShortDisplayText = "Part exists",
-            DetailedDisplayText = $"{targetPath} exists in database"
-        }
-    );
+  _statusService.SetActivity(
+    new ActivityProperties()
+    {
+      ActivityType = ActivityType.Normal,
+      ShortDisplayText = "Part exists",
+      DetailedDisplayText = $"{targetPath} exists in database"
+    }
+  );
 }
 else
 {
-    // Part is unknown in database
+  // Part is unknown in database
 
-    _statusService.SetActivity(
-        new ActivityProperties()
-        {
-            ActivityType = ActivityType.Suspension,
-            ShortDisplayText = "Part does NOT exists",
-            DetailedDisplayText = $"{targetPath} not found in database, creating it"
-        }
-    );
-
-    // Create that part
-    var part = new InspectionPlanPartDto
+  _statusService.SetActivity(
+    new ActivityProperties()
     {
-        Uuid = Guid.NewGuid(),
-        Path = targetPath
-    };
+      ActivityType = ActivityType.Suspension,
+      ShortDisplayText = "Part does NOT exists",
+      DetailedDisplayText = $"{targetPath} not found in database, creating it"
+    }
+  );
 
-    await restClient.CreateParts([part], cancellationToken: cancellationToken).ConfigureAwait(false);
+  // Create that part
+  var part = new InspectionPlanPartDto
+  {
+    Uuid = Guid.NewGuid(),
+    Path = targetPath
+  };
+
+  await restClient.CreateParts([part], cancellationToken: cancellationToken).ConfigureAwait(false);
 }
 ```
 
@@ -382,13 +386,13 @@ It is possible to transfer the commands directly from Visual Studio to the Auto 
 
 ```json
 {
-    "profiles": {
-        "AutoImporter": {
-            "commandName": "Executable",
-            "executablePath": "C:\\Program Files\\Zeiss\\PiWeb\\AutoImporter.exe",
-            "commandLineArgs": "-pluginSearchPaths $(MSBuildThisFileDirectory)\\bin\\Debug -language en"
-        }
+  "profiles": {
+    "AutoImporter": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Zeiss\\PiWeb\\AutoImporter.exe",
+      "commandLineArgs": "-pluginSearchPaths $(MSBuildThisFileDirectory)\\bin\\Debug -language en"
     }
+  }
 }
 ```
 

@@ -2,10 +2,15 @@
 has_children: true
 layout: default
 nav_order: 4
+has_toc: false
 title: Plug-in fundamentals
 ---
 
 # {{ page.title }}
-This guide will walk you through plug-in fundamentals and structure, explore the nitty-gritty of manifest, delve into import formats and automation, and round off with a deep dive into user configuration, storage, and import monitoring.
+In this section we go more into detail about the possibilities of the Import SDK.
 
-We encourage developers to follow the guide in a sequential manner, mastering each section before proceeding to the subsequent topics.
+The necessary structure of a plug-in is explained ([Plug-in structure]({% link docs/plugin_fundamentals/structure.md %})) and the different plug-in types are explained in more detail ([Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %})).
+The manifest is a basic document with which the developer provides important information and definitions. Therefore, this is a separate article in this section ([Manifest]({% link docs/plugin_fundamentals/manifest.md %})).
+
+We also present more extensive implementations of an import format (([Import format]({% link docs/plugin_fundamentals/import_format.md %}))) and import automation ([Import automation]({% link docs/plugin_fundamentals/import_automation.md %})).
+Finally, reference is made to the possible user inputs within a plug-in ([User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %})) and the monitoring of import processes ([Import monitoring]({% link docs/plugin_fundamentals/monitoring.md %})).

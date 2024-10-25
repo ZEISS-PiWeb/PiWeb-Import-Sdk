@@ -35,16 +35,16 @@ The application log is a global log file that can be written to by all plug-ins 
 ```c#
 public Task InitAsync(IPluginInitContext context)
 {
-    var logger = context.Logger;
+  var logger = context.Logger;
 
-    logger.LogTrace("Plug-in test message");
-    logger.LogDebug("Plug-in test message");
-    logger.LogInformation("Plug-in test message");
-    logger.LogWarning("Plug-in test message with parameter: {parameter}", 5);
-    logger.LogError(new Exception("Test exception"), "Plug-in test message");
-    logger.LogInformation("Current UI culture: {cultureName}", CultureInfo.CurrentUICulture.Name);
+  logger.LogTrace("Plug-in test message");
+  logger.LogDebug("Plug-in test message");
+  logger.LogInformation("Plug-in test message");
+  logger.LogWarning("Plug-in test message with parameter: {parameter}", 5);
+  logger.LogError(new Exception("Test exception"), "Plug-in test message");
+  logger.LogInformation("Current UI culture: {cultureName}", CultureInfo.CurrentUICulture.Name);
 
-    return Task.CompletedTask;
+  return Task.CompletedTask;
 }
 ```
 
@@ -70,22 +70,22 @@ using Zeiss.PiWeb.Sdk.Import.ImportHistory;
 
 public class LoggingTestImportGroupFilter : IImportGroupFilter
 {
-    public ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
-    {
-        if (!importGroup.PrimaryFile.HasExtension(".itl"))
-            return ValueTask.FromResult(FilterResult.None);
+  public ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
+  {
+    if (!importGroup.PrimaryFile.HasExtension(".itl"))
+      return ValueTask.FromResult(FilterResult.None);
 
-        if (importGroup.PrimaryFile.BaseName.Contains("grouping-error", StringComparison.OrdinalIgnoreCase))
-            context.ImportHistoryService.AddMessage(MessageSeverity.Error, "GroupingError");
+    if (importGroup.PrimaryFile.BaseName.Contains("grouping-error", StringComparison.OrdinalIgnoreCase))
+      context.ImportHistoryService.AddMessage(MessageSeverity.Error, "GroupingError");
 
-        if (importGroup.PrimaryFile.BaseName.Contains("grouping-warning", StringComparison.OrdinalIgnoreCase))
-            context.ImportHistoryService.AddMessage(MessageSeverity.Warning, "GroupingWarning");
+    if (importGroup.PrimaryFile.BaseName.Contains("grouping-warning", StringComparison.OrdinalIgnoreCase))
+      context.ImportHistoryService.AddMessage(MessageSeverity.Warning, "GroupingWarning");
 
-        if (importGroup.PrimaryFile.BaseName.Contains("grouping-info", StringComparison.OrdinalIgnoreCase))
-            context.ImportHistoryService.AddMessage(MessageSeverity.Info, "GroupingInfo");
+    if (importGroup.PrimaryFile.BaseName.Contains("grouping-info", StringComparison.OrdinalIgnoreCase))
+      context.ImportHistoryService.AddMessage(MessageSeverity.Info, "GroupingInfo");
 
-        return ValueTask.FromResult(FilterResult.Import);
-    }
+    return ValueTask.FromResult(FilterResult.Import);
+  }
 }
 ```
 
@@ -107,60 +107,60 @@ using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public sealed class MyImportRunner : IImportRunner
 {
-    private readonly IActivityService _ActivityService;
+  private readonly IActivityService _ActivityService;
 
-    public MyImportRunner(ICreateImportRunnerContext context)
+  public MyImportRunner(ICreateImportRunnerContext context)
+  {
+    _ActivityService = context.ActivityService;
+  }
+
+  public async Task RunAsync(CancellationToken cancellationToken)
+  {
+    try
     {
-        _ActivityService = context.ActivityService;
-    }
+      await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 
-    public async Task RunAsync(CancellationToken cancellationToken)
+      _ActivityService.SetActivity(
+        new ActivityProperties()
+        {
+          ActivityType = ActivityType.Normal,
+          ShortDisplayText = "Stage {0}",
+          DetailedDisplayText = "Stage {0} - Some more details"
+        },
+        1);
+
+      await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+
+      _ActivityService.ClearActivity();
+
+      await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+
+      _ActivityService.SetActivity(
+        new ActivityProperties()
+        {
+          ActivityType = ActivityType.Normal,
+          DetailedDisplayText = "Stage 2 - Waiting {0} seconds"
+        },
+        5);
+
+      await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+      
+      _ActivityService.SetActivity(
+        new ActivityProperties()
+        {
+          ActivityType = ActivityType.Suspension,
+          ShortDisplayText = "Some error occured",
+          DetailedDisplayText = "Some error occured",
+          IsSourceProblem = true
+        });
+
+      await Task.Delay(TimeSpan.FromMilliseconds(-1), cancellationToken).ConfigureAwait(false);
+    }
+    catch (OperationCanceledException)
     {
-        try
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-
-            _ActivityService.SetActivity(
-                new ActivityProperties()
-                {
-                    ActivityType = ActivityType.Normal,
-                    ShortDisplayText = "Stage {0}",
-                    DetailedDisplayText = "Stage {0} - Some more details"
-                },
-                1);
-
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-
-            _ActivityService.ClearActivity();
-
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-
-            _ActivityService.SetActivity(
-                new ActivityProperties()
-                {
-                    ActivityType = ActivityType.Normal,
-                    DetailedDisplayText = "Stage 2 - Waiting {0} seconds"
-                },
-                5);
-
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-            
-            _ActivityService.SetActivity(
-                new ActivityProperties()
-                {
-                    ActivityType = ActivityType.Suspension,
-                    ShortDisplayText = "Some error occured",
-                    DetailedDisplayText = "Some error occured",
-                    IsSourceProblem = true
-                });
-
-            await Task.Delay(TimeSpan.FromMilliseconds(-1), cancellationToken).ConfigureAwait(false);
-        }
-        catch (OperationCanceledException)
-        {
-            // Do nothing
-        }
+      // Do nothing
     }
+  }
 }
 ```
 
@@ -169,51 +169,55 @@ The following properties can be used to customize your status message:
 ```c#
 public class ActivityProperties
 {
-	/// <summary>
-	/// The type of the activity.
-	/// </summary>
-	public ActivityType ActivityType { get; init; } = ActivityType.Normal;
+  /// <summary>
+  /// The type of the activity.
+  /// </summary>
+  public ActivityType ActivityType { get; init; } = ActivityType.Normal;
 
-	/// <summary>
-	/// The detailed text to display. A localization handler will be used to localize this text.
-	/// Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and formatting.
-	/// </summary>
-	public string DetailedDisplayText { get; init; } = string.Empty;
+  /// <summary>
+  /// The detailed text to display. A localization handler will be used to localize this text.
+  /// Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization
+  /// and formatting.
+  /// </summary>
+  public string DetailedDisplayText { get; init; } = string.Empty;
 
-	/// <summary>
-	/// The short text to display. A localization handler will be used to localize this text with the given
-	/// arguments. Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own localization and
-	/// formatting.
-	/// </summary>
-	public string ShortDisplayText { get; init; } = string.Empty;
+  /// <summary>
+  /// The short text to display. A localization handler will be used to localize this text with the given
+  /// arguments. Implement <see cref="IPlugin.CreateLocalizationHandler"/> to specify your own
+  /// localization and formatting.
+  /// </summary>
+  public string ShortDisplayText { get; init; } = string.Empty;
 
-	/// <summary>
-	/// Indicates whether this activity resulted from an import source error such as a missing import source.
-	/// This property is only respected when <see cref="ActivityType"/> is <see cref="Activity.ActivityType.Suspension"/>.
-	/// </summary>
-	public bool IsSourceProblem { get; init; } = false;
+  /// <summary>
+  /// Indicates whether this activity resulted from an import source error such as a missing import source.
+  /// This property is only respected when <see cref="ActivityType"/>
+  /// is <see cref="Activity.ActivityType.Suspension"/>.
+  /// </summary>
+  public bool IsSourceProblem { get; init; } = false;
 
-	/// <summary>
-	/// Indicates whether this activity resulted from an import target error such as an unreachable target server.
-	/// This property is only respected when <see cref="ActivityType"/> is <see cref="Activity.ActivityType.Suspension"/>.
-	/// </summary>
-	public bool IsTargetProblem { get; init; } = false;
+  /// <summary>
+  /// Indicates whether this activity resulted from an import target error such as an unreachable
+  /// target server. This property is only respected when <see cref="ActivityType"/>
+  /// is <see cref="Activity.ActivityType.Suspension"/>.
+  /// </summary>
+  public bool IsTargetProblem { get; init; } = false;
 }
 
 public enum ActivityType
 {
-	/// <summary>
-	/// Normal activity, has no special behavior.
-	/// </summary>
-	Normal,
+  /// <summary>
+  /// Normal activity, has no special behavior.
+  /// </summary>
+  Normal,
 
-	/// <summary>
-	/// Indicates that the import automation is temporarily suspended. This means that no imports are currently being carried out.
-	/// An activity of this type should be set after an error occurs when time is required to recover from this error. A typical example
-	/// is when the import target server cannot be reached. In this situation, it is recommended to wait for a short period of time
-	/// before trying again to avoid traffic. Use a suspension activity during this wait time.
-	/// </summary>
-	Suspension
+  /// <summary>
+  /// Indicates that the import automation is temporarily suspended. This means that no imports are
+  /// currently being carried out. An activity of this type should be set after an error occurs when
+  /// time is required to recover from this error. A typical example is when the import target server
+  /// cannot be reached. In this situation, it is recommended to wait for a short period of time
+  /// before trying again to avoid traffic. Use a suspension activity during this wait time.
+  /// </summary>
+  Suspension
 }
 ```
 
@@ -228,26 +232,26 @@ using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public sealed class MyImportRunner : IImportRunner
 {
-    private readonly IActivityService _ActivityService;
+  private readonly IActivityService _ActivityService;
 
-    public MyImportRunner(ICreateImportRunnerContext context)
+  public MyImportRunner(ICreateImportRunnerContext context)
+  {
+    _ActivityService = context.ActivityService;
+  }
+
+  public async Task RunAsync(CancellationToken cancellationToken)
+  {
+    try
     {
-        _ActivityService = context.ActivityService;
-    }
+      await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 
-    public async Task RunAsync(CancellationToken cancellationToken)
+      _ActivityService.PostActivityEvent(EventSeverity.Info, "Direct event writing");
+    }
+    catch (OperationCanceledException)
     {
-        try
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-
-            _ActivityService.PostActivityEvent(EventSeverity.Info, "Direct event writing");
-        }
-        catch (OperationCanceledException)
-        {
-            // Do nothing
-        }
+      // Do nothing
     }
+  }
 }
 ```
 

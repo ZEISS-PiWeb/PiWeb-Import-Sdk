@@ -21,12 +21,14 @@ The compiled plug-in must be packed together with the manifest file in a **pip**
 This works via the install function in the Auto Importer, via drag & drop into the Auto Importer window and via file system.\
 As a plug-in developer, you can use the build process from the Import SDK. The pip file is actually a zip file, i.e. it can also be created in other ways and then renamed.
 
-## Download compiled example plug-in
+## Install a plug-in
+
+### Download compiled example plug-in
 We provide a ready-to-use plug-in (pip file) under the following link:\
-[Zeiss.StartingAPlugin@1.0.0.pip](../assets/pips/Zeiss.StartingAPlugin%401.0.0.pip){:target="_blank"}\
+[Zeiss.StartingAPlugin@1.0.0.pip](../../assets/pips/Zeiss.StartingAPlugin%401.0.0.pip){:target="_blank"}\
 This can be used to run a plug-in installation.
 
-## Install option
+### Install option
 The Auto Importer provides an installer option, for which the following steps must be carried out:
 
 1. Open `File > Plug-ins...`, You can select the Install plug-in... option via the cogwheel in the top right-hand area. option. Alternatively, if you have not yet installed a plug-in, you can select Install plug-in directly in the middle of the view.
@@ -41,12 +43,32 @@ This will open the file explorer with filtering for Auto Importer plug-in files.
 5. A green tick appears in front of successfully executed actions. The plug-in installer can now be closed, after which the Auto Importer starts with the installed plug-in.
 ![Restart request](../assets/images/deployment/ai_install_5.png "Restart request")
 
-## Drag & drop
+### Drag & drop
 It is also possible to drag Auto Importer plug-in files into the Auto Importer window. This then automatically recognizes that an installation is desired. The overview window with the plug-in to be installed then appears directly.
 Here too, the Auto Importer must be restarted afterwards.
 
 This function allows you to install plug-ins directly from a mail attachment, for example.
 
-## File system
+### File system
 The Auto Importer goes through subfolders of the `Plugins` folder in its installation path to find a manifest.json there. It evaluates this manifest file and loads the corresponding plug-in when the program is started.\
 This is also the only place in the production environment from which plug-ins are loaded. If you place a corresponding folder in this path, the Auto Importer will load it as a plug-in the next time the program is started.
+
+## Check plug-in installation
+To ensure that the plug-in has been installed correctly, you can call up the plug-in management view (`File > Plug-ins...`) again. The loaded plug-in will now appear there.\
+![Plug-in management view](../assets/images/deployment/manifest.png "Plug-in management view")
+
+## Create import plan
+To test the installed plug-in, an import plan must first be created; an import plan defines a source and a target. To do this, please click on `Create import plan`.\
+![Create import plan](../assets/images/deployment/import_plan.png "Create import plan")
+
+## Import plan with custom import source
+If the plug-in has been loaded correctly, the custom import source can be selected as an import source in an import plan. Please adjust all settings according to the screenshot.\
+![Auto Importer import source](../assets/images/deployment/import_source.png "Auto Importer import source")
+
+To select your cloud database as the destination, please go to Select connection and select Auto.\
+![Cloud connection](../assets/images/deployment/cloud.png "Cloud connection")
+
+Via `Run`, the import plan is started with this configuration. The plug-in only demonstrates the switching of the activity and status log. At the end of the execution, an error is provoked.\
+![Running the plug-in](../assets/images/deployment/run.png "Running the plug-in")
+
+You can find out more about import visualization options at [Import monitoring]({% link docs/plugin_fundamentals/monitoring.md %}). The following articles describe the minimum source code required for a plug-in.

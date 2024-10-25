@@ -16,7 +16,6 @@ Aim:
 --->
 
 # Introduction
-
 [ZEISS PiWeb software](https://www.zeiss.de/messtechnik/produkte/software/piweb.html){:target="_blank"} is a set of applications to store, manage and evaluate measurement data usually used for quality assurance in industrial production and other fields. While the PiWeb backend stores data in a structured way and makes it available to the network, PiWeb clients provide statistical and graphical evaluation and reporting. Data to be stored in PiWeb often comes directly from measuring machines producing output files of various formats containing measurement values. To always have current measurement data available, the import of these files needs to be automated.
 
 PiWeb Auto Importer (as part of ZEISS PiWeb software) is an application that allows to automate the import of data files by watching one or more filesystem folders and automatically uploading the measurements of any file that appears in these folders. 

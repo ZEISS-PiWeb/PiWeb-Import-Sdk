@@ -11,8 +11,8 @@ Ziele:
 
 Inhalt:
 - IImportFormat implementieren
-    - für einfaches Beispielformat GetGroup- und Parse-Methode implementieren
-    - zur weiteren Erklärung der Details auf Unterkapitel "Module: Import format" verweisen
+  - für einfaches Beispielformat GetGroup- und Parse-Methode implementieren
+  - zur weiteren Erklärung der Details auf Unterkapitel "Module: Import format" verweisen
 - Implementierung registrieren
 - Implementierung im manifest eintragen
 - Format mit Beispieldatei verwenden
@@ -73,10 +73,10 @@ Create a new class `SimpleTxtImportGroupFilter` that accordingly implements `IIm
 ```c#
 public class SimpleTxtImportGroupFilter : IImportGroupFilter
 {
-    public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
-    {
-        throw new NotImplementedException();
-    }
+  public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
+  {
+    throw new NotImplementedException();
+  }
 }
 ```
 
@@ -85,7 +85,7 @@ Now you can return a new instance of the `SimpleTxtImportGroupFilter` in the `Cr
 ```c#
 public IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContext context)
 {
-    return new SimpleTxtImportGroupFilter();
+  return new SimpleTxtImportGroupFilter();
 }
 ```
 
@@ -94,19 +94,19 @@ And finally, let's look at the implementation of the `FilterAsync` method of the
 ```c#
 public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
 {
-    // Check file extension.
-    if (!importGroup.PrimaryFile.HasExtension(".txt"))
-        return FilterResult.None;
-
-    await using var stream = importGroup.PrimaryFile.GetDataStream();
-    using var reader = new StreamReader(stream);
-
-    // Check file content match with SimpleTxt format.
-    var firstLine = reader.ReadLine();
-    if (firstLine != null && firstLine.StartsWith("#Header"))
-        return FilterResult.Import;
-            
+  // Check file extension.
+  if (!importGroup.PrimaryFile.HasExtension(".txt"))
     return FilterResult.None;
+
+  await using var stream = importGroup.PrimaryFile.GetDataStream();
+  using var reader = new StreamReader(stream);
+
+  // Check file content match with SimpleTxt format.
+  var firstLine = reader.ReadLine();
+  if (firstLine != null && firstLine.StartsWith("#Header"))
+    return FilterResult.Import;
+
+  return FilterResult.None;
 }
 ```
 
@@ -120,13 +120,13 @@ Finally, you need to implement the second method `CreateImportParser` of the `Im
 ```c#
 public class SimpleTxtImportParser : IImportParser
 {
-    public async Task<ImportData> ParseAsync(
-        IImportGroup importGroup,
-        CancellationToken cancellationToken,
-        IParseContext context)
-    {
-        throw new NotImplementedException();
-    }
+  public async Task<ImportData> ParseAsync(
+    IImportGroup importGroup,
+    CancellationToken cancellationToken,
+    IParseContext context)
+  {
+    throw new NotImplementedException();
+  }
 }
 ```
 
@@ -135,7 +135,7 @@ Before we consider the implementation of the `ParseAsync` method, you can now co
 ```c#
 public IImportParser CreateImportParser(ICreateImportParserContext context)
 {
-    return new SimpleTxtImportParser();
+  return new SimpleTxtImportParser();
 }
 ```
 
@@ -163,25 +163,25 @@ string? line;
 // Parse header attributes.
 while ((line = reader.ReadLine()) != null)
 {
-    if( string.IsNullOrEmpty(line))
-        continue;
+  if( string.IsNullOrEmpty(line))
+    continue;
 
-    if (line.StartsWith("#Characteristic"))
-        break;
+  if (line.StartsWith("#Characteristic"))
+    break;
 
-    var rowItems = line.Split(": ");
-    var attribute = rowItems[0].Trim();
-    var value = rowItems[1].Trim();
+  var rowItems = line.Split(": ");
+  var attribute = rowItems[0].Trim();
+  var value = rowItems[1].Trim();
 
-    switch (attribute)
-    {
-        case "Date":
-            measurement.SetAttribute(4,value);
-            break;
-        case "Text":
-            measurement.SetAttribute(9,value);
-            break;
-    }
+  switch (attribute)
+  {
+    case "Date":
+      measurement.SetAttribute(4,value);
+      break;
+    case "Text":
+      measurement.SetAttribute(9,value);
+      break;
+  }
 
 }
 ```
@@ -192,16 +192,16 @@ You can finally create the characteristics and their associated measured values 
 // Parse measured value for each characteristic.
 while ((line = reader.ReadLine()) != null)
 {
-    if( string.IsNullOrEmpty(line))
-        continue;
-                
-    var rowItems = line.Split(',');
-    var characteristicName = rowItems[0].Trim();
-    var value = rowItems[1].Trim();
-                
-    var characteristic = root.AddCharacteristic(characteristicName);
-    var measuredValue = measurement.AddMeasuredValue(characteristic);
-    measuredValue.SetAttribute(1,double.Parse(value));
+  if( string.IsNullOrEmpty(line))
+    continue;
+        
+  var rowItems = line.Split(',');
+  var characteristicName = rowItems[0].Trim();
+  var value = rowItems[1].Trim();
+        
+  var characteristic = root.AddCharacteristic(characteristicName);
+  var measuredValue = measurement.AddMeasuredValue(characteristic);
+  measuredValue.SetAttribute(1,double.Parse(value));
 }
 
 return new ImportData(root);
@@ -212,63 +212,63 @@ The full implementation of the `ParseAsync` method is listed below.
 ```c#
 public class SimpleTxtImportParser : IImportParser
 {
-    public async Task<ImportData> ParseAsync(
-        IImportGroup importGroup,
-        CancellationToken cancellationToken,
-        IParseContext context)
+  public async Task<ImportData> ParseAsync(
+    IImportGroup importGroup,
+    CancellationToken cancellationToken,
+    IParseContext context)
+  {
+    // Create root part and measurement.
+    var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
+    var measurement = root.AddMeasurement();
+
+    // Create reader for import file.
+    await using var stream = importGroup.PrimaryFile.GetDataStream();
+    using var reader = new StreamReader(stream);
+
+    string? line;
+
+    // Parse header attributes.
+    while ((line = reader.ReadLine()) != null)
     {
-        // Create root part and measurement.
-        var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
-        var measurement = root.AddMeasurement();
+      if( string.IsNullOrEmpty(line))
+        continue;
 
-        // Create reader for import file.
-        await using var stream = importGroup.PrimaryFile.GetDataStream();
-        using var reader = new StreamReader(stream);
+      if (line.StartsWith("#Characteristic"))
+        break;
 
-        string? line;
+      var rowItems = line.Split(": ");
+      var attribute = rowItems[0].Trim();
+      var value = rowItems[1].Trim();
 
-        // Parse header attributes.
-        while ((line = reader.ReadLine()) != null)
-        {
-            if( string.IsNullOrEmpty(line))
-                continue;
+      switch (attribute)
+      {
+        case "Date":
+          measurement.SetAttribute(4,value);
+          break;
+        case "Operator":
+          measurement.SetAttribute(9,value);
+          break;
+      }
 
-            if (line.StartsWith("#Characteristic"))
-                break;
-
-            var rowItems = line.Split(": ");
-            var attribute = rowItems[0].Trim();
-            var value = rowItems[1].Trim();
-
-            switch (attribute)
-            {
-                case "Date":
-                    measurement.SetAttribute(4,value);
-                    break;
-                case "Operator":
-                    measurement.SetAttribute(9,value);
-                    break;
-            }
-
-        }
-
-        // Parse measured value for each characteristic.
-        while ((line = reader.ReadLine()) != null)
-        {
-            if( string.IsNullOrEmpty(line))
-                continue;
-                
-            var rowItems = line.Split(',');
-            var characteristicName = rowItems[0].Trim();
-            var value = rowItems[1].Trim();
-                
-            var characteristic = root.AddCharacteristic(characteristicName);
-            var measuredValue = measurement.AddMeasuredValue(characteristic);
-            measuredValue.SetAttribute(1,double.Parse(value));
-        }
-
-        return new ImportData(root);
     }
+
+    // Parse measured value for each characteristic.
+    while ((line = reader.ReadLine()) != null)
+    {
+      if( string.IsNullOrEmpty(line))
+        continue;
+        
+      var rowItems = line.Split(',');
+      var characteristicName = rowItems[0].Trim();
+      var value = rowItems[1].Trim();
+        
+      var characteristic = root.AddCharacteristic(characteristicName);
+      var measuredValue = measurement.AddMeasuredValue(characteristic);
+      measuredValue.SetAttribute(1,double.Parse(value));
+    }
+
+    return new ImportData(root);
+  }
 }
 ```
 
