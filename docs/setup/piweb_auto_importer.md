@@ -25,18 +25,18 @@ In `HKEY_LOCAL_MACHINE\SOFTWARE\Zeiss\PiWeb\AutoImporter`, if it does not yet ex
 
 *PiWeb Auto Importer* will now show [Development mode] in its title bar.
 
-![Active development mode in PiWeb Auto Importer](../../assets/images/setup/piweb_auto_importer/titlebar_development_mode.png "Active development mode in Auto Importer"){: .bare }
+![Active development mode in PiWeb Auto Importer](../../assets/images/setup/piweb_auto_importer/titlebar_development_mode.png "Active development mode in Auto Importer")
 
 With active development mode, it is possible to specify additional plug-in search paths via command line parameter <span class="nowrap">`-pluginSearchPaths`</span> when starting *PiWeb Auto Importer*. The typical usage of this parameter is to set the plug-in search path directly to the output folder of your plug-in project.
 
-![PiWeb Auto Importer command line example](../../assets/images/setup/piweb_auto_importer/cmd_plugin_search_path.png "PiWeb Auto Importer command line example"){: .bare }
+![PiWeb Auto Importer command line example](../../assets/images/setup/piweb_auto_importer/cmd_plugin_search_path.png "PiWeb Auto Importer command line example")
 
 ## Plug-in management
 To see whether plug-ins in custom search paths are found, you can compile one of the example plugins, use its build output path as custom search path and open the plugin management view.
 
-![Plugins in the file menu](../../assets/images/setup/piweb_auto_importer/file_menu_plugins.png "Plugins in the file menu"){: .bare }
+![Plugins in the file menu](../../assets/images/setup/piweb_auto_importer/file_menu_plugins.png "Plugins in the file menu")
 
-![Plugin management](../../assets/images/setup/piweb_auto_importer/plugin_management.png "Plugin management"){: .bare }
+![Plugin management](../../assets/images/setup/piweb_auto_importer/plugin_management.png "Plugin management")
 
 {: .note }
 Plug-ins from custom search paths cannot be uninstalled like regular installed plug-ins.
@@ -44,7 +44,7 @@ Plug-ins from custom search paths cannot be uninstalled like regular installed p
 ## Import plans
 The last step of setting up *PiWeb Auto Importer* is to create and configure an import plan we can run. A new import plan can easily be created by clicking the green plus icon in the toolbar. If there are no import plans created so far, you can use the displayed link to create the a first import plan instead. You can now enter a name for the newly created import plan or just keep the default name.
 
-![Create new default import plan](../../assets/images/setup/piweb_auto_importer/create_default_import_plan.png "Create new default import plan"){: .bare }
+![Create new default import plan](../../assets/images/setup/piweb_auto_importer/create_default_import_plan.png "Create new default import plan")
 
 Most of the default settings of the import plan are fine, however, it is still missing a valid import target. Use the "Select connection" button to choose an import target. The import target must be a running *PiWeb backend*, see [PiWeb backend]({% link docs/setup/piweb_backend.md %}) for your options to set one up.
 

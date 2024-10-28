@@ -11,7 +11,7 @@ Ziele:
 
 Inhalt:
 - wann werden Instanzen beim Auto Importer erzeugt und wann disposed
-    - IPlugin, ImportRunner, ImportModule etc.
+  - IPlugin, ImportRunner, ImportModule etc.
 --->
 
 # {{ page.title }}
@@ -27,10 +27,10 @@ using Zeiss.PiWeb.Import.Sdk;
 
 public class Plugin : IPlugin
 {
-    public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
-    {
-        return new MyImportAutomation();
-    }
+  public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
+  {
+    return new MyImportAutomation();
+  }
 }
 ```
 
@@ -40,7 +40,7 @@ The configuration of the registered import automation is then called up, to get 
 ```c#
 public IAutomationConfiguration CreateConfiguration(ICreateAutomationConfigurationContext context)
 {
-    return new ImportConfiguration(context.PropertyStorage);
+  return new ImportConfiguration(context.PropertyStorage);
 }
 ```
 
@@ -56,7 +56,7 @@ Starting an import plan causes an `IImportRunner` of the selected import source 
 ```c#
 public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
 {
-	return new MyImportRunner(context);
+  return new MyImportRunner(context);
 }
 ```
 
@@ -70,10 +70,10 @@ private readonly int _Port;
 
 public MyImportRunner(ICreateImportRunnerContext importRunnerContext)
 {
-    _ImportRunnerContext = importRunnerContext;
+  _ImportRunnerContext = importRunnerContext;
 
-    _Hostname = _ImportRunnerContext.PropertyReader.ReadString(nameof(ImportConfiguration.Hostname));
-    _Port = _ImportRunnerContext.PropertyReader.ReadNumber(nameof(ImportConfiguration.Port), 1883);
+  _Hostname = _ImportRunnerContext.PropertyReader.ReadString(nameof(ImportConfiguration.Hostname));
+  _Port = _ImportRunnerContext.PropertyReader.ReadNumber(nameof(ImportConfiguration.Port), 1883);
 }
 ```
 
@@ -85,27 +85,27 @@ using Zeiss.PiWeb.Import.Sdk.Modules.ImportAutomation;
 
 public sealed class MyImportRunner : IImportRunner
 {
-    public async Task RunAsync(CancellationToken cancellationToken)
+  public async Task RunAsync(CancellationToken cancellationToken)
+  {
+    try
     {
-        try
-        {
-            // Place your import loop here
-        }
-        catch(OperationCanceledException)
-        {
-            // Happens when user stops the import plan, finish last import
-        }
-        catch
-        {
-            // Error handling and shutdown
-        }
+      // Place your import loop here
     }
+    catch(OperationCanceledException)
+    {
+      // Happens when user stops the import plan, finish last import
+    }
+    catch
+    {
+      // Error handling and shutdown
+    }
+  }
 
-    public ValueTask DisposeAsync()
-    {
-        // Close your open connections and release reserved resources
-        return ValueTask.CompletedTask;
-    }
+  public ValueTask DisposeAsync()
+  {
+    // Close your open connections and release reserved resources
+    return ValueTask.CompletedTask;
+  }
 }
 ```
 
@@ -122,10 +122,10 @@ using Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 public class Plugin : IPlugin
 {
-    public IImportFormat CreateImportFormat(ICreateImportFormatContext context)
-    {
-        return new ImportFormat();
-    }
+  public IImportFormat CreateImportFormat(ICreateImportFormatContext context)
+  {
+    return new ImportFormat();
+  }
 }
 ```
 
@@ -135,7 +135,7 @@ During the start of the Auto Importer the defined import format configuration fo
 ```c#
 public IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigurationContext context)
 {
-    return new ImportFormatConfiguration();
+  return new ImportFormatConfiguration();
 }
 ```
 
@@ -147,7 +147,7 @@ The import process starts when an import plan of the Auto Importer is running an
 ```c#
 public IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContext context)
 {
-    return new ImportGroupFilter();
+  return new ImportGroupFilter();
 }
 ```
 
@@ -160,10 +160,10 @@ using Zeiss.PiWeb.Import.Sdk.ImportFiles;
 
 public class ImportGroupFilter : IImportGroupFilter
 {
-    public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
-    {
-        [...]
-    }
+  public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
+  {
+    [...]
+  }
 }
 ```
 
@@ -173,7 +173,7 @@ After an import group is assigned to an import format via the import group build
 ```c#
 public IImportParser CreateImportParser(ICreateImportParserContext context)
 {
-    return new ImportParser();
+  return new ImportParser();
 }
 ```
 
@@ -188,12 +188,12 @@ using Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 public class ImportParser : IImportParser
 {
-    public async Task<ImportData> ParseAsync(
-        IImportGroup importGroup,
-        CancellationToken cancellationToken,
-        IParseContext context)
-    {
-        [...]
-    }
+  public async Task<ImportData> ParseAsync(
+    IImportGroup importGroup,
+    CancellationToken cancellationToken,
+    IParseContext context)
+  {
+    [...]
+  }
 }
 ```

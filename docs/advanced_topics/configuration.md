@@ -11,10 +11,10 @@ Ziele:
 
 Inhalt:
 - Anwendungsfälle:
-    - Veränderung der Konfiguration beim Laden des Plug-ins
-    - Veränderung der Konfiguration bei Prüfplanduplikation
+  - Veränderung der Konfiguration beim Laden des Plug-ins
+  - Veränderung der Konfiguration bei Prüfplanduplikation
 - Motivation hinter rewrite:
-    - verhindern, dass man sich mit alten Storage Layouts beschäftigen muss
+  - verhindern, dass man sich mit alten Storage Layouts beschäftigen muss
 --->
 
 # {{ page.title }}
@@ -28,21 +28,27 @@ using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
 public class ImportConfiguration(ICreateAutomationConfigurationContext context) : IAutomationConfiguration
 {
-    [ConfigurationItem]
-    public StringConfigurationItem MigrationValue { get; } = new(context.PropertyStorage, "Migration", "Original Value")
-    {
-        Section = WellKnownSections.Source,
-        Priority = WellKnownPriorities.Source.ImportSource + 1,
-        Title = "Migration"
-    };
-    
-    [ConfigurationItem]
-    public StringConfigurationItem UniqueValue { get; } = new(context.PropertyStorage, "Unique", Guid.NewGuid().ToString())
-    {
-        Section = WellKnownSections.Source,
-        Priority = WellKnownPriorities.Source.ImportSource + 2,
-        Title = "Unique"
-    };
+  [ConfigurationItem]
+  public StringConfigurationItem MigrationValue { get; } = new(
+    context.PropertyStorage,
+    "Migration",
+    "Original Value")
+  {
+    Section = WellKnownSections.Source,
+    Priority = WellKnownPriorities.Source.ImportSource + 1,
+    Title = "Migration"
+  };
+  
+  [ConfigurationItem]
+  public StringConfigurationItem UniqueValue { get; } = new(
+    context.PropertyStorage,
+    "Unique",
+    Guid.NewGuid().ToString())
+  {
+    Section = WellKnownSections.Source,
+    Priority = WellKnownPriorities.Source.ImportSource + 2,
+    Title = "Unique"
+  };
 }
 ```
 
@@ -55,24 +61,24 @@ using Zeiss.PiWeb.Sdk.Import.PropertyStorage;
 
 public class ImportAutomation : IImportAutomation
 {
-    public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
-    {
-        return new ImportRunner(context);
-    }
+  public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
+  {
+    return new ImportRunner(context);
+  }
 
-    public IAutomationConfiguration CreateConfiguration(ICreateAutomationConfigurationContext context)
-    {
-        return new ImportConfiguration(context);
-    }
+  public IAutomationConfiguration CreateConfiguration(ICreateAutomationConfigurationContext context)
+  {
+    return new ImportConfiguration(context);
+  }
 
-    public void RewritePropertyStorage(IPropertyStorage propertyStorage, IRewriteContext context)
-    {
-        if (context.RewriteReason == RewriteReason.Migration)
-            propertyStorage.WriteString("Migration", "Rewritten");
+  public void RewritePropertyStorage(IPropertyStorage propertyStorage, IRewriteContext context)
+  {
+  if (context.RewriteReason == RewriteReason.Migration)
+    propertyStorage.WriteString("Migration", "Rewritten");
 
-        if (context.RewriteReason == RewriteReason.Duplication)
-            propertyStorage.WriteString("Unique", Guid.NewGuid().ToString());
-    }
+  if (context.RewriteReason == RewriteReason.Duplication)
+    propertyStorage.WriteString("Unique", Guid.NewGuid().ToString());
+  }
 }
 ```
 
@@ -85,12 +91,12 @@ namespace Zeiss.PiWeb.Sdk.Import.PropertyStorage
   /// </summary>
   public enum RewriteReason
   {
-    /// <summary>
-    /// A previously persisted storage is loaded and needs to be migrated to the currently expected format.
-    /// </summary>
-    Migration,
-    /// <summary>An existing storage is duplicated.</summary>
-    Duplication,
+  /// <summary>
+  /// A previously persisted storage is loaded and needs to be migrated to the currently expected format.
+  /// </summary>
+  Migration,
+  /// <summary>An existing storage is duplicated.</summary>
+  Duplication,
   }
 }
 ```

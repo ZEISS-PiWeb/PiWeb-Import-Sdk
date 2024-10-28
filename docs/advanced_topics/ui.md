@@ -34,7 +34,7 @@ using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
 
 public sealed class ButtonViewModel( Action callback ) : ConfigurationItemBase
 {
-	public IRelayCommand ButtonClickCommand { get; set; } = new RelayCommand( callback, () => true );
+  public IRelayCommand ButtonClickCommand { get; set; } = new RelayCommand( callback, () => true );
 }
 ```
 
@@ -71,38 +71,38 @@ using Zeiss.PiWeb.Sdk.Import.PropertyStorage;
 
 public class ImportConfiguration : IAutomationConfiguration
 {
-	private static readonly Section _ConfigurationSection = new Section() { Title = "Configuration", Priority = 1 };
+  private static readonly Section _ConfigurationSection = new Section() { Title = "Configuration", Priority = 1 };
 
-	public ImportConfiguration( IPropertyStorage storage )
-	{
-		Hostname = new StringConfigurationItem( storage, nameof( Hostname ), "localhost" )
-		{
-			Priority = 0,
-			Section = _ConfigurationSection,
-			Title = "Hostname",
-			Tooltip = "Hostname of MQTT broker. e.g. localhost"
-		};
+  public ImportConfiguration( IPropertyStorage storage )
+  {
+    Hostname = new StringConfigurationItem( storage, nameof( Hostname ), "localhost" )
+    {
+      Priority = 0,
+      Section = _ConfigurationSection,
+      Title = "Hostname",
+      Tooltip = "Hostname of MQTT broker. e.g. localhost"
+    };
 
-		[...]
-
-		Button = new ButtonViewModel( TestConnection )
-		{
-			Priority = 7,
-			Section = _ConfigurationSection,
-			Title = "Connection test",
-			Tooltip = "Tries to connect to given server."
-		};
-	}
-
-	[ConfigurationItem]
-	public StringConfigurationItem Hostname { get; }
-
-	[...]
-	
-	[ConfigurationItem]
-	public ButtonViewModel Button { get; }
-    
     [...]
+
+    Button = new ButtonViewModel( TestConnection )
+    {
+      Priority = 7,
+      Section = _ConfigurationSection,
+      Title = "Connection test",
+      Tooltip = "Tries to connect to given server."
+    };
+  }
+
+  [ConfigurationItem]
+  public StringConfigurationItem Hostname { get; }
+
+  [...]
+  
+  [ConfigurationItem]
+  public ButtonViewModel Button { get; }
+  
+  [...]
 }
 ```
 

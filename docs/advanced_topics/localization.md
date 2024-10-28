@@ -100,37 +100,37 @@ These messages are stored semantically and translated into the current language 
 ```c#
 public class LocalizationHandler : ILocalizationHandler
 {
-    public string LocalizeAndFormatText(string text, object[] args, ILocalizationContext context)
+  public string LocalizeAndFormatText(string text, object[] args, ILocalizationContext context)
+  {
+    return string.Format(
+      context.FormatCulture,
+      LocalizeText(text, context.TranslationCulture),
+      args);
+  }
+
+  private static string LocalizeText(string text, CultureInfo translationCulture)
+  {
+    if (translationCulture.TwoLetterISOLanguageName == "de")
     {
-        return string.Format(
-            context.FormatCulture,
-            LocalizeText(text, context.TranslationCulture),
-            args);
+      return text switch
+      {
+        "Info" => "Eine Info-Level-Nachricht",
+        "InfoWithArg" => "Eine Info-Level Nachricht mit Argument {0}",
+        "Error" => "Eine Error-Level-Nachricht",
+        "ErrorWithArg" => "Eine Error-Level-Nachricht mit Argument {0}",
+        _ => $"#{text}"
+      };
     }
 
-    private static string LocalizeText(string text, CultureInfo translationCulture)
+    return text switch
     {
-        if (translationCulture.TwoLetterISOLanguageName == "de")
-        {
-            return text switch
-            {
-                "Info" => "Eine Info-Level-Nachricht",
-                "InfoWithArg" => "Eine Info-Level Nachricht mit Argument {0}",
-                "Error" => "Eine Error-Level-Nachricht",
-                "ErrorWithArg" => "Eine Error-Level-Nachricht mit Argument {0}",
-                _ => $"#{text}"
-            };
-        }
-
-        return text switch
-        {
-            "Info" => "Some info level message",
-            "InfoWithArg" => "Some info level message with argument {0}",
-            "Error" => "Some error level message",
-            "ErrorWithArg" => "Some error level message with argument {0}",
-            _ => $"#{text}"
-        };
-    }
+      "Info" => "Some info level message",
+      "InfoWithArg" => "Some info level message with argument {0}",
+      "Error" => "Some error level message",
+      "ErrorWithArg" => "Some error level message with argument {0}",
+      _ => $"#{text}"
+    };
+  }
 }
 ```
 
@@ -156,30 +156,30 @@ The `LocalizationHandler` is used automatically when the `PostImportEvent` of th
 ```c#
 public sealed class MyImportRunner : IImportRunner
 {
-    private readonly IActivityService _ActivityService;
+  private readonly IActivityService _ActivityService;
 
-    public MyImportRunner(ICreateImportRunnerContext context)
+  public MyImportRunner(ICreateImportRunnerContext context)
+  {
+    _ActivityService = context.StatusService;
+  }
+
+  public async Task RunAsync(CancellationToken cancellationToken)
+  {
+    try
     {
-        _ActivityService = context.StatusService;
-    }
+      _ActivityService.PostImportEvent(EventSeverity.Info, "Info");
+      _ActivityService.PostImportEvent(EventSeverity.Info, "InfoWithArg", 1);
 
-    public async Task RunAsync(CancellationToken cancellationToken)
+      _ActivityService.PostImportEvent(EventSeverity.Error, "Error");
+      _ActivityService.PostImportEvent(EventSeverity.Error, "ErrorWithArg", 1);
+
+      await Task.Delay(TimeSpan.FromMilliseconds(-1), cancellationToken).ConfigureAwait(false);
+    }
+    catch (OperationCanceledException)
     {
-        try
-        {
-            _ActivityService.PostImportEvent(EventSeverity.Info, "Info");
-            _ActivityService.PostImportEvent(EventSeverity.Info, "InfoWithArg", 1);
-
-            _ActivityService.PostImportEvent(EventSeverity.Error, "Error");
-            _ActivityService.PostImportEvent(EventSeverity.Error, "ErrorWithArg", 1);
-
-            await Task.Delay(TimeSpan.FromMilliseconds(-1), cancellationToken).ConfigureAwait(false);
-        }
-        catch (OperationCanceledException)
-        {
-            // Do nothing
-        }
+      // Do nothing
     }
+  }
 }
 ```
 

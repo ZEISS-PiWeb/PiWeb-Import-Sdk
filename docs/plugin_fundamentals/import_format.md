@@ -12,13 +12,13 @@ Ziele:
 Inhalt:
 - Implementierung von IImportFormat beschreiben
 - File grouping
-    - Beschreibung der GetGroup-Methode
-    - insbesondere Status-Enum erklären
+  - Beschreibung der GetGroup-Methode
+  - insbesondere Status-Enum erklären
 - Parsing & building inspection plan
-    - Möglichkeiten zum Lesen der Datei 
-    - Erstellung eines TreeDataImage erklären
-        - welche Entitäten können belegt werden
-        - AttributeTemplates erklären
+  - Möglichkeiten zum Lesen der Datei 
+  - Erstellung eines TreeDataImage erklären
+    - welche Entitäten können belegt werden
+    - AttributeTemplates erklären
 --->
 
 # {{ page.title }}
@@ -36,10 +36,10 @@ using Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 public class Plugin : IPlugin
 {
-    public IImportFormat CreateImportFormat(ICreateImportFormatContext context)
-    {
-        return new ImportFormat();
-    }
+  public IImportFormat CreateImportFormat(ICreateImportFormatContext context)
+  {
+    return new ImportFormat();
+  }
 }
 ```
 
@@ -51,20 +51,20 @@ using Zeiss.PiWeb.Import.Sdk.Modules.ImportFormat;
 
 public sealed class ImportFormat : IImportFormat
 {
-    public IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContext context)
-    {
-        return new ImportGroupFilter();
-    }
+  public IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContext context)
+  {
+    return new ImportGroupFilter();
+  }
 
-    public IImportParser CreateImportParser(ICreateImportParserContext context)
-    {
-        return new ImportParser();
-    }
+  public IImportParser CreateImportParser(ICreateImportParserContext context)
+  {
+    return new ImportParser();
+  }
 
-    public IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigurationContext context)
-    {
-        return new ImportFormatConfiguration();
-    }
+  public IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigurationContext context)
+  {
+    return new ImportFormatConfiguration();
+  }
 }
 ```
 
@@ -74,14 +74,14 @@ The Auto Importer needs to know which files in the import folder belongs to whic
 ```c#
 public class ImportGroupFilter : IImportGroupFilter
 {
-    public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
-    {
-        // Check file extension.
-        if (!importGroup.PrimaryFile.HasExtension(".txt"))
-            return FilterResult.None;
-            
-        return FilterResult.Import;
-    }
+  public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
+  {
+    // Check file extension.
+    if (!importGroup.PrimaryFile.HasExtension(".txt"))
+      return FilterResult.None;
+      
+    return FilterResult.Import;
+  }
 }
 ```
 
@@ -93,11 +93,11 @@ Depending on the validation, a `FilterResult` is returned for the import file re
 ```c#
 public enum FilterResult
 {
-    None,           // ImportGroup should not be imported by this module (wrong file/format)
-    Import,         // ImportGroup is to be imported, all necessary data is available
-    Discard,        // ImportGroup is invalid, the files should be discarded directly
-    RetryOrImport,  // ImportGroup is to be imported, but we are still waiting for possible additional files, e.g. additional data
-    RetryOrDiscard, // ImportGroup should not be imported, but there may still be files that make importing possible
+  None,           // ImportGroup should not be imported by this module (wrong file/format)
+  Import,         // ImportGroup is to be imported, all necessary data is available
+  Discard,        // ImportGroup is invalid, the files should be discarded directly
+  RetryOrImport,  // ImportGroup is to be imported, but we are still waiting for possible additional files, e.g. additional data
+  RetryOrDiscard, // ImportGroup should not be imported, but there may still be files that make importing possible
 }
 ```
 
@@ -109,17 +109,17 @@ The optional dependencies for an import group could be additional import files b
 ```c#
 public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
 {
-    // Check file extension.
-    if (!importGroup.PrimaryFile.HasExtension(".txt"))
-        return FilterResult.None;
+  // Check file extension.
+  if (!importGroup.PrimaryFile.HasExtension(".txt"))
+    return FilterResult.None;
 
-    // Add additional data to import group.
-    var additionalData = context.CurrentImportFolder.FindFile(importGroup.PrimaryFile.BaseName + ".png");
-    if (additionalData == null)
-        return FilterResult.RetryOrImport;
-    importGroup.AddFile(additionalData);
-            
-    return FilterResult.Import;
+  // Add additional data to import group.
+  var additionalData = context.CurrentImportFolder.FindFile(importGroup.PrimaryFile.BaseName + ".png");
+  if (additionalData == null)
+    return FilterResult.RetryOrImport;
+  importGroup.AddFile(additionalData);
+      
+  return FilterResult.Import;
 }
 ```
 
@@ -137,64 +137,64 @@ When an import group has been assigned to a format by the import filter the Auto
 
 ```c#
 public async Task<ImportData> ParseAsync(
-    IImportGroup importGroup,
-    CancellationToken cancellationToken,
-    IParseContext context)
+  IImportGroup importGroup,
+  CancellationToken cancellationToken,
+  IParseContext context)
 {
-    // Create root part and measurement.
-    var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
-    var measurement = root.AddMeasurement();
+  // Create root part and measurement.
+  var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
+  var measurement = root.AddMeasurement();
 
-    // Create reader for import file.
-    await using var stream = importGroup.PrimaryFile.GetDataStream();
-    using var reader = new StreamReader(stream);
+  // Create reader for import file.
+  await using var stream = importGroup.PrimaryFile.GetDataStream();
+  using var reader = new StreamReader(stream);
 
-    string? line;
+  string? line;
 
-    // Parse header attributes.
-    while ((line = reader.ReadLine()) != null)
+  // Parse header attributes.
+  while ((line = reader.ReadLine()) != null)
+  {
+    if( string.IsNullOrEmpty(line))
+      continue;
+
+    if (line.StartsWith("#Characteristic"))
+      break;
+
+    var rowItems = line.Split(": ");
+    var attribute = rowItems[0].Trim();
+    var value = rowItems[1].Trim();
+
+    switch (attribute)
     {
-        if( string.IsNullOrEmpty(line))
-            continue;
-
-        if (line.StartsWith("#Characteristic"))
-            break;
-
-        var rowItems = line.Split(": ");
-        var attribute = rowItems[0].Trim();
-        var value = rowItems[1].Trim();
-
-        switch (attribute)
-        {
-            case "Date":
-                measurement.SetAttribute(4,value);
-                break;
-            case "Operator":
-                measurement.SetAttribute(9,value);
-                break;
-        }
+      case "Date":
+        measurement.SetAttribute(4,value);
+        break;
+      case "Operator":
+        measurement.SetAttribute(9,value);
+        break;
     }
+  }
 
-    // Parse measured value for each characteristic.
-    while ((line = reader.ReadLine()) != null)
-    {
-        if( string.IsNullOrEmpty(line))
-            continue;
-                
-        var rowItems = line.Split(',');
-        var characteristicName = rowItems[0].Trim();
-        var value = rowItems[1].Trim();
-                
-        var characteristic = root.AddCharacteristic(characteristicName);
-        var measuredValue = measurement.AddMeasuredValue(characteristic);
-        measuredValue.SetAttribute(1,double.Parse(value));
-    }
+  // Parse measured value for each characteristic.
+  while ((line = reader.ReadLine()) != null)
+  {
+    if( string.IsNullOrEmpty(line))
+      continue;
+        
+    var rowItems = line.Split(',');
+    var characteristicName = rowItems[0].Trim();
+    var value = rowItems[1].Trim();
+        
+    var characteristic = root.AddCharacteristic(characteristicName);
+    var measuredValue = measurement.AddMeasuredValue(characteristic);
+    measuredValue.SetAttribute(1,double.Parse(value));
+  }
 
-    // Add additional data.
-    foreach (var rawData in importGroup.AdditionalFiles)
-        measurement.AddAdditionalData(rawData.Name, rawData.GetDataStream());
+  // Add additional data.
+  foreach (var rawData in importGroup.AdditionalFiles)
+    measurement.AddAdditionalData(rawData.Name, rawData.GetDataStream());
 
-    return new ImportData(root);
+  return new ImportData(root);
 }
 ```
 
@@ -209,7 +209,7 @@ string? line;
 
 while ((line = reader.ReadLine()) != null)
 {
-    // Read the file information
+  // Read the file information
 }
 ```
 
@@ -234,7 +234,7 @@ var part = root.AddPart("Part");
 var characteristic = part.AddCharacteristic("Characteristic");
 ```
 
-The names of the inspection plan entities are fixed in this example. When importing a file, the names are usually read from the import file, as in the example at the beginning of this chapter.
+The names of the inspection plan entities are fixed in this example. When importing a file, the names are usually read from the import file, as in the example at the beginning of this article.
 
 ### Create measurement entities
 When measured values should be imported at first a measurement as an instance of the `Measurement` class has to be created and has to be assigned to a part like in the following example.
@@ -262,13 +262,13 @@ Information of the import file like the measurement date or the operator name ca
 In the following example, the measurement date `value` from the import file is saved as a measurement attribute with the key `4`.
 
 ```c#
-measurement.SetAttribute(4,value);
+measurement.SetAttribute(4, value);
 ```
 
 The measured value can be imported by setting the attribute value for the attribute with key `1` of the measured value entity. In the following example the variable `value` is used for the measured value in the import file.
 
 ```c#
-measuredValue.SetAttribute(1,double.Parse(value));
+measuredValue.SetAttribute(1, double.Parse(value));
 ```
 
 In the same way, attribute values can also be defined for parts and characteristics.
@@ -278,7 +278,7 @@ The information from the import file does not have to be assigned to a specific 
 To define a variable the method `SetVariable` can be used that exists for each entity class in PiWeb. The value of the import file is assigned to a variable name, as in the following example, the measurement date `value` is assigned to the variable with the name `Date`.
 
 ```c#
-measurement.SetVariable("Date",value);
+measurement.SetVariable("Date", value);
 ```
 
 The variable does not only apply to the entity to which it is assigned. If the variable used for an attribute mapping is not found for the current entity, the variable is also searched for in entities that correspond to this entity. For a measured value, the variable is therefore also searched for in the related measurement and the related characteristic. The search is then also continued in the corresponding part of the measurement and in potentially existing parent parts. For a measurement, a search is also made in the related part and its parent parts. In the case of characteristics, a search is also done on parent characteristics and parts. For parts, the parent parts are considered as well.
@@ -288,7 +288,7 @@ If not only the information within an import file should be imported, additional
 
 ```c#
 foreach (var rawData in importGroup.AdditionalFiles)
-    measurement.AddAdditionalData(rawData.Name, rawData.GetDataStream());
+  measurement.AddAdditionalData(rawData.Name, rawData.GetDataStream());
 ```
 
 ## Define import format configuration
@@ -296,38 +296,38 @@ The last method of the `IImportFormat` interface is the `CreateConfiguration` me
 
 ```c#
 public IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigurationContext context)
+{
+  return new ImportFormatConfiguration
+  {
+    SupportsPathRules = true,
+    SupportsAttributeMapping = true,
+    DefaultAttributeMappingConfiguration = new AttributeMappingConfiguration
     {
-        return new ImportFormatConfiguration
-        {
-            SupportsPathRules = true,
-            SupportsAttributeMapping = true,
-            DefaultAttributeMappingConfiguration = new AttributeMappingConfiguration
-            {
-                MappingRules =
-                [
-                    new MappingRule
-                    {
-                        MappingTarget = MappingTarget.MeasuredValue,
-                        AttributeKey = 1, // Measured Value
-                        ValueExpression = "$Value"
-                    },
-                    new MappingRule
-                    {
-                        MappingTarget = MappingTarget.Measurement,
-                        AttributeKey = 4, // Time
-                        ValueExpression = "$Date",
-                        MappingCultureName = "de-DE"
-                    }
-                ]
-            }
-        };
+      MappingRules =
+      [
+      new MappingRule
+      {
+        MappingTarget = MappingTarget.MeasuredValue,
+        AttributeKey = 1, // Measured Value
+        ValueExpression = "$Value"
+      },
+      new MappingRule
+      {
+        MappingTarget = MappingTarget.Measurement,
+        AttributeKey = 4, // Time
+        ValueExpression = "$Date",
+        MappingCultureName = "de-DE"
+      }
+      ]
     }
+  };
+}
 ```
 
 The `SupportsPathRules` property of the `ImportFormatConfiguration` class specifies whether the import format supports the usage and configuration of path rules. When the value is `false` the path rules tab in the import configuration view does not exist for the format. With `SupportsAttributeMapping` property can be defined whether the import format supports the usage of attribute mappings. When the value is `true` the attribute mappings tab is visible in the import configuration view and default mapping entries can be defined with the property `DefaultAttributeMappingConfiguration`. In the example one mapping entry for the measured value and one for the measurement date is created.
 
 ## Run import format plug-ins
-How to install a plug-in is described in [Starting plug-in]({% link docs/setup/starting_plugin.md %}). When an import format plug-in is installed and active the new import format is listed in the import configuration view of the Auto Importer. This view can be opened by clicking on the `Configure` button in the `Settings` tab of the import plan. 
+How to install a plug-in is described in [Deployment]({% link docs/deployment.md %}). When an import format plug-in is installed and active the new import format is listed in the import configuration view of the Auto Importer. This view can be opened by clicking on the `Configure` button in the `Settings` tab of the import plan. 
 
 ![Auto Importer import plan](../../assets/images/plugin_fundamentals/import_format/import_plan_settings.png "Auto Importer import plan")
 

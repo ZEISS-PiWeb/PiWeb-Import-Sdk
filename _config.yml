@@ -21,3 +21,9 @@ callouts:
   important:
     title: Important
     color: purple
+
+search:
+  heading_level: 6
+
+back_to_top: true
+back_to_top_text: "Back to top"
