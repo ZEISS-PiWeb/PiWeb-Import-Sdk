@@ -18,10 +18,10 @@ Inhalt:
 --->
 
 # {{ page.title }}
-<!-- TODO Um was geht es hier, Einleitung -->
+Configuration is about enabling and persisting user input. Prefabricated elements from the Import SDK can be used for this. It is also possible to make your own entries; this is explained under [Custom UI]({% link docs/advanced_topics/ui.md %}). This persisted data is adapted and saved again during the rewrite. This may be necessary if an import plan is duplicated and you want to remove or replace unique data, for example. But also when migrating to a newer version to bring the storage format or data structure up to date.
 
 ## IAutomationConfiguration
-As already known, the desired configurations items are defined in the IAutomationConfiguration implementation:
+As already known, the desired configurations items are defined in the `IAutomationConfiguration` implementation, further details can be found at [User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %}).
 ```c#
 using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
 using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;

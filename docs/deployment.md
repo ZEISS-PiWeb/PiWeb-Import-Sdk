@@ -17,11 +17,16 @@ Inhalt:
 --->
 
 # {{ page.title }}
-The compiled plug-in must be packed together with the manifest file in a **pip** file. This pip file can be installed directly in the Auto Importer as a plug-in.\
-This works via the install function in the Auto Importer, via drag & drop into the Auto Importer window and via file system.\
-As a plug-in developer, you can use the build process from the Import SDK. The pip file is actually a zip file, i.e. it can also be created in other ways and then renamed.
+In this article we will show you how to create a plug-in and install it in the Auto Importer. We will also show you how to set an installed plug-in as the import source in an import plan.
+
+## Create plug-in
+If the plug-in project uses our import sdk template as recommended by us. The build function `GeneratePluginPackageOnBuild` is automatically provided. This option is visible in the project file:\
+`<GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>`\
+If the project is compiled, the necessary pip is automatically generated and placed inside your output directory.
 
 ## Install a plug-in
+The generated **pip** file can be installed directly in the Auto Importer as a plug-in.\
+This works via the install function in the Auto Importer, via drag & drop into the Auto Importer window and via file system.
 
 ### Download compiled example plug-in
 We provide a ready-to-use plug-in (pip file) under the following link:\
@@ -37,7 +42,7 @@ This will open the file explorer with filtering for Auto Importer plug-in files.
 2. After selecting the desired plug-in, an overview of the manifest data appears.
 ![Install window](../assets/images/deployment/ai_install_2.png "Install window")
 3. After the action was scheduled, you will be prompted to restart the Auto Importer.
-![Restart request](../assets/images/deployment/ai_install_3.png "Restart request")
+![Restart request](../assets/images/deployment/ai_install_3.png "Restart request"){: .framed }
 4. When restarting, the planned action is recognized and the plug-in installer is started. This shows the pending actions. Administration rights are required to execute the actions (`Run now`). To ensure that all import plans can be updated, all service import plans are stopped and then restarted.
 ![Plug-in Installer](../assets/images/deployment/ai_install_4.png "Plug-in Installer")
 5. A green tick appears in front of successfully executed actions. The plug-in installer can now be closed, after which the Auto Importer starts with the installed plug-in.
