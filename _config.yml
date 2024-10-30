@@ -1,4 +1,4 @@
-title: PiWeb Import SDK
+title: PiWeb Import SDK documentation
 description: Documentation for the PiWeb Import SDK.
 theme: just-the-docs
 color_scheme: zeiss
@@ -9,7 +9,7 @@ url: https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk
 
 # Aux links for the upper right navigation
 aux_links:
-  "PiWeb Import SDK 1.0":
+  "PiWeb Import SDK":
     - "https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk"
 
 aux_links_new_tab: false
