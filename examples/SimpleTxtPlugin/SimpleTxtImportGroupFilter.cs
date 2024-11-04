@@ -9,10 +9,11 @@
 #endregion
 
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Zeiss.PiWeb.Sdk.Import.ImportFiles;
 
-namespace Zeiss.FirstImportFormat;
+namespace SimpleTxtPlugin;
 
 public class SimpleTxtImportGroupFilter : IImportGroupFilter
 {
@@ -23,10 +24,10 @@ public class SimpleTxtImportGroupFilter : IImportGroupFilter
             return FilterResult.None;
 
         await using var stream = importGroup.PrimaryFile.GetDataStream();
-        using var reader = new StreamReader(stream);
+        using var reader = new StreamReader(stream, Encoding.UTF8);
 
         // Check file content match with SimpleTxt format.
-        var firstLine = reader.ReadLine();
+        var firstLine = await reader.ReadLineAsync();
         if (firstLine != null && firstLine.StartsWith("#Header"))
             return FilterResult.Import;
 

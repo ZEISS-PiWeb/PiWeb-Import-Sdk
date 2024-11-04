@@ -11,7 +11,7 @@
 using Zeiss.PiWeb.Sdk.Import.ImportFiles;
 using Zeiss.PiWeb.Sdk.Import.Modules.ImportFormat;
 
-namespace Zeiss.FirstImportFormat;
+namespace SimpleTxtPlugin;
 
 public sealed class ImportFormat : IImportFormat
 {
@@ -22,6 +22,6 @@ public sealed class ImportFormat : IImportFormat
 
     public IImportParser CreateImportParser(ICreateImportParserContext context)
     {
-        return new SimpleTxtImportParser();
+        return new ImportParser();
     }
 }
