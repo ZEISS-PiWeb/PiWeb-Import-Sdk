@@ -11,13 +11,12 @@
 using Zeiss.PiWeb.Sdk.Import;
 using Zeiss.PiWeb.Sdk.Import.Modules.ImportFormat;
 
-namespace Zeiss.FirstImportFormat;
+namespace SimpleTxtPlugin;
 
 public class Plugin : IPlugin
 {
-    /// <inheritdoc />
     public IImportFormat CreateImportFormat(ICreateImportFormatContext context)
     {
-        return new FirstImportFormat.ImportFormat();
+        return new ImportFormat();
     }
 }

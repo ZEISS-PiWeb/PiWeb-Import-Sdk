@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstImportFormat", "FirstImportFormat\FirstImportFormat.csproj", "{21224634-FEEC-48B7-9B9E-355CC20B1B85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTxtPlugin", "SimpleTxtPlugin\SimpleTxtPlugin.csproj", "{21224634-FEEC-48B7-9B9E-355CC20B1B85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondImportFormat", "SecondImportFormat\SecondImportFormat.csproj", "{F0778736-BF6A-4D56-B8F2-0BAB9A24B668}"
 EndProject

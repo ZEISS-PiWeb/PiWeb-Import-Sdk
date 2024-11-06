@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
+    "id": "SimpleTxtPlugin",
+    "version": "1.0.0",
+    "title": "SimpleTxt Plug-in",
+    "description": "Provides the SimpleTxt import format. SimpleTxt is a text file format for inspection plan and measurement data.",
+
+    "provides": {
+        "type": "ImportFormat",
+        "displayName": "SimpleTxt",
+        "fileExtensions": [
+            ".txt"
+        ]
+    }
+}
