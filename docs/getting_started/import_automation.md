@@ -2,7 +2,7 @@
 layout: default
 nav_order: 3
 parent: Getting started
-title: Create your first import automation
+title: Creating an import automation plug-in
 ---
 
 <!---

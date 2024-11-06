@@ -2,7 +2,7 @@
 layout: default
 nav_order: 2
 parent: Getting started
-title: Create your first import format
+title: Creating an import format plug-in
 ---
 
 <!---
@@ -11,18 +11,24 @@ Ziele:
 
 Inhalt:
 - IImportFormat implementieren
-  - für einfaches Beispielformat GetGroup- und Parse-Methode implementieren
-  - zur weiteren Erklärung der Details auf Unterkapitel "Module: Import format" verweisen
+- für einfaches Beispielformat GetGroup- und Parse-Methode implementieren
+- zur weiteren Erklärung der Details auf Unterkapitel "Module: Import format" verweisen
 - Implementierung registrieren
 - Implementierung im manifest eintragen
 - Format mit Beispieldatei verwenden
 --->
 
 # {{ page.title }}
-Import format plug-ins allow you to import files of previously unsupported file formats with the Auto Importer. In this article we will show you, how you can create an import format plug-in for a simple measurement file. 
+{: .no_toc }
+Import format plug-ins allow you to automate the import of files with unsupported formats using *PiWeb Auto Importer*. In this article we will show you step-by-step, how to create a simple but fully functional import format plug-in and how to use this plug-in to import an example file with *PiWeb Auto Importer*.
 
-## Get the example file
-We want to write a plug-in for an example file format called SimpleTxt. The following information of a single measurement contained in a SimpleTxt file should be imported.
+## Table of Contents
+{: .no_toc }
+1. TOC
+{:toc}
+
+## The import file format
+The file format we want to import is called *SimpleTxt*. Although this is not a real format produced by any measuring software, it is a good representation of the typical output of a measuring machine. Here is an example:
 
 ```
 #Header
@@ -34,25 +40,39 @@ CharA, 2.4
 CharB, 1.6
 ```
 
-A SimpleTxt file has to start with `#Header` in the first line. The following lines contains information about the measurement like the measurement date and the operator name. After the header part follows a list of the characteristics and the corresponding measured values. This part begins after the line starting with `#Characterstic`.
+A *SimpleTxt* file always represents a single measurement. The format starts with `#Header` as first line in the file. The following lines contain general information about the measurement (for example the date of the measurement or the operator of the measuring machine) in the form of name value pairs separated by a colon. The value part of the file begins with the line `#Characterstic,Value`. Each following line consists of a characteristic name and its coresponding measured value separated by a comma. A *SimpleTxt* file can contain as many general information entries and measured characteristics as necessary.
 
-You can download the example file here to test your plug-in:\
+*SimpleTxt* files always have the file extension `.txt`.
+
+You can download this example file here:  
 [SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/FirstImportFormat/SampleData/SimpleTxt-Example.txt){:target="_blank"}
 
-## Create a new project
-To start the development of the import format plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/development_environment.md %}#project-templates).
+## Step 1 - Create a new .NET project
+To start developing the new import format plug-in, create a new .NET project using the project template `PiWeb-Import-Sdk Plugin`. Enter `SimpleTxtFormat` as project name and select `Import format` as Plugin type. If you are using this guide to start your own import format plug-in, use another project name that better fits your import format.
 
-## Adapt information in manifest file
-Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
+{: .note }
+If you are missing the `PiWeb-Import-Sdk Plugin` project template, have a look at [Project templates]({% link docs/setup/development_environment.md %}#project-templates) for project template installation instructions.
+
+The newly created project should now look like similar to this:
+
+![Project structure](../../assets/images/getting_started/import_format/project_structure.png "Project structure"){: .framed }
+
+Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created three source code files for us: `ImportParser.cs`, `ImportFormat.cs` and `Plugin.cs`. Each of these files contains a class of the same name:
+- `ImportParser` implements the actual import logic that transforms the content of a *SimpleTxt* file to inspection plan data and measurement data. We will implement the correct behavior in step 4.
+- `ImportFormat` represents our new import format. It integrates two responsibilities: Firstly, it creates instances of `ImportParser` thus determining how to process import file contents. Secondly, it creates an instance of `IImportGroupFilter` to determine which import files should actually be handled by an associated import format. We will adapt this in step 3.
+- `Plugin` is the entry point of the plug-in. In our case it just needs to create instances of `ImportFormat`. We do not need to make any changes here.
+
+## Step 2 - Edit the plug-in manifest
+One of the automatically created project files is the plug-in manifest `manifest.json`. This manifest file contains static information about the plug-in. Most entries are given sensible default values but we need to set a few values specific to our new plug-in project:
 
 ```json
 {
-  "$schema": "../schemas/manifest.schema.json",
-  "id": "SimpleTxtFormat",
+  "$schema": "https://raw.github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
+  "id": "SimpleTxtPlugin",
   "version": "1.0.0",
-  "title": "SimpleTxt Format",
-  "description": "The SimpleTxt Format is a simple format for the demonstration of import format plug-ins.",
-  "author": "Zeiss",
+  "title": "SimpleTxt Plug-in",
+  "description": "Provides the SimpleTxt import format. SimpleTxt is a text file format for inspection plan and measurement data.",
+
   "provides": {
     "type": "ImportFormat",
     "displayName": "SimpleTxt",
@@ -63,234 +83,171 @@ Using the project template generates already a `manifest.json` file in the proje
 }
 ```
 
-The most important thing here is that you define a unique `id` and `version` for the plug-in, that you use `ImportFormat` as value for the `type` property and that you specify that the file extension for the SimpleTxt files is `.txt`. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
+The first two properties we have updated are `title` and `description`. These two values determine how our new plug-in should be displayed in the plug-in management view of *PiWeb Auto Importer*. This is not strictly necessary for a working plug-in, but it helps us to find our plug-in in the plug-in management view. Similarly, the `displayName` property in the `provides` section specifies how the import format provided by our plug-in should be displayed when *PiWeb Auto Importer* needs to refer to it, for example in the import settings.
 
-## Create an import group filter
-In addition to the manifest.json file, the project template has already created two classes `Plugin` and `ImportFormat`. In the `CreateImportFormat` method of the `Plugin` class a new instance of the `ImportFormat` class is returned. The `ImportFormat` class contains two methods `CreateImportGroupFilter` and `CreateImportParser`, which still need to be implemented. First, we want to consider the implementation of the `CreateImportGroupFilter` method.\
-In this method you have to return an implementation of the `IImportGroupFilter`. An import group filter has to decide which import files should be handled by this import format.\
-Create a new class `SimpleTxtImportGroupFilter` that accordingly implements `IImportGroupFilter`. The class could look like this (you will implement the method later):
+Our third change is the addition of the `fileExtensions` list in the `provides` section. The list of file extensions is also used for display purposes but also to provide file extension masks in file selection dialogs.
+
+{: .note }
+There are many other optional manifest properties. You can find more information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
+
+## Step 3 - Create an import group filter
+At this point we can start working on the actual plug-in implementation. First we are going to implement a custom `IImportGroupFilter` to define which import files should actually be handled by our new import format. The interface only specifies a single method `FilterAsync` that we need to implement. Create a new class `SimpleTxtImportGroupFilter` with the following content:
 
 ```c#
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using Zeiss.PiWeb.Sdk.Import.ImportFiles;
+
+namespace SimpleTxtPlugin;
+
 public class SimpleTxtImportGroupFilter : IImportGroupFilter
 {
   public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
   {
-    throw new NotImplementedException();
+    // Check file extension.
+    if (!importGroup.PrimaryFile.HasExtension(".txt"))
+      return FilterResult.None;
+
+    await using var stream = importGroup.PrimaryFile.GetDataStream();
+    using var reader = new StreamReader(stream, Encoding.UTF8);
+
+    // Check file content match with SimpleTxt format.
+    var firstLine = await reader.ReadLineAsync();
+    if (firstLine != null && firstLine.StartsWith("#Header"))
+      return FilterResult.Import;
+            
+    return FilterResult.None;
   }
 }
 ```
 
-Now you can return a new instance of the `SimpleTxtImportGroupFilter` in the `CreateImportGroupFilter` method of the `ImportFormat` class like follows:
+This `FilterAsync` method is called whenever *PiWeb Auto Importer* wants to import any files. The given import group represents the files to import. Unless we explicitely add additional files to this group, it will always consist of a single file given by its `PrimaryFile` property. The return value of this method specifies whether the file group will be imported using our new import format. Returning `FilterResult.Import` will bind the current group to our import format and import it accordingly. Returning `FilterResult.Import` means the group is unrelated to our import format. It may still be picked up by another import format of another plug-in though. The implementation above first checks whether the filename has a ".txt" extension and then whether the file content starts with the `#Header` line.
+
+Now that we have this filter implementation, we can use it as part of the import format by updating the `CreateImportGroupFilter` method in the `ImportFormat` class:
 
 ```c#
 public IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContext context)
 {
-  return new SimpleTxtImportGroupFilter();
+    return new SimpleTxtImportGroupFilter();
 }
 ```
 
-And finally, let's look at the implementation of the `FilterAsync` method of the `SimpleTxtImportGroupFilter`. You could implement the method as follows:
+## Step 4 - Implement the import file parser
+The last step is to actually implement the parsing of *SimpleTxt* files. But first we have to think about how to map the file contents to inspection plan data and measurement data. Since each *SimpleTxt* file only contains data for a single measurement, we will create only a single (root) part and a corresponding measurement per import file. The properties of the `#header` section should respectively be mapped to measurement attributes K4 (Date) and K9 (Text) of the single measurement. Then, for each line in the `#Characterstic,Value` section, a characteristic below the part and a corresponding measured value in the measurement should be generated.
+
+![Import goal](../../assets/images/getting_started/import_format/import_goal.png "Import goal"){: .framed }
+
+To achieve this behavior, we need to implement the `ParseAsync` method in the `ImportParser` class. Here is the full implementation:
 
 ```c#
-public async ValueTask<FilterResult> FilterAsync(IImportGroup importGroup, IFilterContext context)
+public async Task<ImportData> ParseAsync( 
+  IImportGroup importGroup,
+  IParseContext context,
+  CancellationToken cancellationToken)
 {
-  // Check file extension.
-  if (!importGroup.PrimaryFile.HasExtension(".txt"))
-    return FilterResult.None;
+  // Create root part and measurement.
+  var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
+  var measurement = root.AddMeasurement();
 
+  // Create reader for import file.
   await using var stream = importGroup.PrimaryFile.GetDataStream();
-  using var reader = new StreamReader(stream);
+  using var reader = new StreamReader(stream, Encoding.UTF8);
 
-  // Check file content match with SimpleTxt format.
-  var firstLine = reader.ReadLine();
-  if (firstLine != null && firstLine.StartsWith("#Header"))
-    return FilterResult.Import;
+  string? line;
 
-  return FilterResult.None;
-}
-```
-
-An import group is passed to this method. Such an import group contains at least one import file but additional files could be added which should be imported together. For the SimpleTxt format only one Simpletxt file has to be considered.\
-We execute two checks for the import file in the `FilterAsync` method. At first we check whether the import file has the expected file extension `.txt`. Secondly we read the first line of the file and verify whether the line starts with `#Header`. If both checks were successful, we assume that the import file a SimpleTxt file. Therefore we return `FilterResult.Import` as filter result. Otherwise we return `FilterResult.None` so that the file is not imported with our parser for the SimpleTxt format.\
-For further information about the filter method see [Import format]({% link docs/plugin_fundamentals/import_format.md %}).
-
-## Create an import file parser
-Finally, you need to implement the second method `CreateImportParser` of the `ImportFormat` class. For this, you have to create an implementation of the `IImportParser`. A parser should read out the information in the import file and transform them into an importable structure. A parser class for the SimpleTxt format with still missing parser functionality could look like this:
-
-```c#
-public class SimpleTxtImportParser : IImportParser
-{
-  public async Task<ImportData> ParseAsync(
-    IImportGroup importGroup,
-    CancellationToken cancellationToken,
-    IParseContext context)
+  // Parse header attributes.
+  while ((line = await reader.ReadLineAsync(cancellationToken)) != null)
   {
-    throw new NotImplementedException();
-  }
-}
-```
+    if (string.IsNullOrEmpty(line))
+      continue;
 
-Before we consider the implementation of the `ParseAsync` method, you can now complete the method `CreateImportParser` in `ImportFormat` as follows:
-
-```c#
-public IImportParser CreateImportParser(ICreateImportParserContext context)
-{
-  return new SimpleTxtImportParser();
-}
-```
-
-We will now go through the implementation of the `ParseAsync` method in detail. But let us first consider what you want to achieve in this method. You want to transform the information in the import file in an importable structure. The example file contains information about one measurement that should be added for the import target part in the PiWeb database. The header information in the import file should be imported as attribute values of this measurement. The values in the list of characteristics should be imported as measured values of the measurement assigned to the corresponding characteristics below the import target part. In PiWeb, the measured value is saved as the value for the K1 attribute of a measured value entity.  
-
-![Import goal](../../assets/images/getting_started/import_format/import_goal.png "Import goal")
-
-You can start implementing the `ParseAsync` method by creating an inspection plan part and a new measurement for this part. You must also create an instance of a `StreamReader` to be able to read the content of the import file.
-
-```c#
-// Create root part and measurement.
-var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
-var measurement = root.AddMeasurement();
-
-// Create reader for import file.
-await using var stream = importGroup.PrimaryFile.GetDataStream();
-using var reader = new StreamReader(stream);
-```
-
-Now you can read the header information and set a measurement attribute for each header variable. In this example we only create attributes for the `Date` and the `Text` header variable. The creation of the header attributes ends when a line starting with `#Characteristic` is detected or no further line exists.
-
-```c#
-string? line;
-
-// Parse header attributes.
-while ((line = reader.ReadLine()) != null)
-{
-  if( string.IsNullOrEmpty(line))
-    continue;
-
-  if (line.StartsWith("#Characteristic"))
-    break;
-
-  var rowItems = line.Split(": ");
-  var attribute = rowItems[0].Trim();
-  var value = rowItems[1].Trim();
-
-  switch (attribute)
-  {
-    case "Date":
-      measurement.SetAttribute(4,value);
+    if (line.StartsWith("#Characteristic"))
       break;
-    case "Text":
-      measurement.SetAttribute(9,value);
-      break;
-  }
 
-}
-```
+    var rowItems = line.Split(":", 2);
+    if (rowItems.Length < 2)
+      continue;
 
-You can finally create the characteristics and their associated measured values for the measurement and return the importable structure as an `ImportData` instance as follows:
+    var attribute = rowItems[0].Trim();
+    var value = rowItems[1].Trim();
 
-```c#
-// Parse measured value for each characteristic.
-while ((line = reader.ReadLine()) != null)
-{
-  if( string.IsNullOrEmpty(line))
-    continue;
-        
-  var rowItems = line.Split(',');
-  var characteristicName = rowItems[0].Trim();
-  var value = rowItems[1].Trim();
-        
-  var characteristic = root.AddCharacteristic(characteristicName);
-  var measuredValue = measurement.AddMeasuredValue(characteristic);
-  measuredValue.SetAttribute(1,double.Parse(value));
-}
-
-return new ImportData(root);
-```
-
-The full implementation of the `ParseAsync` method is listed below.
-
-```c#
-public class SimpleTxtImportParser : IImportParser
-{
-  public async Task<ImportData> ParseAsync(
-    IImportGroup importGroup,
-    CancellationToken cancellationToken,
-    IParseContext context)
-  {
-    // Create root part and measurement.
-    var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
-    var measurement = root.AddMeasurement();
-
-    // Create reader for import file.
-    await using var stream = importGroup.PrimaryFile.GetDataStream();
-    using var reader = new StreamReader(stream);
-
-    string? line;
-
-    // Parse header attributes.
-    while ((line = reader.ReadLine()) != null)
+    switch (attribute)
     {
-      if( string.IsNullOrEmpty(line))
-        continue;
+      case "Date":
+        var isValidDate = DateTime.TryParse(
+          value,
+          CultureInfo.InvariantCulture,
+          DateTimeStyles.AssumeLocal,
+          out var dateTimeValue);
 
-      if (line.StartsWith("#Characteristic"))
+      if (isValidDate)
+        measurement.SetAttribute(4, dateTimeValue);
         break;
 
-      var rowItems = line.Split(": ");
-      var attribute = rowItems[0].Trim();
-      var value = rowItems[1].Trim();
-
-      switch (attribute)
-      {
-        case "Date":
-          measurement.SetAttribute(4,value);
-          break;
-        case "Operator":
-          measurement.SetAttribute(9,value);
-          break;
-      }
-
+      case "Text":
+        measurement.SetAttribute(9, value);
+        break;
     }
-
-    // Parse measured value for each characteristic.
-    while ((line = reader.ReadLine()) != null)
-    {
-      if( string.IsNullOrEmpty(line))
-        continue;
-        
-      var rowItems = line.Split(',');
-      var characteristicName = rowItems[0].Trim();
-      var value = rowItems[1].Trim();
-        
-      var characteristic = root.AddCharacteristic(characteristicName);
-      var measuredValue = measurement.AddMeasuredValue(characteristic);
-      measuredValue.SetAttribute(1,double.Parse(value));
-    }
-
-    return new ImportData(root);
   }
+
+  // Parse measured value for each characteristic.
+  while ((line = await reader.ReadLineAsync(cancellationToken)) != null)
+  {
+    var rowItems = line.Split(',', 2);
+
+    if (rowItems.Length < 1)
+      continue;
+    var characteristicName = rowItems[0].Trim();
+    if (string.IsNullOrWhiteSpace(characteristicName))
+      continue;
+    var characteristic = root.AddCharacteristic(characteristicName);
+
+    if (rowItems.Length < 2)
+      continue;
+    var value = rowItems[1].Trim();
+    if (!double.TryParse(value, CultureInfo.InvariantCulture, out var doubleValue))
+      continue;
+                    
+    var measuredValue = measurement.AddMeasuredValue(characteristic);
+    measuredValue.SetAttribute(1, doubleValue);
+  }
+  
+  return new ImportData(root);
 }
 ```
 
-The implementation of the example plug-in is now complete. Further information on implementing an import format plug-in can be found in the [Import format]({% link docs/plugin_fundamentals/import_format.md %}).
+We begin with creating a root part and a measurement on this part. This part is the root of all the data we will extract from the import file. During upload, this root part will be merged into the target part by *PiWeb Auto Importer*. The original name of the import target part will be kept during this operation, so the name of the root part does not matter. However, it is good practice to specify a sensible name and we simply use the import file name (without extension) in this example.
 
-## Run your plug-in
-To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [PiWeb Auto Importer]({% link docs/setup/piweb_auto_importer.md %}#plug-in-search-paths). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.
+Now that we have a part and a corresponding measurement, we can read the import file line by line and add attributes, characteristics and measured values as specified by the import file. Finally we return the root part wrapped in an `ImportData` instance.
+
+## Testing the plug-in
+After building the project, the plug-in is ready to test. Since the project template already created launch settings for the project, running *PiWeb Auto Importer* to host the new plug-in is as easy as hitting the start button of your IDE.
+
+![Start button](../../assets/images/getting_started/import_format/start_button.png "Start button"){: .framed }
+
+This will start *PiWeb Auto Importer* with the necessary command line parameters to load the plug-in build from the current project and also attach a debugger to the process.
+
+{: .note }
+> For this to work correctly, two conditions need to be met:
+> - *PiWeb Auto Importer* must be installed locally. The executable is expected to be found in <span class="nowrap">`%ProgramFiles%\Zeiss\PiWeb\AutoImporter.exe`</span>. If the *PiWeb Auto Importer* executable is in another path, you need to update the path specified in `launchSettings.json` accordingly.
+> - *PiWeb Auto Importer* must be in development mode. See [Development mode]({% link docs/setup/piweb_auto_importer.md %}#development-mode) for details on how to activate development mode.
+
+After *PiWeb Auto Importer* has started, the *SimpleTxt* plug-in should be available in the plug-in management view opened via <span class="nowrap">`File > Plug-ins...`</span> and there should be no error messages.
 
 ![Plug-in management view](../../assets/images/getting_started/import_format/plugin_view_simpletxt.png "Plug-in management view")
 
-The functionality of the plug-in can be tested by importing the example file. Therefore create a new default import plan in the Auto Importer. In the import plan, select a connection with the PiWeb Cloud or a PiWeb Server (find more information in [PiWeb backend]({% link docs/setup/piweb_backend.md %})) and define an import folder where you place the example file. A configuration of the import plan could look like this:
+When the plug-in is loaded and shows no errors, the new format is available and will automatically be used in all import plans. We can now try to import the example file by creating a new import plan (or reusing an existing one). Configure a source folder, a target *PiWeb* backend and hit the run button.
 
 ![Auto Importer import plan](../../assets/images/getting_started/import_format/import_plan_settings.png "Auto Importer import plan")
 
-Before you start the Auto Importer you can check whether the SimpleTxt format is listed as a new format in the import configuration. For this click on the `Configure` button in the `Settings` tab of your import plan. In the format list of the import configuration view should you find an entry for the SimpleTxt format.
-
-![Auto Importer import configuration](../../assets/images/getting_started/import_format/import_configuration.png "Auto Importer import configuration")
-
-When the SimpleTxt format is listed in the import configuration dialog and the example file is placed in the import folder you can start the import plan by clicking the `Start` button in the Auto Importer. Then you can check whether the import of the SimpleTxt file was successful in the import history. Therefore click on the `Show history` link in the `Status` tab of the import plan. An new entry in the import history for the SimpleTxt format should be visible and should you inform whether the import was successful.
+Now you can drop [SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/FirstImportFormat/SampleData/SimpleTxt-Example.txt){:target="_blank"} in the configured import folder to import it. If everything worked correctly, the resulting import history will look similar to this:
 
 ![Auto Importer import history](../../assets/images/getting_started/import_format/import_history.png "Auto Importer import history")
 
-You can also open a PiWeb Planner and connect to your PiWeb Cloud or PiWeb Server. A new measurement with measured values for the characteristics `CharA` and `CharB` should be exist.
+You can also open *PiWeb Planner* and connect to the same *PiWeb backend*. A new measurement with measured values for the characteristics `CharA` and `CharB` should exist.
 
 ![Planner measurement view](../../assets/images/getting_started/import_format/planner_measurement.png "Planner measurement view")
+
+## Next Steps
+Now that we have a running plug-in, you can continue with [Deployment]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.

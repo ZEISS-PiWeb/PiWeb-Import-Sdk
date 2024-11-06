@@ -12,14 +12,14 @@ Ziele:
 Inhalt:
 - ImportRunner beschreiben
 - Datenabruf
-  - Möglichkeiten beispielhaft aufzeigen
-  - auf Beispielplug-ins verweisen
+    - Möglichkeiten beispielhaft aufzeigen
+    - auf Beispielplug-ins verweisen
 - Datenupload
-  - auf PiWeb API verweisen
+    - auf PiWeb API verweisen
 --->
 
 # {{ page.title }}
-This article describes the implementation of an import automation plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). Will will extend the simple example from [Create your first import automation]({% link docs/getting_started/import_automation.md %}), but don't worry if you haven't read the article, all the necessary steps are also covered here.
+This article describes the implementation of an import automation plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). Will will extend the simple example from [Creating an import format plug-in]({% link docs/getting_started/import_automation.md %}), but don't worry if you haven't read this article, all the necessary steps are also covered here. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
 
 To get a better impression of the functionality, this plug-in will read weather data from a website and import it into PiWeb Cloud under a part defined by the user.
 
@@ -27,7 +27,7 @@ To get a better impression of the functionality, this plug-in will read weather 
 The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the approach using the project template. You can find the source code at the [GitHub repository](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SecondImportAutomation).
 
 ## Create a new project
-To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find information how to install and use it in [Development environment]({% link docs/setup/development_environment.md %}#project-templates).
+To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Project templates]({% link docs/setup/development_environment.md %}#project-templates).
 
 ## Adapt information in manifest file
 Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
@@ -47,8 +47,7 @@ Using the project template generates already a `manifest.json` file in the proje
 }
 ```
 
-The most important thing here is that you define a unique `id` and `version` for the plug-in, that you use `ImportAutomation` as value for the `type` property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI.\
-You can find further information about possible manifest fields and their meaning can be found at [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
+The most important thing here is that you define a unique `id` and `version` for the plug-in, that you use `ImportAutomation` as value for the `type` property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
 
 ## IPlugin
 First we have to register our import automation with the Auto Importer. This is done in the `IPlugin` implementation using the `CreateImportAutomation` method. A new instance of our `ImportAutomation` is returned by this method.
@@ -120,17 +119,12 @@ namespace Zeiss.SecondImportAutomation;
 public class AutomationConfiguration(IPropertyStorage storage) : IAutomationConfiguration
 {
   // Define a new settings section
-  private static readonly Section _configurationSection = new Section()
-  {
-    Title = "Configuration",
-    Priority = 1
-  };
+  private static readonly Section _configurationSection =
+    new Section() { Title = "Configuration", Priority = 1 };
 
   [ConfigurationItem]
-  public StringConfigurationItem ImportPartName { get; } = new StringConfigurationItem(
-    storage,
-    nameof(ImportPartName),
-    "WeatherData")
+  public StringConfigurationItem ImportPartName { get; } =
+   new StringConfigurationItem(storage, nameof(ImportPartName), "WeatherData")
   {
     Priority = 1,
     Section = _configurationSection,
@@ -139,10 +133,8 @@ public class AutomationConfiguration(IPropertyStorage storage) : IAutomationConf
   };
 
   [ConfigurationItem]
-  public StringConfigurationItem WeatherLocation { get; } = new StringConfigurationItem(
-    storage,
-    nameof(WeatherLocation),
-    "Dresden")
+  public StringConfigurationItem WeatherLocation { get; }
+   = new StringConfigurationItem(storage, nameof(WeatherLocation), "Dresden")
   {
     Priority = 2,
     Section = _configurationSection,
@@ -160,7 +152,7 @@ The input fields are defined via properties with the annotation `[ConfigurationI
 It is also possible to create your own configuration elements if the predefined elements are not sufficient. See [Custom UI]({% link docs/advanced_topics/ui.md %}).
 
 ## IImportRunner
-IImportRunner is responsible for processing the cyclical import and reacting to problems and errors accordingly. In our example, the plug-in connects to our PiWeb Cloud instance and checks for the presence of the defined import target part name. In addition, the part is created if it is not found. The import loop also checks the import source and creates new measured values under the defined part.
+IImportRunner instances are responsible for processing the cyclical import and reacting to problems and errors accordingly. In our example, the the plug-in connects to our PiWeb Cloud instance and checks for the presence of the defined import target part name. In addition, the part is created if it is not found. The import loop also checks the import source and creates new measured values under the defined part.
 
 {% capture details %}
 `ImportRunner.cs:`
@@ -200,10 +192,8 @@ public class ImportRunner : IImportRunner
     _importRunnerContext = importRunnerContext;
 
     // Reading values of configuration items, defined in AutomationConfiguration.cs
-    _targetPartName = _importRunnerContext.PropertyReader.ReadString(
-                        nameof(AutomationConfiguration.ImportPartName));
-    _location = _importRunnerContext.PropertyReader.ReadString(
-                  nameof(AutomationConfiguration.WeatherLocation));
+    _targetPartName = _importRunnerContext.PropertyReader.ReadString(nameof(AutomationConfiguration.ImportPartName));
+    _location = _importRunnerContext.PropertyReader.ReadString(nameof(AutomationConfiguration.WeatherLocation));
   }
 
   public async Task RunAsync(CancellationToken cancellationToken)
@@ -236,11 +226,7 @@ public class ImportRunner : IImportRunner
         });
 
         // Request PiWeb API and check for part
-        var targetPart = await EnsurePartAsync(
-          piWebRestClient,
-          $"{_targetPartName}/{_location}",
-          cancellationToken);
-
+        var targetPart = await EnsurePartAsync(piWebRestClient, $"{_targetPartName}/{_location}", cancellationToken);
         var characteristic = await EnsureCharacteristicAsync(
           piWebRestClient,
           targetPart.Path,
@@ -302,8 +288,7 @@ public class ImportRunner : IImportRunner
         {
           ActivityType = ActivityType.Suspension,
           DetailedDisplayText = ex.InnerException?.Message ?? ex.Message
-        }
-      );
+        });
       _importRunnerContext.Logger.LogError(ex.InnerException?.Message ?? ex.Message);
     }
   }
@@ -371,10 +356,7 @@ public class ImportRunner : IImportRunner
       Path = partPath + PathElement.Char(characteristic)
     };
 
-    await restClient.CreateCharacteristics(
-        [knownCharacteristic],
-        cancellationToken: cancellationToken)
-      .ConfigureAwait(false);
+    await restClient.CreateCharacteristics([knownCharacteristic], cancellationToken: cancellationToken).ConfigureAwait(false);
 
     return knownCharacteristic;
   }
@@ -420,16 +402,16 @@ public class ImportRunner : IImportRunner
       var segments = response.Split(";");
       var values = new string[10];
 
-      values[0] = segments[0].Replace("°C", "");        // t: -1°C
-      values[1] = segments[1].Replace("°C", "");        // f: -5°C
-      values[2] = segments[2];                          // C: Light freezing drizzle
-      values[3] = segments[3].Replace("%", "");         // h: 93%
-      values[4] = segments[4].Replace("mm", "");        // p: 0.0mm
+      values[0] = segments[0].Replace("°C", "");              // t: -1°C
+      values[1] = segments[1].Replace("°C", "");              // f: -5°C
+      values[2] = segments[2];                                // C: Light freezing drizzle
+      values[3] = segments[3].Replace("%", "");               // h: 93%
+      values[4] = segments[4].Replace("mm", "");              // p: 0.0mm
       values[5] = DateTime.Now.ToString("yyyy-MM-ddT") + segments[5];   // T: 14:17:11+0100
-      values[6] = segments[6].Replace("km/h", "")[1..]; // w: →13km/h [speed]
-      values[7] = segments[6].Replace("km/h", "")[..1]; // w: →13km/h [direction]
-      values[8] = segments[7].Replace("hPa", "");       // P: 1027hPa
-      values[9] = segments[8];                          // u: 1
+      values[6] = segments[6].Replace("km/h", "")[1..];       // w: →13km/h [speed]
+      values[7] = segments[6].Replace("km/h", "")[..1];       // w: →13km/h [direction]
+      values[8] = segments[7].Replace("hPa", "");             // P: 1027hPa
+      values[9] = segments[8];                                // u: 1
 
       return values;
     }
@@ -468,10 +450,8 @@ public ImportRunner(ICreateImportRunnerContext importRunnerContext)
   _importRunnerContext = importRunnerContext;
 
   // Reading values of configuration items, defined in AutomationConfiguration.cs
-  _targetPartName = _importRunnerContext.PropertyReader
-                      .ReadString(nameof(AutomationConfiguration.ImportPartName));
-  _location = _importRunnerContext.PropertyReader
-                      .ReadString(nameof(AutomationConfiguration.WeatherLocation));
+  _targetPartName = _importRunnerContext.PropertyReader.ReadString(nameof(AutomationConfiguration.ImportPartName));
+  _location = _importRunnerContext.PropertyReader.ReadString(nameof(AutomationConfiguration.WeatherLocation));
 }
 ```
 
@@ -559,7 +539,7 @@ public async Task RunAsync(CancellationToken cancellationToken)
 #### Creating parts, characteristic and measurements - import loop
 In this example, the `ActivityService` is used to announce an activity via `SetActivity`. It has the type `ActivityType.Normal` and the text “Fetching and storing data ...”. This is to make it clear to the user that the import loop is currently active and is checking existing data.
 
-![Auto Importer events](../../assets/images/plugin_fundamentals/import_automation/events.png "Auto Importer events"){: .framed }
+![Auto Importer events](../../assets/images/plugin_fundamentals/import_automation/events.png "Auto Importer events")
 
 {: .note }
 To find out more about activities and events, you can continue reading in [Import monitoring]({% link docs/plugin_fundamentals/monitoring.md %}).
@@ -719,10 +699,7 @@ private static async Task<InspectionPlanCharacteristicDto> EnsureCharacteristicA
     Path = partPath + PathElement.Char(characteristic)
   };
 
-  await restClient.CreateCharacteristics(
-      [knownCharacteristic],
-      cancellationToken: cancellationToken)
-    .ConfigureAwait(false);
+  await restClient.CreateCharacteristics([knownCharacteristic], cancellationToken: cancellationToken).ConfigureAwait(false);
 
   return knownCharacteristic;
 }
@@ -751,16 +728,16 @@ private static async Task<string[]?> FetchWeatherDataAsync(string location)
     var segments = response.Split(";");
     var values = new string[10];
 
-    values[0] = segments[0].Replace("°C", "");  // t: -1°C
-    values[1] = segments[1].Replace("°C", "");  // f: -5°C
-    values[2] = segments[2];                    // C: Light freezing drizzle
-    values[3] = segments[3].Replace("%", "");   // h: 93%
-    values[4] = segments[4].Replace("mm", "");  // p: 0.0mm
-    values[5] = DateTime.Now.ToString("yyyy-MM-ddT") + segments[5]; // T: 14:17:11+0100
-    values[6] = segments[6].Replace("km/h", "")[1..];   // w: →13km/h [speed]
-    values[7] = segments[6].Replace("km/h", "")[..1];   // w: →13km/h [direction]
-    values[8] = segments[7].Replace("hPa", ""); // P: 1027hPa
-    values[9] = segments[8];                    // u: 1
+    values[0] = segments[0].Replace("°C", "");              // t: -1°C
+    values[1] = segments[1].Replace("°C", "");              // f: -5°C
+    values[2] = segments[2];                                // C: Light freezing drizzle
+    values[3] = segments[3].Replace("%", "");               // h: 93%
+    values[4] = segments[4].Replace("mm", "");              // p: 0.0mm
+    values[5] = DateTime.Now.ToString("yyyy-MM-ddT") + segments[5];   // T: 14:17:11+0100
+    values[6] = segments[6].Replace("km/h", "")[1..];       // w: →13km/h [speed]
+    values[7] = segments[6].Replace("km/h", "")[..1];       // w: →13km/h [direction]
+    values[8] = segments[7].Replace("hPa", "");             // P: 1027hPa
+    values[9] = segments[8];                                // u: 1
 
     return values;
   }
