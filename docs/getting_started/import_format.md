@@ -22,6 +22,9 @@ Inhalt:
 {: .no_toc }
 Import format plug-ins allow you to automate the import of files with unsupported formats using *PiWeb Auto Importer*. In this article we will show you step-by-step, how to create a simple but fully functional import format plug-in and how to use this plug-in to import an example file with *PiWeb Auto Importer*.
 
+{: .note}
+The full sources of the plug-in built in this article are part of the *Import SDK* plug-in examples and can be found [here](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SimpleTxtPlugin).
+
 ## Table of Contents
 {: .no_toc }
 1. TOC
@@ -48,19 +51,21 @@ You can download this example file here:
 [SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/FirstImportFormat/SampleData/SimpleTxt-Example.txt){:target="_blank"}
 
 ## Step 1 - Create a new .NET project
-To start developing the new import format plug-in, create a new .NET project using the project template `PiWeb-Import-Sdk Plugin`. Enter `SimpleTxtFormat` as project name and select `Import format` as Plugin type. If you are using this guide to start your own import format plug-in, use another project name that better fits your import format.
+To start developing the new import format plug-in, create a new .NET project using the project template `PiWeb-Import-Sdk Plugin`. Enter `SimpleTxtPlugin` as project name and select `Import format` as Plugin type. If you are using this guide to start your own import format plug-in, use another project name that better fits your import format.
 
 {: .note }
 If you are missing the `PiWeb-Import-Sdk Plugin` project template, have a look at [Project templates]({% link docs/setup/development_environment.md %}#project-templates) for project template installation instructions.
 
-The newly created project should now look like similar to this:
+The newly created project should now look similar to this:
 
 ![Project structure](../../assets/images/getting_started/import_format/project_structure.png "Project structure"){: .framed }
 
-Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created three source code files for us: `ImportParser.cs`, `ImportFormat.cs` and `Plugin.cs`. Each of these files contains a class of the same name:
-- `ImportParser` implements the actual import logic that transforms the content of a *SimpleTxt* file to inspection plan data and measurement data. We will implement the correct behavior in step 4.
-- `ImportFormat` represents our new import format. It integrates two responsibilities: Firstly, it creates instances of `ImportParser` thus determining how to process import file contents. Secondly, it creates an instance of `IImportGroupFilter` to determine which import files should actually be handled by an associated import format. We will adapt this in step 3.
-- `Plugin` is the entry point of the plug-in. In our case it just needs to create instances of `ImportFormat`. We do not need to make any changes here.
+Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created three source code files for us: `Plugin.cs`, `ImportFormat.cs` and `ImportParser.cs`. Each of these files contains a class of the same name:
+- `Plugin` is the entry point of the plug-in. It acts as a factory for the import format provided by our plug-in. The project template already set this up to create instances of `ImportFormat`, so we do not need to change its implementation.
+- `ImportFormat` represents our new import format. It acts as a factory to delegate its two responsibilities: Firstly, it creates instances of `ImportParser` thus determining how to process import file contents. Secondly, it creates an instance of `IImportGroupFilter` to determine which import files should actually be handled by an associated import format. We will create a custom filter for *SimpleTxt* files in step 3.
+- `ImportParser` implements the actual import logic that transforms the content of a file to inspection plan data and measurement data that can be uploaded. We will implement it to read and transform *SimpleTxt* files in step 4.
+
+There is also a `launchSettings.json` which contains a launch configuration that builds our plug-in and starts a locally installed *PiWeb Auto Importer* with the necessary configuration to load and run our plugin directly from the build output. We come back to this later when we are testing the new plug-in.
 
 ## Step 2 - Edit the plug-in manifest
 One of the automatically created project files is the plug-in manifest `manifest.json`. This manifest file contains static information about the plug-in. Most entries are given sensible default values but we need to set a few values specific to our new plug-in project:
@@ -122,7 +127,7 @@ public class SimpleTxtImportGroupFilter : IImportGroupFilter
 }
 ```
 
-This `FilterAsync` method is called whenever *PiWeb Auto Importer* wants to import any files. The given import group represents the files to import. Unless we explicitely add additional files to this group, it will always consist of a single file given by its `PrimaryFile` property. The return value of this method specifies whether the file group will be imported using our new import format. Returning `FilterResult.Import` will bind the current group to our import format and import it accordingly. Returning `FilterResult.Import` means the group is unrelated to our import format. It may still be picked up by another import format of another plug-in though. The implementation above first checks whether the filename has a ".txt" extension and then whether the file content starts with the `#Header` line.
+This `FilterAsync` method is called whenever *PiWeb Auto Importer* wants to import any files. The given import group represents the files to import. Unless we explicitely add additional files to this group, it will always consist of a single file given by its `PrimaryFile` property. The return value of this method specifies whether the file group will be imported using our new import format. Returning `FilterResult.Import` will bind the current group to our import format and import it accordingly. Returning `FilterResult.None` means the group is unrelated to our import format. It may still be picked up by another import format of another plug-in though. The implementation above first checks whether the filename has a ".txt" extension and then whether the file content starts with the `#Header` line.
 
 Now that we have this filter implementation, we can use it as part of the import format by updating the `CreateImportGroupFilter` method in the `ImportFormat` class:
 
