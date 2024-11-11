@@ -22,7 +22,7 @@ Inhalt:
 --->
 
 # {{ page.title }}
-This article describes the implementation of an import format plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). The focus in this arcticle is on the implementation of the grouping and parsing functionality. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}). The development of a simple example for an import format plug-in can be found in [Creating an import format plug-in]({% link docs/getting_started/import_format.md %}).
+This article describes the implementation of an import format plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). The focus in this arcticle is on the implementation of the grouping and parsing functionality. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}). The development of a simple example for an import format plug-in can be found in [Writing an import format plug-in]({% link docs/writing_a_plugin/import_format.md %}).
 
 ## Download source code and content
 The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the necassary code. You can find the source code at the [GitHub repository](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SecondImportFormat).
@@ -327,7 +327,7 @@ public IImportFormatConfiguration CreateConfiguration(ICreateImportFormatConfigu
 The `SupportsPathRules` property of the `ImportFormatConfiguration` class specifies whether the import format supports the usage and configuration of path rules. When the value is `false` the path rules tab in the import configuration view does not exist for the format. With `SupportsAttributeMapping` property can be defined whether the import format supports the usage of attribute mappings. When the value is `true` the attribute mappings tab is visible in the import configuration view and default mapping entries can be defined with the property `DefaultAttributeMappingConfiguration`. In the example one mapping entry for the measured value and one for the measurement date is created.
 
 ## Run import format plug-ins
-How to install a plug-in is described in [Deployment]({% link docs/deployment.md %}). When an import format plug-in is installed and active the new import format is listed in the import configuration view of the Auto Importer. This view can be opened by clicking on the `Configure` button in the `Settings` tab of the import plan. 
+How to install a plug-in is described in [Deploying a plug-in]({% link docs/deployment.md %}). When an import format plug-in is installed and active the new import format is listed in the import configuration view of the Auto Importer. This view can be opened by clicking on the `Configure` button in the `Settings` tab of the import plan. 
 
 ![Auto Importer import plan](../../assets/images/plugin_fundamentals/import_format/import_plan_settings.png "Auto Importer import plan")
 

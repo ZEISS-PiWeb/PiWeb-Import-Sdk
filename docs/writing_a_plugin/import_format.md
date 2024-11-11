@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_order: 2
-parent: Getting started
-title: Creating an import format plug-in
+parent: Writing a plug-in
+title: Writing an import format plug-in
 ---
 
 <!---
@@ -58,7 +58,7 @@ If you are missing the `PiWeb-Import-Sdk Plugin` project template, have a look a
 
 The newly created project should now look similar to this:
 
-![Project structure](../../assets/images/getting_started/import_format/project_structure.png "Project structure"){: .framed }
+![Project structure](../../assets/images/writing_a_plugin/import_format/project_structure.png "Project structure"){: .framed }
 
 Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created three source code files for us: `Plugin.cs`, `ImportFormat.cs` and `ImportParser.cs`. Each of these files contains a class of the same name:
 - `Plugin` is the entry point of the plug-in. It acts as a factory for the import format provided by our plug-in. The project template already set this up to create instances of `ImportFormat`, so we do not need to change its implementation.
@@ -141,7 +141,7 @@ public IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContex
 ## Step 4 - Implement the import file parser
 The last step is to actually implement the parsing of *SimpleTxt* files. But first we have to think about how to map the file contents to inspection plan data and measurement data. Since each *SimpleTxt* file only contains data for a single measurement, we will create only a single (root) part and a corresponding measurement per import file. The properties of the `#header` section should respectively be mapped to measurement attributes K4 (Date) and K9 (Text) of the single measurement. Then, for each line in the `#Characterstic,Value` section, a characteristic below the part and a corresponding measured value in the measurement should be generated.
 
-![Import goal](../../assets/images/getting_started/import_format/import_goal.png "Import goal"){: .framed }
+![Import goal](../../assets/images/writing_a_plugin/import_format/import_goal.png "Import goal"){: .framed }
 
 To achieve this behavior, we need to implement the `ParseAsync` method in the `ImportParser` class. Here is the full implementation:
 
@@ -229,7 +229,7 @@ Now that we have a part and a corresponding measurement, we can read the import 
 ## Testing the plug-in
 After building the project, the plug-in is ready to test. Since the project template already created launch settings for the project, running *PiWeb Auto Importer* to host the new plug-in is as easy as hitting the start button of your IDE.
 
-![Start button](../../assets/images/getting_started/import_format/start_button.png "Start button"){: .framed }
+![Start button](../../assets/images/writing_a_plugin/import_format/start_button.png "Start button"){: .framed }
 
 This will start *PiWeb Auto Importer* with the necessary command line parameters to load the plug-in build from the current project and also attach a debugger to the process.
 
@@ -240,19 +240,19 @@ This will start *PiWeb Auto Importer* with the necessary command line parameters
 
 After *PiWeb Auto Importer* has started, the *SimpleTxt* plug-in should be available in the plug-in management view opened via <span class="nowrap">`File > Plug-ins...`</span> and there should be no error messages.
 
-![Plug-in management view](../../assets/images/getting_started/import_format/plugin_view_simpletxt.png "Plug-in management view")
+![Plug-in management view](../../assets/images/writing_a_plugin/import_format/plugin_view_simpletxt.png "Plug-in management view")
 
 When the plug-in is loaded and shows no errors, the new format is available and will automatically be used in all import plans. We can now try to import the example file by creating a new import plan (or reusing an existing one). Configure a source folder, a target *PiWeb* backend and hit the run button.
 
-![Auto Importer import plan](../../assets/images/getting_started/import_format/import_plan_settings.png "Auto Importer import plan")
+![Auto Importer import plan](../../assets/images/writing_a_plugin/import_format/import_plan_settings.png "Auto Importer import plan")
 
 Now you can drop [SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/FirstImportFormat/SampleData/SimpleTxt-Example.txt){:target="_blank"} in the configured import folder to import it. If everything worked correctly, the resulting import history will look similar to this:
 
-![Auto Importer import history](../../assets/images/getting_started/import_format/import_history.png "Auto Importer import history")
+![Auto Importer import history](../../assets/images/writing_a_plugin/import_format/import_history.png "Auto Importer import history")
 
 You can also open *PiWeb Planner* and connect to the same *PiWeb backend*. A new measurement with measured values for the characteristics `CharA` and `CharB` should exist.
 
-![Planner measurement view](../../assets/images/getting_started/import_format/planner_measurement.png "Planner measurement view")
+![Planner measurement view](../../assets/images/writing_a_plugin/import_format/planner_measurement.png "Planner measurement view")
 
 ## Next Steps
-Now that we have a running plug-in, you can continue with [Deployment]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
+Now that we have a running plug-in, you can continue with [Deploying a plug-in]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.

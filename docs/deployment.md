@@ -1,7 +1,7 @@
 ---
 layout: default
-nav_order: 6
-title: Deployment
+nav_order: 4
+title: Deploying a plug-in
 ---
 
 <!---

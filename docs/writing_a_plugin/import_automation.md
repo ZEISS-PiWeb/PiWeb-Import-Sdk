@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_order: 3
-parent: Getting started
-title: Creating an import automation plug-in
+parent: Writing a plug-in
+title: Writing an import automation plug-in
 ---
 
 <!---
@@ -32,7 +32,7 @@ The full sources of the plug-in built in this article are part of the *Import SD
 1. TOC
 {:toc}
 
-## Step 1 - Create a new project
+## Step 1 - Create a new .NET project
 To start developing the new import automation plug-in, create a new .NET project using the project template <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>. Enter `SimpleGeneratorPlugin` as project name and select `Import automation` as Plugin type. If you are using this guide to start your own import automation plug-in, use another project name that better fits your import automation.
 
 {: .note }
@@ -40,7 +40,7 @@ If you are missing the <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span> pro
 
 The newly created project should now look like similar to this:
 
-![Project structure](../../assets/images/getting_started/import_automation/project_structure.png "Project structure"){: .framed }
+![Project structure](../../assets/images/writing_a_plugin/import_automation/project_structure.png "Project structure"){: .framed }
 
 Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created four source code files for us: `Plugin.cs`, `ImportAutomation.cs`, `ImportRunner.cs` and `AutomationConfiguration.cs`. Each of these files contains a class of the same name:
 - `Plugin` is the entry point of the plug-in. It acts as a factory for the import automation provided by our plug-in. The project template already set this up to create instances of `ImportAutomation`, so we do not need to change its implementation.
@@ -93,7 +93,7 @@ The original `_Context` member created by the project template is now unnecessar
 ## Step 4 - Add the PiWeb-Api NuGet to the project
 Since the *Import SDK* does not provide a specific way for import automations to access the *PiWeb backend*, we will add the *PiWe-Api* to our plug-in project and use it to write the generated measurements to the backend. Open the NuGet Package Manager and install `Zeiss.PiWeb.Api.Rest`.
 
-![NuGet Package Manager](../../assets/images/getting_started/import_automation/PiWeb_Api_NuGet.png "NuGet Package Manager"){: .framed }
+![NuGet Package Manager](../../assets/images/writing_a_plugin/import_automation/PiWeb_Api_NuGet.png "NuGet Package Manager"){: .framed }
 
 ## Step 5 - Add a method to create data service rest clients
 Having the *PiWeb-Api* available now, we can add a method to the `ImportRunner` class that creates a data service rest client for a given URI. We use the given authentication data to authenticate any requests. Later on, we will pass URI and authentication data from `_ImportTarget` to this method.
@@ -235,7 +235,7 @@ The actual automation loop is a while loop that creates a random number, checks 
 ## Testing the plug-in
 After building the project, the plug-in is ready to test. Since the project template already created launch settings for the project, running *PiWeb Auto Importer* to host the new plug-in is as easy as hitting the start button of your IDE.
 
-![Start button](../../assets/images/getting_started/import_automation/start_button.png "Start button"){: .framed }
+![Start button](../../assets/images/writing_a_plugin/import_automation/start_button.png "Start button"){: .framed }
 
 This will start *PiWeb Auto Importer* with the necessary command line parameters to load the plug-in build from the current project and also attach a debugger to the process.
 
@@ -246,15 +246,15 @@ This will start *PiWeb Auto Importer* with the necessary command line parameters
 
 After *PiWeb Auto Importer* has started, the *Simple Generator* plug-in should be available in the plug-in management view opened via <span class="nowrap">`File > Plug-ins...`</span> and there should be no error messages.
 
-![Plug-in management view](../../assets/images/getting_started/import_automation/plugin_view_simplegenerator.png "Plug-in management view")
+![Plug-in management view](../../assets/images/writing_a_plugin/import_automation/plugin_view_simplegenerator.png "Plug-in management view")
 
 When the plug-in is loaded and shows no errors, the new import automation is available as import source in import plans. We can now run the generator by creating a new import plan (or reusing an existing one) and select the `Simple Measurement Generator` import Source.
 
-![Auto Importer import plan](../../assets/images/getting_started/import_automation/import_plan_settings.png "Auto Importer import plan")
+![Auto Importer import plan](../../assets/images/writing_a_plugin/import_automation/import_plan_settings.png "Auto Importer import plan")
 
 After hitting the run button, the automation will be generating new measurements with random measured values every 5 seconds until stopped again. Using *PiWeb Planner*, we can observe these new measurements:
 
-![Planner measurement view](../../assets/images/getting_started/import_automation/planner_measurements.png "Planner measurement view")
+![Planner measurement view](../../assets/images/writing_a_plugin/import_automation/planner_measurements.png "Planner measurement view")
 
 ## Next Steps
-Now that we have a running plug-in, you can continue with [Deployment]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
+Now that we have a running plug-in, you can continue with [Deploying a plug-in]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
