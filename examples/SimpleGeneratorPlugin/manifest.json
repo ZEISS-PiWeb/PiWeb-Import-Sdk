@@ -1,0 +1,13 @@
+{
+    "$schema": "https://raw.github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
+    "id": "SimpleGeneratorPlugin",
+    "version": "1.0.0",
+    "title": "Simple Generator Plug-in",
+    "description": "Provides an import automation that periodically imports a new measurement with random measured values.",
+
+    "provides": {
+        "type": "ImportAutomation",
+        "displayName": "Simple Measurement Generator",
+        "summary": "Periodically provides a new measurement with random measured values."
+    }
+}
