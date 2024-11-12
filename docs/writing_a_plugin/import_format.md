@@ -254,5 +254,5 @@ You can also open *PiWeb Planner* and connect to the same *PiWeb backend*. A new
 
 ![Planner measurement view](../../assets/images/writing_a_plugin/import_format/planner_measurement.png "Planner measurement view")
 
-## Next Steps
-Now that we have a running plug-in, you can continue with [Deploying a plug-in]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
+## Next steps
+Now that we have a running plug-in, you can continue with [Deploying plug-ins]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.

@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 4
-title: Deploying a plug-in
+title: Deploying plug-ins
 ---
 
 <!---
@@ -17,63 +17,44 @@ Inhalt:
 --->
 
 # {{ page.title }}
-In this article we will show you how to create a plug-in and install it in the Auto Importer. We will also show you how to set an installed plug-in as the import source in an import plan.
+{: .no_toc }
+So far, we used to run, debug and test plug-ins by loading them in *PiWeb Auto Importer* directly from their build output directory via command line parameter <span class="nowrap">`-pluginSearchPaths`</span>. While easy for testing and debugging, this is, of course, not a practicable way of distributing a plug-in after its release and even less so to deploy it in a production environment. In this article we will show you how to create an easily distributable plug-in package and how to install it in a *PiWeb Auto Importer* not running in development mode.
 
-## Create plug-in
-If the plug-in project uses our import sdk template as recommended by us. The build function `GeneratePluginPackageOnBuild` is automatically provided. This option is visible in the project file:\
-`<GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>`\
-If the project is compiled, the necessary pip is automatically generated and placed inside your output directory.
+## Table of Contents
+{: .no_toc }
+1. TOC
+{:toc}
 
-## Install a plug-in
-The generated **pip** file can be installed directly in the Auto Importer as a plug-in.\
-This works via the install function in the Auto Importer, via drag & drop into the Auto Importer window and via file system.
+## Creating a plug-in package
+A *PiWeb Installable Plug-in* (.pip) package file is automatically created on every build of your plug-in as long as the *Import SDK* nuget is referenced by the project. The file is written to `$(PackageOutputPath)` which usually is (depending on your build configuration) either `bin\Debug` or `bin\Release`. A .pip file contains a the complete plug-in implementation and does not have any other dependencies. As a single file, it is easy to distribute.
 
-### Download compiled example plug-in
-We provide a ready-to-use plug-in (pip file) under the following link:\
-[Zeiss.StartingAPlugin@1.0.0.pip](../../assets/pips/Zeiss.StartingAPlugin%401.0.0.pip){:target="_blank"}\
-This can be used to run a plug-in installation.
+{: .note}
+>You may switch building the package on and off by setting the `GeneratePluginPackageOnBuild` property in the project file:
+>```xml
+><GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>
+>```
 
-### Install option
-The Auto Importer provides an installer option, for which the following steps must be carried out:
+## Distributing a plug-in package
+Unfortunately, there is currently no package management infrastructure available that could be used to manage, share and distribute packages centrally. You can, however, manage and distribute packages by your own means.
 
-1. Open `File > Plug-ins...`, You can select the Install plug-in... option via the cogwheel in the top right-hand area. option. Alternatively, if you have not yet installed a plug-in, you can select Install plug-in directly in the middle of the view.
-![Install plug-in](../assets/images/deployment/ai_install_1.png "Install plug-in")
-This will open the file explorer with filtering for Auto Importer plug-in files.
-2. After selecting the desired plug-in, an overview of the manifest data appears.
+## Installing a plug-in package
+Plug-in packages can directly be installed in *PiWeb Auto Importer* in two different ways:
+1. by dropping the package file to install anywhere in *PiWeb Auto Importer*, or
+1. by opening the plug-in management view via `File > Plug-ins...` and then clicking on `Install plug-in...` in the management actions dropdown. You will then be prompted to choose the package file to install.
+   
+   ![Install plug-in](../assets/images/deployment/ai_install_1.png "Install plug-in")
+
+*PiWeb Auto Importer* will show an overview of the plug-in to install. You can continue by pressing the `Install` button.
+
 ![Install window](../assets/images/deployment/ai_install_2.png "Install window")
-3. After the action was scheduled, you will be prompted to restart the Auto Importer.
-![Restart request](../assets/images/deployment/ai_install_3.png "Restart request"){: .framed }
-4. When restarting, the planned action is recognized and the plug-in installer is started. This shows the pending actions. Administration rights are required to execute the actions (`Run now`). To ensure that all import plans can be updated, all service import plans are stopped and then restarted.
+
+Now the new plug-in is listed in the plug-in management view. However, it is not active yet since a restart is required to actually install and load it. At this point you can use the opportunity to install or remove further plug-ins before finally pressing the `Restart now` button in the info belt at the bottom of the window.
+
+![Restart request](../assets/images/deployment/ai_install_3.png "Restart request")
+
+Before *PiWeb Auto Importer* starts again, the plug-in installer opens. It displays all pending installation operations. You can press the `Run now` button to apply all these changes. At this point the installer prompts for administrative privileges (only if you do not already have them), stops all import plans running as windows services and applies the plug-in changes. Afterwards, all previously stopped windows services will be started again. When everything is done, you can close the installer window and *PiWeb Auto Importer* starts normally.
+
 ![Plug-in Installer](../assets/images/deployment/ai_install_4.png "Plug-in Installer")
-5. A green tick appears in front of successfully executed actions. The plug-in installer can now be closed, after which the Auto Importer starts with the installed plug-in.
-![Restart request](../assets/images/deployment/ai_install_5.png "Restart request")
 
-### Drag & drop
-It is also possible to drag Auto Importer plug-in files into the Auto Importer window. This then automatically recognizes that an installation is desired. The overview window with the plug-in to be installed then appears directly.
-Here too, the Auto Importer must be restarted afterwards.
-
-This function allows you to install plug-ins directly from a mail attachment, for example.
-
-### File system
-The Auto Importer goes through subfolders of the `Plugins` folder in its installation path to find a manifest.json there. It evaluates this manifest file and loads the corresponding plug-in when the program is started.\
-This is also the only place in the production environment from which plug-ins are loaded. If you place a corresponding folder in this path, the Auto Importer will load it as a plug-in the next time the program is started.
-
-## Check plug-in installation
-To ensure that the plug-in has been installed correctly, you can call up the plug-in management view (`File > Plug-ins...`) again. The loaded plug-in will now appear there.\
-![Plug-in management view](../assets/images/deployment/manifest.png "Plug-in management view")
-
-## Create import plan
-To test the installed plug-in, an import plan must first be created; an import plan defines a source and a target. To do this, please click on `Create import plan`.\
-![Create import plan](../assets/images/deployment/import_plan.png "Create import plan")
-
-## Import plan with custom import source
-If the plug-in has been loaded correctly, the custom import source can be selected as an import source in an import plan. Please adjust all settings according to the screenshot.\
-![Auto Importer import source](../assets/images/deployment/import_source.png "Auto Importer import source")
-
-To select your cloud database as the destination, please go to Select connection and select Auto.\
-![Cloud connection](../assets/images/deployment/cloud.png "Cloud connection")
-
-Via `Run`, the import plan is started with this configuration. The plug-in only demonstrates the switching of the activity and status log. At the end of the execution, an error is provoked.\
-![Running the plug-in](../assets/images/deployment/run.png "Running the plug-in")
-
-You can find out more about import visualization options at [Import monitoring]({% link docs/plugin_fundamentals/monitoring.md %}). The following articles describe the minimum source code required for a plug-in.
+{: .note}
+Pressing the `Discard` button closes the installer, drops all scheduled plug-in operations and starts *PiWeb Auto Importer* without changing the plug-in setup. Pressing the `Later` button instead will also close the installer and start *PiWeb Auto Importer*. However, the scheduled plug-in operations are not discarded. You will be prompted again to apply them after the next restart.

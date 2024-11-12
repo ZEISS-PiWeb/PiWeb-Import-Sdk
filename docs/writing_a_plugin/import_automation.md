@@ -38,7 +38,7 @@ To start developing the new import automation plug-in, create a new .NET project
 {: .note }
 If you are missing the <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span> project template, have a look at [Project templates]({% link docs/setup/development_environment.md %}#project-templates) for project template installation instructions.
 
-The newly created project should now look like similar to this:
+The newly created project should now look similar to this:
 
 ![Project structure](../../assets/images/writing_a_plugin/import_automation/project_structure.png "Project structure"){: .framed }
 
@@ -256,5 +256,5 @@ After hitting the run button, the automation will be generating new measurements
 
 ![Planner measurement view](../../assets/images/writing_a_plugin/import_automation/planner_measurements.png "Planner measurement view")
 
-## Next Steps
-Now that we have a running plug-in, you can continue with [Deploying a plug-in]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
+## Next steps
+Now that we have a running plug-in, you can continue with [Deploying plug-ins]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
