@@ -21,384 +21,240 @@ Notizen:
 --->
 
 # {{ page.title }}
-The plug-in which is created here together should be an import automation. This connects to a PiWeb Cloud instance and checks for the presence of a specific part; if this is not present, the plug-in will create it.
+{: .no_toc }
+Import automation plug-ins allow you to automate imports from almost any source using *PiWeb Auto Importer*. Unlike with import format plug-ins the source of import data is not limited to the filesystem and there are no limitations on how already existing data on the backend can be modified during import. However, this high degree of customizability means that the automation loop must be fully implemented by the plug-in. In this article we will show you step-by-step, how to create a simple but fully functional import automation plug-in and how to use this plug-in to import data with PiWeb Auto Importer. As a data source we will simply use a random number generator, so the import loop will continuously create new measurements with randomly generated measured values in a fixed intervall.
+
+{: .note}
+The full sources of the plug-in built in this article are part of the *Import SDK* plug-in examples and can be found [here](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SimpleGeneratorPlugin).
+
+## Table of Contents
+{: .no_toc }
+1. TOC
+{:toc}
+
+## Step 1 - Create a new project
+To start developing the new import automation plug-in, create a new .NET project using the project template <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>. Enter `SimpleGeneratorPlugin` as project name and select `Import automation` as Plugin type. If you are using this guide to start your own import automation plug-in, use another project name that better fits your import automation.
 
 {: .note }
-This article only covers the minimum functionality, to go deeper we recommend taking a look at the Plug-in Fundamentals collection.
+If you are missing the <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span> project template, have a look at [Project templates]({% link docs/setup/development_environment.md %}#project-templates) for project template installation instructions.
 
-## Download source code and content
-The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the approach using the project template. You can find the source text at the [GitHub repository](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/FirstImportAutomation).
+The newly created project should now look like similar to this:
 
-The following files are required for this automation and are included in the example and in the project template. `manifest.json` defines the content of our plug-in. `Plugin.cs` which represents the entry point into the plug-in, in which it registers the import automation. `ImportAutomation.cs` contains the named automation and provides the necessary import runner, which executes the specific import plans. `ImportRunner.cs` contains this IImportRunner and is responsible for the import loop.
+![Project structure](../../assets/images/getting_started/import_automation/project_structure.png "Project structure"){: .framed }
 
-## Create a new project
-To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Development environment]({% link docs/setup/development_environment.md %}#project-templates).
+Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created four source code files for us: `Plugin.cs`, `ImportAutomation.cs`, `ImportRunner.cs` and `AutomationConfiguration.cs`. Each of these files contains a class of the same name:
+- `Plugin` is the entry point of the plug-in. It acts as a factory for the import automation provided by our plug-in. The project template already set this up to create instances of `ImportAutomation`, so we do not need to change its implementation.
+- `ImportAutomation` represents our new import automation. It acts as a factory to delegate its two responsibilities: Firstly, it creates instances of `ImportRunner` thus determining what the import loop will do. Secondly, it creates instances of `AutomationConfiguration` to determine what import plan settings will be available in the *PiWeb Auto Importer* UI when our import automation is used.
+- `ImportRunner` implements the actual import loop. We will implement it to periodically upload a new measurement to the *PiWeb backend* in step 4.
+- `AutomationConfiguration` implements custom import plan settings for our new import automation. Since we do not need any settings for this example plug-in, we do not need to make any changes to the implementation provided by the project template.
 
-## Adapt information in manifest file
-Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.
+There is also a `launchSettings.json` which contains a launch configuration that builds our plug-in and starts a locally installed *PiWeb Auto Importer* with the necessary configuration to load and run our plug-in directly from the build output. We come back to this later when we are testing the new plug-in.
+
+## Step 2 - Edit the plug-in manifest
+One of the automatically created project files is the plug-in manifest `manifest.json`. This manifest file contains static information about the plug-in. Most entries are given sensible default values but we need to set a few values specific to our new plug-in project:
 
 ```json
 {
-  "id": "Zeiss.FirstImportAutomation",
-  "title": "FirstImportAutomation",
-  "description": "This plug-in is used in the Import SDK documentation to create an initial import automation.",
+  "$schema": "https://raw.github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/pub/schemas/manifest-schema.json",
+  "id": "SimpleGeneratorPlugin",
+  "version": "1.0.0",
+  "title": "Simple Generator Plug-in",
+  "description": "Provides an import automation that periodically imports a new measurement with random measured values.",
 
   "provides": {
     "type": "ImportAutomation",
-    "displayName": "FirstImportAutomation",
-    "summary": "This automation checks a given PiWeb Server for the existence of the 'FirstImportAutomationPart' part below the root node."
+    "displayName": "Simple Measurement Generator",
+    "summary": "Periodically provides a new measurement with random measured values."
   }
 }
-
 ```
 
-The most important thing here is that you define a unique `id` and `version` for the plug-in, that you use `ImportAutomation` as value for the `type` property. The other json properties are mainly relevant for the display of the plug-in in the Auto Importer UI. You can find further information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
+The first two properties we have updated are `title` and `description`. These two values determine how our new plug-in should be displayed in the plug-in management view of *PiWeb Auto Importer*. This is not strictly necessary for a working plug-in, but it helps us to find our plug-in in the plug-in management view. Similarly, the `displayName` property in the `provides` section specifies how the import automation provided by our plug-in should be displayed in the import source selection of an import plan in *PiWeb Auto Importer*. The `summary` property in the same section can be used to add a more detailed description of the import automation that will be displayed as explanation of the selected import source selection.
 
-## IPlugin
-First we have to register our import automation with the Auto Importer. This is done in the `IPlugin` implementation using the `CreateImportAutomation` method. A new instance of our `ImportAutomation` is returned by this method.
+{: .note }
+There are many other optional manifest properties. You can find more information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
 
-`Plugin.cs:`
+## Step 3 - Unpack context information
+We are going to need information about the currently executing import plan of the hosting *PiWeb Auto Importer*. For example we need the URI of the target backend and the authentication information to actually write measurements. All of those values are passed to the `ImportRunner` via constructor parameter as a single context object when an `ImportRunner` instance is constructed. To get easier access later on, we create members in the `ImportRunner` for all the context information we are interested in and then unpack the context parameter of the constructor:
+
 ```c#
-using Zeiss.PiWeb.Sdk.Import;
-using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
+private readonly IActivityService _ActivityService;
+private readonly ImportTarget _ImportTarget;
 
-namespace Zeiss.FirstImportAutomation;
-
-public class Plugin : IPlugin
+public ImportRunner(ICreateImportRunnerContext context)
 {
-  public IImportAutomation CreateImportAutomation(ICreateImportAutomationContext context)
-  {
-    // Registration of a new instance of IImportAutomation with Auto Importer
-    return new ImportAutomation();
-  }
+  _ActivityService = context.ActivityService;
+  _ImportTarget = context.ImportTarget;
 }
 ```
 
-## IImportAutomation
-Our `IImportAutomation` implementation in turn registers an `IImportRunner`, which then performs the actual import at runtime.
-This `ImportRunner` is registered in the `CreateImportRunner` method. As several import plans can use this plug-in as a source, it is important to return a unique instance for each one.
+The original `_Context` member created by the project template is now unnecessary and can be removed from the `ImportRunner` class.
 
+## Step 4 - Add the PiWeb-Api NuGet to the project
+Since the *Import SDK* does not provide a specific way for import automations to access the *PiWeb backend*, we will add the *PiWe-Api* to our plug-in project and use it to write the generated measurements to the backend. Open the NuGet Package Manager and install `Zeiss.PiWeb.Api.Rest`.
+
+![NuGet Package Manager](../../assets/images/getting_started/import_automation/PiWeb_Api_NuGet.png "NuGet Package Manager"){: .framed }
+
+## Step 5 - Add a method to create data service rest clients
+Having the *PiWeb-Api* available now, we can add a method to the `ImportRunner` class that creates a data service rest client for a given URI. We use the given authentication data to authenticate any requests. Later on, we will pass URI and authentication data from `_ImportTarget` to this method.
 ```c#
-using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
-
-namespace Zeiss.FirstImportAutomation;
-
-public class ImportAutomation : IImportAutomation
+private static DataServiceRestClient CreateDataServiceClient(Uri uri, IAuthData authData)
 {
-  public IImportRunner CreateImportRunner(ICreateImportRunnerContext context)
+  var authenticationHandler = authData.AuthType switch
   {
-    // Creation of a new instance of IImportRunner, called for every import plan
-    return new ImportRunner(context);
-  }
+    AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
+    AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
+    AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
+    AuthType.OIDC => NonInteractiveAuthenticationHandler.OIDC(authData.ReadAndUpdateRefreshTokenAsync),
+    _ => null
+  };
+        
+  return new RestClientBuilder(uri)
+    .SetAuthenticationHandler(authenticationHandler)
+    .CreateDataServiceRestClient();
 }
 ```
 
-`CreateImportRunner`\
-Creates a new import runner instance. An import runner is first created and then executed when an import plan is using this import automation as import source is started. Each import plan is expected to use a separate import runner instance. For this reason this method must never return the same `IImportRunner` instance twice. If the import runner cannot be created (e.g. because of invalid import plan settings), a `CreateImportRunnerException` can be thrown. The created instance will be disposed after the import plan is stopped.
+## Step 6 - Add methods to create the inspection plan entities
+Before we can create measurements in the backend, we need a target part to create these measurements for. Also, to add a randomly generated measured value to the measurement, the target part needs to have a characteristic. For this simple plug-in, we will use fixed names for both. The target part will always be a part named "Random" directly below the root part. The characteristic will always be named "Width". We need to check whether these two entities already exist in the backend and if not, we need to create them. Also we need to find their UUIDs to reference them in our new measurement later on. Let us add two methods to the `ImportRunner` class that implement this logic:
 
-## IImportRunner
-Is responsible for processing the cyclical import and reacting to problems and errors accordingly. In our example, the Auto Importer connects to our PiWeb Cloud instance and checks for the presence of the part named "FirstImportAutomationPart", the result is displayed to the user via Activities. In addition, the part is created if it is not found. This means that there should always be a part in the second import loop.
-
-{% capture details %}
 ```c#
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Zeiss.PiWeb.Api.Core;
-using Zeiss.PiWeb.Api.Rest.Common.Authentication;
-using Zeiss.PiWeb.Api.Rest.Dtos.Data;
-using Zeiss.PiWeb.Api.Rest.HttpClient.Builder;
-using Zeiss.PiWeb.Sdk.Import.ImportPlan;
-using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
-
-namespace Zeiss.FirstImportAutomation;
-
-public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
+private static async Task<InspectionPlanPartDto> GetOrCreateTargetPart(DataServiceRestClient restClient)
 {
-  /// <summary>
-  ///   Defined name for the part under which import is to take place.
-  /// </summary>
-  private const string TargetPartName = "FirstImportAutomationPart";
+  var targetPath = PathInformation.Combine(PathInformation.Root, PathElement.Part("Random"));
+  var fetchedParts = await restClient.GetParts(targetPath, depth: 0);
 
-  /// <summary>
-  ///   IActivityService, retrieved by ICreateImportRunnerContext for later use.
-  /// </summary>
-  private readonly IActivityService _statusService = context.ActivityService;
+  if (fetchedParts.Count > 0)
+    return fetchedParts[0];
 
-  public async Task RunAsync(CancellationToken cancellationToken)
+  var newTargetPart = new InspectionPlanPartDto
   {
-    try
-    {
-      // Define authentication
-      var authData = context.ImportTarget.AuthData;
+    Path = targetPath,
+    Uuid = Guid.NewGuid()
+  };
 
-      var authenticationHandler = authData.AuthType switch
-      {
-        AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
-        AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
-        AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
-        AuthType.OIDC => NonInteractiveAuthenticationHandler.OIDC(authData.ReadAndUpdateRefreshTokenAsync),
-        _ => null
-      };
+  await restClient.CreateParts([newTargetPart]);
+  return newTargetPart;
+}
 
-      // Rest client for PiWeb API
-      using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAddress))
-        .SetAuthenticationHandler(authenticationHandler);
+private static async Task<InspectionPlanCharacteristicDto> GetOrCreateCharacteristic(
+  DataServiceRestClient restClient,
+  InspectionPlanPartDto targetPart)
+{
+  var fetchedCharacteristics = await restClient.GetCharacteristics(targetPart.Path, depth: 1);
+  var existingCharacteristic = fetchedCharacteristics
+    .Where(characteristic =>
+      string.Equals(characteristic.Path.Name, "Width", StringComparison.OrdinalIgnoreCase))
+    .FirstOrDefault();
 
-      using var restClient = builder.CreateDataServiceRestClient();
+  if (existingCharacteristic != null)
+    return existingCharacteristic;
 
-      // Target part path information
-      var targetPath = PathInformation.Root;
-      targetPath += PathElement.Part(TargetPartName);
+  var characteristicPath = PathInformation.Combine(targetPart.Path, PathElement.Char("Width"));
+  var newCharacteristic = new InspectionPlanCharacteristicDto
+  {
+    Path = characteristicPath,
+    Uuid = Guid.NewGuid()
+  };
 
-      // Check existing of that part in the import loop
-      while (!cancellationToken.IsCancellationRequested)
-      {
-        // Inform user that the plug-in is currently active
-        _statusService.SetActivity(
-          new ActivityProperties()
-          {
-            ActivityType = ActivityType.Normal,
-            ShortDisplayText = "Checking PiWeb",
-            DetailedDisplayText = $"Checking PiWeb for {targetPath}"
-          });
-
-        // Request PiWeb API and check for part
-        var knownParts = await restClient
-                                .GetParts(targetPath, depth: 0, cancellationToken: cancellationToken)
-                                .ConfigureAwait(false);
-        var targetPart = knownParts.FirstOrDefault();
-
-        if (targetPart != null)
-        {
-          // Part is known in database
-
-          _statusService.SetActivity(
-            new ActivityProperties()
-            {
-              ActivityType = ActivityType.Normal,
-              ShortDisplayText = "Part exists",
-              DetailedDisplayText = $"{targetPath} exists in database"
-            });
-        }
-        else
-        {
-          // Part is unknown in database
-
-          _statusService.SetActivity(
-            new ActivityProperties()
-            {
-              ActivityType = ActivityType.Suspension,
-              ShortDisplayText = "Part does NOT exists",
-              DetailedDisplayText = $"{targetPath} not found in database, creating it"
-            });
-
-          // Create that part
-          var part = new InspectionPlanPartDto
-          {
-            Uuid = Guid.NewGuid(),
-            Path = targetPath
-          };
-
-          await restClient.CreateParts([part], cancellationToken: cancellationToken).ConfigureAwait(false);
-        }
-
-        // Delay next import loop, save load on the server
-        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-      }
-    }
-    catch (OperationCanceledException)
-    {
-      // Normally, the last save operation should be processed here, as the import plan has been stopped
-    }
-  }
+  await restClient.CreateCharacteristics([newCharacteristic]);
+  return newCharacteristic;
 }
 ```
-{% endcapture %}
-{% capture summary %}Show whole ImportRunner.cs code{% endcapture %}{% include details.html %}
 
-### Walkthrough
-First, we define our part name as a constant so that we can search for this name in the PiWeb Cloud instance.
+## Step 7 - Add a method to upload a new measurement
+After we made sure our target part and its characteristic actually exist in the backend, we can now write a method to the `ImportRunner` class that creates and uploads a new measurement for the target part. The measurement will have a given measured value for its characteristic.
 
 ```c#
-/// <summary>
-///   Defined name for the part under which import is to take place.
-/// </summary>
-  private const string TargetPartName = "FirstImportAutomationPart";
+private static async Task UploadMeasurement(
+  DataServiceRestClient restClient,
+  InspectionPlanPartDto targetPart,
+  InspectionPlanCharacteristicDto characteristic,
+  double measuredValue)
+{
+  var measurementValues = new Dictionary<Guid, DataValueDto>()
+  {
+     { characteristic.Uuid, new DataValueDto(measuredValue) }
+  };
+
+  var newMeasurement = new DataMeasurementDto
+  {
+    Uuid = Guid.NewGuid(),
+    PartUuid = targetPart.Uuid,
+    Time = DateTime.UtcNow,
+    Characteristics = measurementValues
+  };
+
+  await restClient.CreateMeasurementValues([newMeasurement]);
+}
 ```
 
-We also provide the `IActivityService` from the context. This is used to communicate with the Auto Importer and make status changes known. The `ICreateImportRunnerContext` is provided by the Import SDK through dependency injection.
-
-```c#
-/// <summary>
-///   IActivityService, retrieved by ICreateImportRunnerContext for later use.
-/// </summary>
-private readonly IActivityService _statusService = context.ActivityService;
-```
-
-```c#
-public async Task RunAsync(CancellationToken cancellationToken)
-```
-`RunAsync` provides the import loop for our plugin. This means that it connects to the PiWeb Cloud instance and checks whether our desired part already exists; if this is not the case, the part is created.
-
-The basic structure is the while loop, which repeatedly executes the desired import logic. We secure this with a try catch block, as the termination of the import plan leads to an `OperationCanceledException`, where appropriate closing procedures should then be carried out to safely terminate the import.
+## Step 8 - Implement the automation loop
+Now that we have all the basic building blocks, we can finally implement the actual automation loop by implementing the `RunAsync` method of the `ImportRunner` class. This method is called when a user hits the run button of an import plan using our plug-in. It is expected to loop until the user hits the stop button which will be signaled by the given cancellation token which will be canceled at this point.
 
 ```c#
 public async Task RunAsync(CancellationToken cancellationToken)
 {
+  if (_ImportTarget.Type != ConnectionType.Webservice)
+  {
+    _ActivityService.PostActivityEvent(EventSeverity.Error, "The import target is not supported");
+    return;
+  }
+
   try
   {
-    while( !cancellationToken.IsCancellationRequested )
+    var uri = new Uri(_ImportTarget.ServiceAddress);
+    var authData = _ImportTarget.AuthData;
+    using var restClient = CreateDataServiceClient(uri, authData);
+    var random = new Random();
+
+    while (!cancellationToken.IsCancellationRequested)
     {
-      // Import loop
+      var value = Math.Round(random.NextDouble(), 2);
+
+      var targetPart = await GetOrCreateTargetPart(restClient);
+      var characteristic = await GetOrCreateCharacteristic(restClient, targetPart);
+      await UploadMeasurement(restClient, targetPart, characteristic, value);
+
+      _ActivityService.PostActivityEvent(EventSeverity.Info, $"Uploaded new measurement value: {value}");
+
+      await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
     }
   }
   catch (OperationCanceledException)
   {
-    // ignore
+    // Do nothing
   }
 }
 ```
 
-To access a PiWeb Server instance via PiWeb API, various authentication methods are offered, which we provide in a switch that checks the import target accordingly.
+First we check whether the backend connection configured for the import plan is actually a web service. Since we use the *Piweb-Api* to connect to the backend, we do not support any other connection types. Next, we create the rest client using the `CreateDataServiceClient` method from step 5.
 
-```c#
-// Define authentication
-var authData = context.ImportTarget.AuthData;
+The actual automation loop is a while loop that creates a random number, checks wether target part and characteristic exist (if not we create them) and then uploads the new measurement. Before we loop back and repeat, we simply wait for 5 seconds. Since we pass the cancellation token, an `OperationCanceledException` will be raised when the user hits the stop button, which causes the loop and the `RunAsync` method to exit. Note that we always finish the current measurement upload, even if the cancellation token was triggered.
 
-var authenticationHandler = authData.AuthType switch
-{
-  AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
-  AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
-  AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
-  AuthType.OIDC => NonInteractiveAuthenticationHandler.OIDC(authData.ReadAndUpdateRefreshTokenAsync),
-  _ => null
-};
-```
+## Testing the plug-in
+After building the project, the plug-in is ready to test. Since the project template already created launch settings for the project, running *PiWeb Auto Importer* to host the new plug-in is as easy as hitting the start button of your IDE.
 
-Next, we use the PiWeb API to establish the connection, this is done via a REST client. To do this, we use the `ImportTarget` information provided via the context.
+![Start button](../../assets/images/getting_started/import_automation/start_button.png "Start button"){: .framed }
 
-```c#
-// Rest client for PiWeb API
-using var builder = new RestClientBuilder(new Uri(context.ImportTarget.ServiceAddress))
-  .SetAuthenticationHandler(authenticationHandler);
+This will start *PiWeb Auto Importer* with the necessary command line parameters to load the plug-in build from the current project and also attach a debugger to the process.
 
-using var restClient = builder.CreateDataServiceRestClient();
-```
+{: .note }
+> For this to work correctly, two conditions need to be met:
+> - *PiWeb Auto Importer* must be installed locally. The executable is expected to be found in <span class="nowrap">`%ProgramFiles%\Zeiss\PiWeb\AutoImporter.exe`</span>. If the *PiWeb Auto Importer* executable is in another path, you need to update the path specified in `launchSettings.json` accordingly.
+> - *PiWeb Auto Importer* must be in development mode. See [Development mode]({% link docs/setup/piweb_auto_importer.md %}#development-mode) for details on how to activate development mode.
 
-The desired part substructure is now created. In this simple example, we assume that our `TargetPartName` is located directly under the root of the server. This structure is required to query the PiWeb Server.
+After *PiWeb Auto Importer* has started, the *Simple Generator* plug-in should be available in the plug-in management view opened via <span class="nowrap">`File > Plug-ins...`</span> and there should be no error messages.
 
-```c#
-// Target part path information
-var targetPath = PathInformation.Root;
-targetPath += PathElement.Part(TargetPartName);
-```
+![Plug-in management view](../../assets/images/getting_started/import_automation/plugin_view_simplegenerator.png "Plug-in management view")
 
-Now our actual import loop starts. We make our activity known to the Auto Importer via the `_statusService`.
+When the plug-in is loaded and shows no errors, the new import automation is available as import source in import plans. We can now run the generator by creating a new import plan (or reusing an existing one) and select the `Simple Measurement Generator` import Source.
 
-```c#
-// Inform user that the plug-in is currently active
-_statusService.SetActivity(
-  new ActivityProperties()
-  {
-    ActivityType = ActivityType.Normal,
-    ShortDisplayText = "Checking PiWeb",
-    DetailedDisplayText = $"Checking PiWeb for {targetPath}"
-  }
-);
-```
+![Auto Importer import plan](../../assets/images/getting_started/import_automation/import_plan_settings.png "Auto Importer import plan")
 
-![Auto Importer events](../../assets/images/getting_started/import_automation/events.png "Auto Importer events")
+After hitting the run button, the automation will be generating new measurements with random measured values every 5 seconds until stopped again. Using *PiWeb Planner*, we can observe these new measurements:
 
-Now we request the PiWeb Cloud instance using our part structure. This returns the existing part if it is already known, otherwise null.
+![Planner measurement view](../../assets/images/getting_started/import_automation/planner_measurements.png "Planner measurement view")
 
-```c#
-// Request PiWeb API and check for part
-var knownParts = await restClient
-                        .GetParts(targetPath, depth: 0, cancellationToken: cancellationToken)
-                        .ConfigureAwait(false);
-var targetPart = knownParts.FirstOrDefault();
-```
-
-If our part is available, we display this accordingly in the Auto Importer. If it does not exist, the PiWeb Server is informed that it should be created.
-
-```c#
-if (targetPart != null)
-{
-  // Part is known in database
-
-  _statusService.SetActivity(
-    new ActivityProperties()
-    {
-      ActivityType = ActivityType.Normal,
-      ShortDisplayText = "Part exists",
-      DetailedDisplayText = $"{targetPath} exists in database"
-    }
-  );
-}
-else
-{
-  // Part is unknown in database
-
-  _statusService.SetActivity(
-    new ActivityProperties()
-    {
-      ActivityType = ActivityType.Suspension,
-      ShortDisplayText = "Part does NOT exists",
-      DetailedDisplayText = $"{targetPath} not found in database, creating it"
-    }
-  );
-
-  // Create that part
-  var part = new InspectionPlanPartDto
-  {
-    Uuid = Guid.NewGuid(),
-    Path = targetPath
-  };
-
-  await restClient.CreateParts([part], cancellationToken: cancellationToken).ConfigureAwait(false);
-}
-```
-
-As a final action, we delay the following loop pass by 5 seconds to keep the load on the instance low.
-
-```c#
-// Delay next import loop, save load on the server
-await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-```
-
-We now have the necessary code for our import automation test and can execute it.
-
-## Running the plug-in
-### Start via command line
-To test your plug-in you can build your plug-in project and load your plug-in directly from your build folder. Therefore you have to activate the development mode for the Auto Importer like described in [PiWeb Auto Importer]({% link docs/setup/piweb_auto_importer.md %}#plug-in-search-paths). Then you can start the Auto Importer with the following command line parameter `-pluginSearchPaths "<path to your build folder>"`. When the Auto Importer has started, you can check that your plug-in is loaded by opening the plug-in management view via `File > Plug-ins...`. Your plug-in should be listed there like in the following screenshot.\
-![Installed plug-in](../../assets/images/getting_started/import_automation/management_view.png "Installed plug-in")
-
-We also need an import plan that uses our import source and uses the existing cloud instance as the target. To do this, we create a new import plan using the green plus icon and configure it as shown in the screenshot.\
-![Import plan](../../assets/images/getting_started/import_automation/import_plan.png "Import plan")
-
-If we now click on Start, the automation is executed and after the third import loop it should look like this:\
-![Finished plug-in](../../assets/images/getting_started/import_automation/finished.png "Finished plug-in")
-
-### Start from Visual Studio
-It is possible to transfer the commands directly from Visual Studio to the Auto Importer. To do this, use the following `launchSettings.json`:
-
-```json
-{
-  "profiles": {
-    "AutoImporter": {
-      "commandName": "Executable",
-      "executablePath": "C:\\Program Files\\Zeiss\\PiWeb\\AutoImporter.exe",
-      "commandLineArgs": "-pluginSearchPaths $(MSBuildThisFileDirectory)\\bin\\Debug -language en"
-    }
-  }
-}
-```
-
-{: .important }
-`executablePath` must contain your path to the `AutoImporter.exe`.
-
- You can also define the debug properties manually, see the following screenshot:
-
- ![Debug options](../../assets/images/getting_started/import_automation/visualstudio_command.png "Debug options")
+## Next Steps
+Now that we have a running plug-in, you can continue with [Deployment]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.

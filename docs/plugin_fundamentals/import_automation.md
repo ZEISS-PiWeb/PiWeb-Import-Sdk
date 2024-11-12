@@ -124,7 +124,7 @@ public class AutomationConfiguration(IPropertyStorage storage) : IAutomationConf
 
   [ConfigurationItem]
   public StringConfigurationItem ImportPartName { get; } =
-   new StringConfigurationItem(storage, nameof(ImportPartName), "WeatherData")
+    new StringConfigurationItem(storage, nameof(ImportPartName), "WeatherData")
   {
     Priority = 1,
     Section = _configurationSection,
@@ -133,8 +133,8 @@ public class AutomationConfiguration(IPropertyStorage storage) : IAutomationConf
   };
 
   [ConfigurationItem]
-  public StringConfigurationItem WeatherLocation { get; }
-   = new StringConfigurationItem(storage, nameof(WeatherLocation), "Dresden")
+  public StringConfigurationItem WeatherLocation { get; } =
+    new StringConfigurationItem(storage, nameof(WeatherLocation), "Dresden")
   {
     Priority = 2,
     Section = _configurationSection,
