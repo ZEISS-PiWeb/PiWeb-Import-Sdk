@@ -12,7 +12,7 @@ Import plug-ins extend the built-in functionality of *PiWeb Auto Importer* eithe
 
 A single instance of the *PiWeb Auto Importer* can run and control any number of import automations. Each import automation is configured by an import plan and can be run and controlled independently. In order to test an import plug-in, we need to do two things: Firstly, we need to make the plug-in known to the *PiWeb Auto Importer* and secondly, we need to create, configure and run a suitable import plan that uses the plug-in.
 
-In this document we will show you how to generally setup and prepare the *PiWeb Auto Importer* for testing plug-ins. Later when developing our first plug-ins in [Gettings started]({% link docs/getting_started/index.md %}), we will make use of this setup.
+In this document we will show you how to generally setup and prepare the *PiWeb Auto Importer* for testing plug-ins. Later when developing our first plug-ins in [Gettings started]({% link docs/writing_a_plugin/index.md %}), we will make use of this setup.
 
 ## Table of Contents
 {: .no_toc }
@@ -59,4 +59,4 @@ Most of the default settings of the import plan are fine, however, it is still m
 
 Depending on your chosen import target, you may also need to authenticate at the import target. When everything is working correctly, the connection status should now be 'Ready'.
 
-This is all the basic setup you need. In the next section [Getting started]({% link docs/getting_started/index.md %}), we will show you how to create, build an run your own plug-ins.
+This is all the basic setup you need. In the next section [Writing a plug-in]({% link docs/writing_a_plugin/index.md %}), we will show you how to create, build an run your own plug-ins.
