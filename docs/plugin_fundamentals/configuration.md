@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 6
+nav_order: 7
 parent: Plug-in fundamentals
 title: User configuration & storage
 ---

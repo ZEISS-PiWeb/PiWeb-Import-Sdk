@@ -1,8 +1,8 @@
 ---
 has_children: true
 layout: default
-nav_order: 6
-has_toc: false
+nav_order: 7
+has_toc: true
 title: Advanced topics
 ---
 

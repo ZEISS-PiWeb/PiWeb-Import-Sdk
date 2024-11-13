@@ -24,7 +24,7 @@ PiWeb offers multiple types of import plug-ins, all of which are written using t
 Before we can start to write our first plug-in, you must choose which one of those two plug-in types you want to create.
 
 ## Import format plug-ins
-Import format plug-ins add a new file format to the built-in filesystem based import automation of the *PiWeb Auto Importer*. The plug-in implementation can decide which files should be handled, how multiple files need to be grouped together (if necessary) and how to interpret the file contents as inspection plan and measurement data. Other aspects, such as watching for new import files, updating import logs and uploading data, are still handled by the PiWeb Auto Importer and cannot be customized with this plug-in type.  
+Import format plug-ins add a new file format to the built-in filesystem based import automation of the *PiWeb Auto Importer*. The plug-in implementation can decide which files should be handled, how multiple files need to be grouped together (if this is necessary at all) and how to interpret the file contents as inspection plan and measurement data. Other aspects, such as watching for new import files, updating import logs and uploading data, are still handled by the PiWeb Auto Importer and cannot be customized with this plug-in type.  
 Write import format plug-ins when you need to import files of a format that PiWeb does not support natively. For more in-depth information about how import format plug-ins work, see [Import format]({% link docs/plugin_fundamentals/import_format.md %}) in our plug-in fundamentals.
 
 ## Import automation plug-ins
@@ -32,7 +32,7 @@ Import automation plug-ins fully replace the built-in file based import automati
 Write import automation plug-ins when you need to import data from other sources than the filesystem or when other restrictions prevent you from using import format plug-ins. Avoid writing import automation plug-ins when the task is solvable by writing an import format plug-in as these plug-ins are far easier to implement. For more in-depth information about how import automation plug-ins work, see [Import automation]({% link docs/plugin_fundamentals/import_automation.md %}) in our plug-in fundamentals.
 
 ## How to continue?
-Based on the choice you made, we can now create our first plug-in by following the steps in either [Writing an import format plug-in]({% link docs/writing_a_plugin/import_format.md %}) or [Writing an import automation plug-in]({% link docs/writing_a_plugin/import_automation.md %}).
+Based on your choice, we can now walk through creating a plug-in by following the steps in either [Writing an import format plug-in]({% link docs/writing_a_plugin/import_format.md %}) or [Writing an import automation plug-in]({% link docs/writing_a_plugin/import_automation.md %}).
 
 {: .note }
 If you do not have a concrete use case yet and only want to explore the plug-in feature of the PiWeb Auto Importer, we generally recommend to start with an import format plug-in.

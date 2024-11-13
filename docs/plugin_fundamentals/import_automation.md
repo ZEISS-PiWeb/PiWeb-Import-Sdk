@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 5
+nav_order: 6
 parent: Plug-in fundamentals
 title: Import automation
 ---
@@ -27,7 +27,7 @@ To get a better impression of the functionality, this plug-in will read weather 
 The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the approach using the project template. You can find the source code at the [GitHub repository](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SecondImportAutomation).
 
 ## Create a new project
-To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Project templates]({% link docs/setup/development_environment.md %}#project-templates).
+To start the development of the import automation plug-in create a new .NET project. Use the provided project template for Microsoft Visual Studio or JetBrains Rider. You can find the link to the project template and information how to use it in [Installing project templates]({% link docs/setup/development_environment.md %}#installing-project-templates).
 
 ## Adapt information in manifest file
 Using the project template generates already a `manifest.json` file in the project. This manifest file contains information about the plug-in. You can modify the values in the json file as follows for the example plug-in.

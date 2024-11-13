@@ -33,16 +33,16 @@ The full sources of the plug-in built in this article are part of the *Import SD
 {:toc}
 
 ## Step 1 - Create a new .NET project
-To start developing the new import automation plug-in, create a new .NET project using the project template <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>. Enter `SimpleGeneratorPlugin` as project name and select `Import automation` as Plugin type. If you are using this guide to start your own import automation plug-in, use another project name that better fits your import automation.
+To start developing the new import automation plug-in, create a new .NET project using the project template <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>. Enter `SimpleGeneratorPlugin` as project name and select `Import automation` as Plugin type. If you are using this guide to start your own import automation plug-in, use another project name that better fits your import automation. Since the project name is by default also used as plug-in id, make sure the project name is reasonably unique.
 
 {: .note }
-If you are missing the <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span> project template, have a look at [Project templates]({% link docs/setup/development_environment.md %}#project-templates) for project template installation instructions.
+If you do not have a project template named <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>, take a look at [Installing project templates]({% link docs/setup/development_environment.md %}#installing-project-templates).
 
 The newly created project should now look similar to this:
 
 ![Project structure](../../assets/images/writing_a_plugin/import_automation/project_structure.png "Project structure"){: .framed }
 
-Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created four source code files for us: `Plugin.cs`, `ImportAutomation.cs`, `ImportRunner.cs` and `AutomationConfiguration.cs`. Each of these files contains a class of the same name:
+Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will edit it in the next step. In addition to the manifest file, the project template has also created four source code files for us: `Plugin.cs`, `ImportAutomation.cs`, `ImportRunner.cs` and `AutomationConfiguration.cs`. Each of these files contains a class of the same name:
 - `Plugin` is the entry point of the plug-in. It acts as a factory for the import automation provided by our plug-in. The project template already set this up to create instances of `ImportAutomation`, so we do not need to change its implementation.
 - `ImportAutomation` represents our new import automation. It acts as a factory to delegate its two responsibilities: Firstly, it creates instances of `ImportRunner` thus determining what the import loop will do. Secondly, it creates instances of `AutomationConfiguration` to determine what import plan settings will be available in the *PiWeb Auto Importer* UI when our import automation is used.
 - `ImportRunner` implements the actual import loop. We will implement it to periodically upload a new measurement to the *PiWeb backend* in step 4.
@@ -163,7 +163,7 @@ private static async Task<InspectionPlanCharacteristicDto> GetOrCreateCharacteri
 ```
 
 ## Step 7 - Add a method to upload a new measurement
-After we made sure our target part and its characteristic actually exist in the backend, we can now write a method to the `ImportRunner` class that creates and uploads a new measurement for the target part. The measurement will have a given measured value for its characteristic.
+After we made sure our target part and its characteristic actually exist in the backend, we can now write a method for the `ImportRunner` class that creates and uploads a new measurement for the target part. The measurement will have a given measured value for its characteristic.
 
 ```c#
 private static async Task UploadMeasurement(
@@ -190,7 +190,7 @@ private static async Task UploadMeasurement(
 ```
 
 ## Step 8 - Implement the automation loop
-Now that we have all the basic building blocks, we can finally implement the actual automation loop by implementing the `RunAsync` method of the `ImportRunner` class. This method is called when a user hits the run button of an import plan using our plug-in. It is expected to loop until the user hits the stop button which will be signaled by the given cancellation token which will be canceled at this point.
+Now that we have all the basic building blocks, we can finally implement the actual automation loop by implementing the `RunAsync` method of the `ImportRunner` class. This method is called when a user hits the run button of an import plan using our plug-in. It is expected to loop until the user hits the stop button which will be signaled to our plug-in by cancelling the given cancellation token.
 
 ```c#
 public async Task RunAsync(CancellationToken cancellationToken)
@@ -241,14 +241,14 @@ This will start *PiWeb Auto Importer* with the necessary command line parameters
 
 {: .note }
 > For this to work correctly, two conditions need to be met:
-> - *PiWeb Auto Importer* must be installed locally. The executable is expected to be found in <span class="nowrap">`%ProgramFiles%\Zeiss\PiWeb\AutoImporter.exe`</span>. If the *PiWeb Auto Importer* executable is in another path, you need to update the path specified in `launchSettings.json` accordingly.
+> - *PiWeb Auto Importer* must be installed locally. The executable is expected to be found in <span class="nowrap">`%ProgramFiles%\Zeiss\PiWeb\AutoImporter.exe`</span>. If the *PiWeb Auto Importer* executable is in another path, you can update the path specified in `launchSettings.json` accordingly.
 > - *PiWeb Auto Importer* must be in development mode. See [Development mode]({% link docs/setup/piweb_auto_importer.md %}#development-mode) for details on how to activate development mode.
 
 After *PiWeb Auto Importer* has started, the *Simple Generator* plug-in should be available in the plug-in management view opened via <span class="nowrap">`File > Plug-ins...`</span> and there should be no error messages.
 
 ![Plug-in management view](../../assets/images/writing_a_plugin/import_automation/plugin_view_simplegenerator.png "Plug-in management view")
 
-When the plug-in is loaded and shows no errors, the new import automation is available as import source in import plans. We can now run the generator by creating a new import plan (or reusing an existing one) and select the `Simple Measurement Generator` import Source.
+When the plug-in is loaded and shows no errors, the new import automation is available as import source in import plans. We can now run the generator by creating a new import plan (or reusing an existing one) and then selecting the <span class="nowrap">`Simple Measurement Generator`</span> import Source.
 
 ![Auto Importer import plan](../../assets/images/writing_a_plugin/import_automation/import_plan_settings.png "Auto Importer import plan")
 

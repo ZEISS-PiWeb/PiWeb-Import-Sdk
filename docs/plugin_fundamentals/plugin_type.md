@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 2
+nav_order: 3
 parent: Plug-in fundamentals
 title: Plug-in type
 ---
