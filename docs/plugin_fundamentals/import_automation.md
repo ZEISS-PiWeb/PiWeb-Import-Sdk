@@ -19,7 +19,7 @@ Inhalt:
 --->
 
 # {{ page.title }}
-This article describes the implementation of an import automation plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). Will will extend the simple example from [Writing an import format plug-in]({% link docs/writing_a_plugin/import_automation.md %}), but don't worry if you haven't read this article, all the necessary steps are also covered here. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
+This article describes the implementation of an import automation plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). Will will extend the simple example from [Writing an import format plug-in]({% link docs/writing_plugins/import_automation.md %}), but don't worry if you haven't read this article, all the necessary steps are also covered here. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
 
 To get a better impression of the functionality, this plug-in will read weather data from a website and import it into PiWeb Cloud under a part defined by the user.
 
@@ -484,8 +484,8 @@ public async Task RunAsync(CancellationToken cancellationToken)
 [...]
 ```
 
-`CreatePiWebRestClient` provides the options and establishes a connection via REST. To access a PiWeb Server instance via PiWeb API, various authentication methods are offered, which we provide in a switch that checks the import target accordingly.\
-Next, we use the PiWeb API to establish the connection, this is done via a REST client. To do this, we use the `ImportTarget` information provided via the context.
+`CreatePiWebRestClient` provides the options and establishes a connection via REST. To access a PiWeb Server instance via *PiWeb API*, various authentication methods are offered, which we provide in a switch that checks the import target accordingly.\
+Next, we use the *PiWeb API* to establish the connection, this is done via a REST client. To do this, we use the `ImportTarget` information provided via the context.
 
 {% capture details %}
 ```c#
@@ -625,7 +625,7 @@ while (!cancellationToken.IsCancellationRequested)
 ```
 
 `EnsurePartAsync` queries the PiWeb Server for the existence of a path. If it does not return anything, the necessary parts are created via `CreateParts`.
-All available PiWeb API calls can be found in the corresponding documentation under [PiWeb API documentation](https://zeiss-piweb.github.io/PiWeb-Api/general){:target="_blank"}.
+All available *PiWeb API* calls can be found in the corresponding documentation under [PiWeb API documentation](https://zeiss-piweb.github.io/PiWeb-Api/general){:target="_blank"}.
 
 {% capture details %}
 ```c#

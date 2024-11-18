@@ -16,7 +16,7 @@ Before we can actually start to develop a plug-in, we need to setup our developm
 
 ## Installing the .NET SDK
 
-To develop import plug-ins, you need a working *.NET* development environment. At minimum this requires installing the *.NET SDK* ([download](https://dotnet.microsoft.com/en-us/download){:target="_blank"}).
+To develop import plug-ins, you need a working *.NET* development environment. At minimum this requires installing a *.NET SDK*. We recommend to use the most current release of *.NET SDK 8.0* ([download](https://dotnet.microsoft.com/en-us/download/dotnet/8.0){:target="_blank"}) as this will be compatible to all *PiWeb Auto Importer* versions supporting plug-ins.   
 
 Some IDEs like *Visual Studio* may already take care of installing the *.NET SDK* for you. *Visual Studio* for example will install the *.NET SDK* when the workload *.NET desktop development* is checked during installation.
 

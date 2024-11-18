@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 3
-parent: Writing a plug-in
+parent: Writing plug-ins
 title: Writing an import automation plug-in
 ---
 
@@ -22,7 +22,7 @@ Notizen:
 
 # {{ page.title }}
 {: .no_toc }
-Import automation plug-ins allow you to automate imports from almost any source using *PiWeb Auto Importer*. Unlike with import format plug-ins the source of import data is not limited to the filesystem and there are no limitations on how already existing data on the backend can be modified during import. However, this high degree of customizability means that the automation loop must be fully implemented by the plug-in. In this article we will show you step-by-step, how to create a simple but fully functional import automation plug-in and how to use this plug-in to import data with PiWeb Auto Importer. As a data source we will simply use a random number generator, so the import loop will continuously create new measurements with randomly generated measured values in a fixed intervall.
+Import automation plug-ins allow you to automate imports from almost any source using *PiWeb Auto Importer*. Unlike with import format plug-ins the source of import data is not limited to the filesystem and there are no limitations on how already existing data on the backend can be modified during import. However, this high degree of customizability means that the automation loop must be fully implemented by the plug-in. In this article we will show you step-by-step, how to create a simple but fully functional import automation plug-in and how to use this plug-in to import data with *PiWeb Auto Importer*. As a data source we will simply use a random number generator, so the import loop will continuously create new measurements with randomly generated measured values in a fixed intervall.
 
 {: .note}
 The full sources of the plug-in built in this article are part of the *Import SDK* plug-in examples and can be found [here](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SimpleGeneratorPlugin).
@@ -33,19 +33,19 @@ The full sources of the plug-in built in this article are part of the *Import SD
 {:toc}
 
 ## Step 1 - Create a new .NET project
-To start developing the new import automation plug-in, create a new .NET project using the project template <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>. Enter `SimpleGeneratorPlugin` as project name and select `Import automation` as Plugin type. If you are using this guide to start your own import automation plug-in, use another project name that better fits your import automation. Since the project name is by default also used as plug-in id, make sure the project name is reasonably unique.
+To start developing the new import automation plug-in, create a new *.NET* project using the project template <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>. Enter `SimpleGeneratorPlugin` as project name and select `Import automation` as Plugin type. If you are using this guide to start your own import automation plug-in, use another project name that better fits your import automation. Since the project name is by default also used as plug-in id, make sure the project name is reasonably unique.
 
 {: .note }
 If you do not have a project template named <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>, take a look at [Installing project templates]({% link docs/setup/development_environment.md %}#installing-project-templates).
 
 The newly created project should now look similar to this:
 
-![Project structure](../../assets/images/writing_a_plugin/import_automation/project_structure.png "Project structure"){: .framed }
+![Project structure](../../assets/images/writing_plugins/import_automation/project_structure.png "Project structure"){: .framed }
 
 Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will edit it in the next step. In addition to the manifest file, the project template has also created four source code files for us: `Plugin.cs`, `ImportAutomation.cs`, `ImportRunner.cs` and `AutomationConfiguration.cs`. Each of these files contains a class of the same name:
 - `Plugin` is the entry point of the plug-in. It acts as a factory for the import automation provided by our plug-in. The project template already set this up to create instances of `ImportAutomation`, so we do not need to change its implementation.
 - `ImportAutomation` represents our new import automation. It acts as a factory to delegate its two responsibilities: Firstly, it creates instances of `ImportRunner` thus determining what the import loop will do. Secondly, it creates instances of `AutomationConfiguration` to determine what import plan settings will be available in the *PiWeb Auto Importer* UI when our import automation is used.
-- `ImportRunner` implements the actual import loop. We will implement it to periodically upload a new measurement to the *PiWeb backend* in step 4.
+- `ImportRunner` implements the actual import loop. We will implement it to periodically upload a new measurement to the *PiWeb* backend in step 4.
 - `AutomationConfiguration` implements custom import plan settings for our new import automation. Since we do not need any settings for this example plug-in, we do not need to make any changes to the implementation provided by the project template.
 
 There is also a `launchSettings.json` which contains a launch configuration that builds our plug-in and starts a locally installed *PiWeb Auto Importer* with the necessary configuration to load and run our plug-in directly from the build output. We come back to this later when we are testing the new plug-in.
@@ -90,13 +90,13 @@ public ImportRunner(ICreateImportRunnerContext context)
 
 The original `_Context` member created by the project template is now unnecessary and can be removed from the `ImportRunner` class.
 
-## Step 4 - Add the PiWeb-Api NuGet to the project
-Since the *Import SDK* does not provide a specific way for import automations to access the *PiWeb backend*, we will add the *PiWe-Api* to our plug-in project and use it to write the generated measurements to the backend. Open the NuGet Package Manager and install `Zeiss.PiWeb.Api.Rest`.
+## Step 4 - Add the PiWeb API NuGet to the project
+Since the *Import SDK* does not provide a specific way for import automations to access the *PiWeb* backend, we will add the *PiWeb API* to our plug-in project and use it to write the generated measurements to the backend. Open the NuGet Package Manager and install `Zeiss.PiWeb.Api.Rest`.
 
-![NuGet Package Manager](../../assets/images/writing_a_plugin/import_automation/PiWeb_Api_NuGet.png "NuGet Package Manager"){: .framed }
+![NuGet Package Manager](../../assets/images/writing_plugins/import_automation/PiWeb_Api_NuGet.png "NuGet Package Manager"){: .framed }
 
-## Step 5 - Add a method to create data service rest clients
-Having the *PiWeb-Api* available now, we can add a method to the `ImportRunner` class that creates a data service rest client for a given URI. We use the given authentication data to authenticate any requests. Later on, we will pass URI and authentication data from `_ImportTarget` to this method.
+## Step 5 - Add a method to create data service REST clients
+Having the *PiWeb API* available now, we can add a method to the `ImportRunner` class that creates a data service REST client for a given URI. We use the given authentication data to authenticate any requests. Later on, we will pass URI and authentication data from `_ImportTarget` to this method.
 ```c#
 private static DataServiceRestClient CreateDataServiceClient(Uri uri, IAuthData authData)
 {
@@ -190,7 +190,7 @@ private static async Task UploadMeasurement(
 ```
 
 ## Step 8 - Implement the automation loop
-Now that we have all the basic building blocks, we can finally implement the actual automation loop by implementing the `RunAsync` method of the `ImportRunner` class. This method is called when a user hits the run button of an import plan using our plug-in. It is expected to loop until the user hits the stop button which will be signaled to our plug-in by cancelling the given cancellation token.
+Now that we have all the basic building blocks, we can finally implement the actual automation loop by implementing the `RunAsync` method of the `ImportRunner` class. This method is called when a user hits the run button of an import plan using our plug-in. It is expected to loop until the user hits the stop button which will be signaled to our plug-in by canceling the given cancellation token.
 
 ```c#
 public async Task RunAsync(CancellationToken cancellationToken)
@@ -228,14 +228,14 @@ public async Task RunAsync(CancellationToken cancellationToken)
 }
 ```
 
-First we check whether the backend connection configured for the import plan is actually a web service. Since we use the *Piweb-Api* to connect to the backend, we do not support any other connection types. Next, we create the rest client using the `CreateDataServiceClient` method from step 5.
+First we check whether the backend connection configured for the import plan is actually a web service. Since we use the *PiWeb API* to connect to the backend, we do not support any other connection types. Next, we create the REST client using the `CreateDataServiceClient` method from step 5.
 
-The actual automation loop is a while loop that creates a random number, checks wether target part and characteristic exist (if not we create them) and then uploads the new measurement. Before we loop back and repeat, we simply wait for 5 seconds. Since we pass the cancellation token, an `OperationCanceledException` will be raised when the user hits the stop button, which causes the loop and the `RunAsync` method to exit. Note that we always finish the current measurement upload, even if the cancellation token was triggered.
+The actual automation loop is a while loop that creates a random number, checks whether target part and characteristic exist (if not we create them) and then uploads the new measurement. Before we loop back and repeat, we simply wait for 5 seconds. Since we pass the cancellation token, an `OperationCanceledException` will be raised when the user hits the stop button, which causes the loop and the `RunAsync` method to exit. Note that we always finish the current measurement upload, even if the cancellation token was triggered.
 
 ## Testing the plug-in
 After building the project, the plug-in is ready to test. Since the project template already created launch settings for the project, running *PiWeb Auto Importer* to host the new plug-in is as easy as hitting the start button of your IDE.
 
-![Start button](../../assets/images/writing_a_plugin/import_automation/start_button.png "Start button"){: .framed }
+![Start button](../../assets/images/writing_plugins/import_automation/start_button.png "Start button"){: .framed }
 
 This will start *PiWeb Auto Importer* with the necessary command line parameters to load the plug-in build from the current project and also attach a debugger to the process.
 
@@ -246,15 +246,15 @@ This will start *PiWeb Auto Importer* with the necessary command line parameters
 
 After *PiWeb Auto Importer* has started, the *Simple Generator* plug-in should be available in the plug-in management view opened via <span class="nowrap">`File > Plug-ins...`</span> and there should be no error messages.
 
-![Plug-in management view](../../assets/images/writing_a_plugin/import_automation/plugin_view_simplegenerator.png "Plug-in management view")
+![Plug-in management view](../../assets/images/writing_plugins/import_automation/plugin_view_simplegenerator.png "Plug-in management view")
 
-When the plug-in is loaded and shows no errors, the new import automation is available as import source in import plans. We can now run the generator by creating a new import plan (or reusing an existing one) and then selecting the <span class="nowrap">`Simple Measurement Generator`</span> import Source.
+When the plug-in is loaded and shows no errors, the new import automation is available as import source in import plans. We can now run the generator by creating a new import plan (or reusing an existing one) and then selecting the <span class="nowrap">`Simple Measurement Generator`</span> as import source.
 
-![Auto Importer import plan](../../assets/images/writing_a_plugin/import_automation/import_plan_settings.png "Auto Importer import plan")
+![Auto Importer import plan](../../assets/images/writing_plugins/import_automation/import_plan_settings.png "Auto Importer import plan")
 
 After hitting the run button, the automation will be generating new measurements with random measured values every 5 seconds until stopped again. Using *PiWeb Planner*, we can observe these new measurements:
 
-![Planner measurement view](../../assets/images/writing_a_plugin/import_automation/planner_measurements.png "Planner measurement view")
+![Planner measurement view](../../assets/images/writing_plugins/import_automation/planner_measurements.png "Planner measurement view")
 
 ## Next steps
 Now that we have a running plug-in, you can continue with [Deploying plug-ins]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.

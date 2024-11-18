@@ -78,11 +78,11 @@ Exceptions are always logged in detail with their stacktrace and all direct and 
 *PiWeb Auto Importer* writes two kinds of log files:
 - The single application log file contains all events that occur in-process. This log file will contain any log entries written by plug-ins running as part of a default import plan. The corresponding log file can be found at a user specific location in the filesystem:
 ```
-%LOCALAPPDATA%/Zeiss/PiWeb/PiWeb-AutoImporter.log
+%LOCALAPPDATA%\Zeiss\PiWeb\PiWeb-AutoImporter.log
 ``` 
 - A service log file for each import plan run as Windows service. This log file will contain any log entries written by plug-ins running as part of a Windows service import plan. The corresponding log file can be found at a location in the filesystem that is not user specific:
 ```
-%ALLUSERSPROFILE%/Zeiss/PiWeb/AutoImporter - [Name].log
+%ALLUSERSPROFILE%\Zeiss\PiWeb\AutoImporter - [Name].log
 ```
 `[Name]` corresponds to the import plan name.
 
