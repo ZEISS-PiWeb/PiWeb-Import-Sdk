@@ -29,7 +29,7 @@ The following table lists which versions of PiWeb will support plug-ins written 
 | PiWeb version | Import SDK version | .NET version
 | - | - | - |
 | &ge; 2025.R1.* | 1.0 | net8.0-windows10.0.22621 |
-| &le; 8.6.* | no plugin support | no plugin support |
+| &le; 8.6.* | no plug-in support | no plug-in support |
 
 ### Learn more
 * More information about the ZEISS PiWeb software can be found on the [PiWeb homepage](https://www.zeiss.de/messtechnik/produkte/software/piweb.html).
