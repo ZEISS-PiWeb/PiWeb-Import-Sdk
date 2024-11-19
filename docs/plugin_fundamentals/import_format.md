@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 4
+nav_order: 5
 parent: Plug-in fundamentals
 title: Import format
 ---
@@ -22,7 +22,7 @@ Inhalt:
 --->
 
 # {{ page.title }}
-This article describes the implementation of an import format plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). The focus in this arcticle is on the implementation of the grouping and parsing functionality. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}). The development of a simple example for an import format plug-in can be found in [Writing an import format plug-in]({% link docs/writing_a_plugin/import_format.md %}).
+This article describes the implementation of an import format plug-in. A general explanation of this type can be found in [Plug-in type]({% link docs/plugin_fundamentals/plugin_type.md %}). The focus in this arcticle is on the implementation of the grouping and parsing functionality. The required information for this plug-in type in the manifest.json file is described in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}). The development of a simple example for an import format plug-in can be found in [Writing an import format plug-in]({% link docs/writing_plugins/import_format.md %}).
 
 ## Download source code and content
 The plug-in presented here can be downloaded in its complete form. However, the following sections also describe the necassary code. You can find the source code at the [GitHub repository](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SecondImportFormat).

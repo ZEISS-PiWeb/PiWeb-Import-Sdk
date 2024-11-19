@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 6
+nav_order: 7
 parent: Plug-in fundamentals
 title: User configuration & storage
 ---
@@ -23,7 +23,7 @@ The user configurations are about enabling the user to make settings via ui elem
 User configurations are only available for import automations.
 
 ## CreateConfiguration
-Besides `CreateImportRunner` from [Writing an import format plug-in]({% link docs/writing_a_plugin/import_automation.md %}) you can use `CreateConfiguration` to load custom configuration items.
+Besides `CreateImportRunner` from [Writing an import format plug-in]({% link docs/writing_plugins/import_automation.md %}) you can use `CreateConfiguration` to load custom configuration items.
 
 Loading the configuration in IImportAutomation:
 ```c#

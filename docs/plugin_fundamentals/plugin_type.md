@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 2
+nav_order: 3
 parent: Plug-in fundamentals
 title: Plug-in type
 ---
@@ -28,10 +28,10 @@ Without plug-ins, the Auto Importer would perform the following steps to import 
 ![Auto Importer native](../../assets/images/plugin_fundamentals/plugin_type/ai_native.png "Auto Importer native")
 
 ## Automation plug-ins
-Automation plug-ins are designed to automate the process of data import from various sources. They are ideally used when you need to import data regularly from a source that PiWeb does not support by default. E.g. from a REST api.
+Automation plug-ins are designed to automate the process of data import from various sources. They are ideally used when you need to import data regularly from a source that PiWeb does not support by default. E.g. from a REST API.
 
 {: .note }
-With this plug-in type, the data query and sending to PiWeb has to be implemented. The public PiWeb API can be used for this.
+With this plug-in type, the data query and sending to PiWeb has to be implemented. The public *PiWeb API* can be used for this.
 
 ![Auto Importer import automation](../../assets/images/plugin_fundamentals/plugin_type/ai_automation.png "Auto Importer import automation")
 

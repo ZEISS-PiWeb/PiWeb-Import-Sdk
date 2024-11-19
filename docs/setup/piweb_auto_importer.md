@@ -12,7 +12,7 @@ Import plug-ins extend the built-in functionality of *PiWeb Auto Importer* eithe
 
 A single instance of the *PiWeb Auto Importer* can run and control any number of import automations. Each import automation is configured by an import plan and can be run and controlled independently. In order to test an import plug-in, we need to do two things: Firstly, we need to make the plug-in known to the *PiWeb Auto Importer* and secondly, we need to create, configure and run a suitable import plan that uses the plug-in.
 
-In this document we will show you how to generally setup and prepare the *PiWeb Auto Importer* for testing plug-ins. Later when developing our first plug-ins in [Gettings started]({% link docs/writing_a_plugin/index.md %}), we will make use of this setup.
+In this document we will show you how to generally setup and prepare the *PiWeb Auto Importer* for testing plug-ins. Later when developing our first plug-ins in [Gettings started]({% link docs/writing_plugins/index.md %}), we will make use of this setup.
 
 ## Table of Contents
 {: .no_toc }
@@ -53,10 +53,10 @@ The last step of setting up *PiWeb Auto Importer* is to create and configure an 
 
 ![Create new default import plan](../../assets/images/setup/piweb_auto_importer/create_default_import_plan.png "Create new default import plan")
 
-Most of the default settings of the import plan are fine, however, it is still missing a valid import target. Use the "Select connection" button to choose an import target. The import target must be a running *PiWeb backend*, see [PiWeb backend]({% link docs/setup/piweb_backend.md %}) for your options to set one up.
+Most of the default settings of the import plan are fine, however, it is still missing a valid import target. Use the "Select connection" button to choose an import target. The import target must be a running *PiWeb* backend, see [PiWeb backend]({% link docs/setup/piweb_backend.md %}) for your options to set one up.
 
 ![Plug-in management](../../assets/images/setup/piweb_auto_importer/select_connection.png "Plug-in management"){: .framed }
 
 Depending on your chosen import target, you may also need to authenticate at the import target. When everything is working correctly, the connection status should now be 'Ready'.
 
-This is all the basic setup you need. In the next section [Writing a plug-in]({% link docs/writing_a_plugin/index.md %}), we will show you how to create, build an run your own plug-ins.
+This is all the basic setup you need. In the next section [Writing plug-ins]({% link docs/writing_plugins/index.md %}), we will show you how to create, build an run your own plug-ins.

@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 2
-parent: Writing a plug-in
+parent: Writing plug-ins
 title: Writing an import format plug-in
 ---
 
@@ -43,24 +43,24 @@ CharA, 2.4
 CharB, 1.6
 ```
 
-A *SimpleTxt* file always represents a single measurement. The format starts with `#Header` as first line in the file. The following lines contain general information about the measurement (for example the date of the measurement or the operator of the measuring machine) in the form of name value pairs separated by a colon. The value part of the file begins with the line `#Characterstic,Value`. Each following line consists of a characteristic name and its coresponding measured value separated by a comma. A *SimpleTxt* file can contain as many general information entries and measured characteristics as necessary.
+A *SimpleTxt* file always represents a single measurement. *SimpleTxt* files start with `#Header` as first line. Then the following lines contain general information about the measurement in the form of name value pairs separated by a colon. For example the date of the measurement or some descriptive text. The value part of the file begins with the line `#Characterstic,Value`. Each following line consists of a characteristic name and its corresponding measured value separated by a comma. A *SimpleTxt* file can contain as many general information entries and measured characteristics as necessary.
 
 *SimpleTxt* files always have the file extension `.txt`.
 
 You can download this example file here:  
-[SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/FirstImportFormat/SampleData/SimpleTxt-Example.txt){:target="_blank"}
+[SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/SimpleTxtPlugin/SampleData/SimpleTxt-Example.txt){:target="_blank"}
 
 ## Step 1 - Create a new .NET project
-To start developing the new import format plug-in, create a new .NET project using the project template `PiWeb-Import-Sdk Plugin`. Enter `SimpleTxtPlugin` as project name and select `Import format` as Plugin type. If you are using this guide to start your own import format plug-in, use another project name that better fits your import format.
+To start developing the new import format plug-in, create a new .NET project using the project template `PiWeb-Import-Sdk Plugin`. Enter `SimpleTxtPlugin` as project name and select `Import format` as Plugin type. If you are using this guide to start your own import format plug-in, use another project name that better fits your import format. Since the project name is by default also used as plug-in id, make sure the project name is reasonably unique.
 
 {: .note }
-If you are missing the `PiWeb-Import-Sdk Plugin` project template, have a look at [Project templates]({% link docs/setup/development_environment.md %}#project-templates) for project template installation instructions.
+If you do not have a project template named <span class="nowrap">`PiWeb-Import-Sdk Plugin`</span>, take a look at [Installing project templates]({% link docs/setup/development_environment.md %}#installing-project-templates).
 
 The newly created project should now look similar to this:
 
-![Project structure](../../assets/images/writing_a_plugin/import_format/project_structure.png "Project structure"){: .framed }
+![Project structure](../../assets/images/writing_plugins/import_format/project_structure.png "Project structure"){: .framed }
 
-Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will deal with it in the next step. In addition to the manifest file, the project template has also created three source code files for us: `Plugin.cs`, `ImportFormat.cs` and `ImportParser.cs`. Each of these files contains a class of the same name:
+Let us have a look at the files created by the project template: The `manifest.json` file is the manifest of the plug-in. We will edit it in the next step. In addition to the manifest file, the project template has also created three source code files for us: `Plugin.cs`, `ImportFormat.cs` and `ImportParser.cs`. Each of these files contains a class of the same name:
 - `Plugin` is the entry point of the plug-in. It acts as a factory for the import format provided by our plug-in. The project template already set this up to create instances of `ImportFormat`, so we do not need to change its implementation.
 - `ImportFormat` represents our new import format. It acts as a factory to delegate its two responsibilities: Firstly, it creates instances of `ImportParser` thus determining how to process import file contents. Secondly, it creates an instance of `IImportGroupFilter` to determine which import files should actually be handled by an associated import format. We will create a custom filter for *SimpleTxt* files in step 3.
 - `ImportParser` implements the actual import logic that transforms the content of a file to inspection plan data and measurement data that can be uploaded. We will implement it to read and transform *SimpleTxt* files in step 4.
@@ -90,7 +90,7 @@ One of the automatically created project files is the plug-in manifest `manifest
 
 The first two properties we have updated are `title` and `description`. These two values determine how our new plug-in should be displayed in the plug-in management view of *PiWeb Auto Importer*. This is not strictly necessary for a working plug-in, but it helps us to find our plug-in in the plug-in management view. Similarly, the `displayName` property in the `provides` section specifies how the import format provided by our plug-in should be displayed when *PiWeb Auto Importer* needs to refer to it, for example in the import settings.
 
-Our third change is the addition of the `fileExtensions` list in the `provides` section. The list of file extensions is also used for display purposes but also to provide file extension masks in file selection dialogs.
+Our fourth change is the addition of the `fileExtensions` list in the `provides` section. The list of file extensions is also used for display purposes. Additionally it also generates file extension masks in file selection dialogs.
 
 {: .note }
 There are many other optional manifest properties. You can find more information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
@@ -139,9 +139,9 @@ public IImportGroupFilter CreateImportGroupFilter(ICreateImportGroupFilterContex
 ```
 
 ## Step 4 - Implement the import file parser
-The last step is to actually implement the parsing of *SimpleTxt* files. But first we have to think about how to map the file contents to inspection plan data and measurement data. Since each *SimpleTxt* file only contains data for a single measurement, we will create only a single (root) part and a corresponding measurement per import file. The properties of the `#header` section should respectively be mapped to measurement attributes K4 (Date) and K9 (Text) of the single measurement. Then, for each line in the `#Characterstic,Value` section, a characteristic below the part and a corresponding measured value in the measurement should be generated.
+The last step is to actually implement the parsing of *SimpleTxt* files. But first we have to think about how to map the file contents to inspection plan data and measurement data. Since each *SimpleTxt* file only contains data for a single measurement, we will create only a single (root) part and a corresponding measurement per import file. The properties of the `#Header` section should respectively be mapped to measurement attributes K4 (Date) and K9 (Text) of the single measurement. Then, for each line in the `#Characterstic,Value` section, a characteristic below the part and a corresponding measured value in the measurement should be generated.
 
-![Import goal](../../assets/images/writing_a_plugin/import_format/import_goal.png "Import goal"){: .framed }
+![Import goal](../../assets/images/writing_plugins/import_format/import_goal.png "Import goal"){: .framed }
 
 To achieve this behavior, we need to implement the `ParseAsync` method in the `ImportParser` class. Here is the full implementation:
 
@@ -222,37 +222,37 @@ public async Task<ImportData> ParseAsync(
 }
 ```
 
-We begin with creating a root part and a measurement on this part. This part is the root of all the data we will extract from the import file. During upload, this root part will be merged into the target part by *PiWeb Auto Importer*. The original name of the import target part will be kept during this operation, so the name of the root part does not matter. However, it is good practice to specify a sensible name and we simply use the import file name (without extension) in this example.
+We begin with creating a root part and a measurement on this part. This part is the root of all the data we will extract from the import file. During upload, this root part will be merged into the target part by *PiWeb Auto Importer*. The original name of the import target part will be kept during this operation, so the name of the root part we create does not matter. However, it is good practice to specify a sensible name and we simply use the import file name (without extension) in this example.
 
 Now that we have a part and a corresponding measurement, we can read the import file line by line and add attributes, characteristics and measured values as specified by the import file. Finally we return the root part wrapped in an `ImportData` instance.
 
 ## Testing the plug-in
 After building the project, the plug-in is ready to test. Since the project template already created launch settings for the project, running *PiWeb Auto Importer* to host the new plug-in is as easy as hitting the start button of your IDE.
 
-![Start button](../../assets/images/writing_a_plugin/import_format/start_button.png "Start button"){: .framed }
+![Start button](../../assets/images/writing_plugins/import_format/start_button.png "Start button"){: .framed }
 
 This will start *PiWeb Auto Importer* with the necessary command line parameters to load the plug-in build from the current project and also attach a debugger to the process.
 
 {: .note }
 > For this to work correctly, two conditions need to be met:
-> - *PiWeb Auto Importer* must be installed locally. The executable is expected to be found in <span class="nowrap">`%ProgramFiles%\Zeiss\PiWeb\AutoImporter.exe`</span>. If the *PiWeb Auto Importer* executable is in another path, you need to update the path specified in `launchSettings.json` accordingly.
+> - *PiWeb Auto Importer* must be installed locally. The executable is expected to be found in <span class="nowrap">`%ProgramFiles%\Zeiss\PiWeb\AutoImporter.exe`</span>. If the *PiWeb Auto Importer* executable is in another path, you can update the path specified in `launchSettings.json` accordingly.
 > - *PiWeb Auto Importer* must be in development mode. See [Development mode]({% link docs/setup/piweb_auto_importer.md %}#development-mode) for details on how to activate development mode.
 
 After *PiWeb Auto Importer* has started, the *SimpleTxt* plug-in should be available in the plug-in management view opened via <span class="nowrap">`File > Plug-ins...`</span> and there should be no error messages.
 
-![Plug-in management view](../../assets/images/writing_a_plugin/import_format/plugin_view_simpletxt.png "Plug-in management view")
+![Plug-in management view](../../assets/images/writing_plugins/import_format/plugin_view_simpletxt.png "Plug-in management view")
 
 When the plug-in is loaded and shows no errors, the new format is available and will automatically be used in all import plans. We can now try to import the example file by creating a new import plan (or reusing an existing one). Configure a source folder, a target *PiWeb* backend and hit the run button.
 
-![Auto Importer import plan](../../assets/images/writing_a_plugin/import_format/import_plan_settings.png "Auto Importer import plan")
+![Auto Importer import plan](../../assets/images/writing_plugins/import_format/import_plan_settings.png "Auto Importer import plan")
 
 Now you can drop [SimpleTxt-Example.txt](https://raw.githubusercontent.com/ZEISS-PiWeb/PiWeb-Import-Sdk/refs/heads/develop/examples/FirstImportFormat/SampleData/SimpleTxt-Example.txt){:target="_blank"} in the configured import folder to import it. If everything worked correctly, the resulting import history will look similar to this:
 
-![Auto Importer import history](../../assets/images/writing_a_plugin/import_format/import_history.png "Auto Importer import history")
+![Auto Importer import history](../../assets/images/writing_plugins/import_format/import_history.png "Auto Importer import history")
 
-You can also open *PiWeb Planner* and connect to the same *PiWeb backend*. A new measurement with measured values for the characteristics `CharA` and `CharB` should exist.
+You can also open *PiWeb Planner* and connect to the same *PiWeb* backend. A new measurement with measured values for the characteristics `CharA` and `CharB` should exist.
 
-![Planner measurement view](../../assets/images/writing_a_plugin/import_format/planner_measurement.png "Planner measurement view")
+![Planner measurement view](../../assets/images/writing_plugins/import_format/planner_measurement.png "Planner measurement view")
 
 ## Next steps
 Now that we have a running plug-in, you can continue with [Deploying plug-ins]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
