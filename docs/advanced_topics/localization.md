@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 1
+nav_order: 20
 parent: Advanced topics
 title: Localization
 ---

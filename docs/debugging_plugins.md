@@ -8,7 +8,7 @@ title: Debugging plug-ins
 When a plug-in does not behave as expected and the problem can be reproduced, debugging the implementation is usually the easiest way to find the problem. In this article we will show you how to debug your plug-ins just like any other application.
 
 {: .note }
-When debugging is not an available option for any reason, looking at a log file is usually a more accessable way of problem analysis. Details about how to write log entries from you plug-ins are available in our dedicated [Application logs]({% link docs/plugin_fundamentals/logging.md %}) article.
+When debugging is not an available option for any reason, looking at a log file is usually a more accessable way of problem analysis. Details about how to write log entries from you plug-ins are available in our dedicated [Application logs]({% link docs/advanced_topics/logging.md %}) article.
 
 ## Run and debug
 

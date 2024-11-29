@@ -1,8 +1,8 @@
 ---
 layout: default
-nav_order: 4
+nav_order: 40
 parent: Advanced topics
-title: Configuration & storage rewrite
+title: "User configuration - <span class=\"nowrap\">migration & duplication</span>"
 ---
 
 <!---
@@ -18,10 +18,10 @@ Inhalt:
 --->
 
 # {{ page.title }}
-Configuration is about enabling and persisting user input. Prefabricated elements from the Import SDK can be used for this. It is also possible to make your own entries; this is explained under [Custom UI]({% link docs/advanced_topics/ui.md %}). This persisted data is adapted and saved again during the rewrite. This may be necessary if an import plan is duplicated and you want to remove or replace unique data, for example. But also when migrating to a newer version to bring the storage format or data structure up to date.
+Configuration is about enabling and persisting user input. Prefabricated elements from the Import SDK can be used for this. It is also possible to make your own entries; this is explained under [User configuration - custom UI]({% link docs/advanced_topics/ui.md %}). This persisted data is adapted and saved again during the rewrite. This may be necessary if an import plan is duplicated and you want to remove or replace unique data, for example. But also when migrating to a newer version to bring the storage format or data structure up to date.
 
 ## IAutomationConfiguration
-As already known, the desired configurations items are defined in the `IAutomationConfiguration` implementation, further details can be found at [User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %}).
+As already known, the desired configurations items are defined in the `IAutomationConfiguration` implementation, further details can be found at [User configuration - storage]({% link docs/advanced_topics/user_configuration.md %}).
 ```c#
 using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
 using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;

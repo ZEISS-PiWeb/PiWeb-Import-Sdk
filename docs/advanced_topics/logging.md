@@ -1,7 +1,7 @@
 ---
 layout: default
-nav_order: 1
-parent: Plug-in fundamentals
+nav_order: 10
+parent: Advanced topics
 title: Application logs
 ---
 
@@ -36,7 +36,7 @@ public class ImportRunner : IImportRunner
 }
 ```
 Log entries of plug-ins can be identified by the plug-in id in the component column:
-![Logging entry with plug-in id as component](../../assets/images/plugin_fundamentals/logging/plugin_id_component.png "Logging entry with plug-in id as component"){: .framed}
+![Logging entry with plug-in id as component](../../assets/images/advanced_topics/logging/plugin_id_component.png "Logging entry with plug-in id as component"){: .framed}
 
 ### Log levels
 {: .no_toc }
@@ -89,11 +89,11 @@ Exceptions are always logged in detail with their stacktrace and all direct and 
 ## Where are the log entries of my import plan?
 Since the target log file depends on whether an import plan is configured to run as Windows service or not, looking at the wrong log file is a common problem. However, *PiWeb Auto Importer* offers an easy way to open the correct log file for any given import plan on the status page of the import plan. On the right side there is a diagnostics section with a link to open the log. This is either `Show application log` or `Show service log`. Only the correct link will be shown.
 
-![Diagnostics in PiWeb Auto Importer](../../assets/images/plugin_fundamentals/logging/auto_importer_diagnostics.png "Diagnostics in PiWeb Auto Importer")
+![Diagnostics in PiWeb Auto Importer](../../assets/images/advanced_topics/logging/auto_importer_diagnostics.png "Diagnostics in PiWeb Auto Importer")
 
 Clicking the show log link will open *PiWeb Log Viewer* displaying the log. The log viewer also provides the option to open the Windows explorer with the relevant folder to find the currently displayed log file. You can use this to easily share the log file itself if necessary.
 
-![PiWeb Log Viewer](../../assets/images/plugin_fundamentals/logging/log_viewer.png "PiWeb Log Viewer")
+![PiWeb Log Viewer](../../assets/images/advanced_topics/logging/log_viewer.png "PiWeb Log Viewer")
 
 {: .note}
 The diagnostic section also has a `Enable debug logging` checkbox that can be used to temporarily increase the log level to Debug without needing to restart the application. This even works for import plans running as Windows service.

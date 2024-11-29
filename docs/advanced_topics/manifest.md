@@ -1,7 +1,7 @@
 ---
 layout: default
-nav_order: 4
-parent: Plug-in fundamentals
+nav_order: 60
+parent: Advanced topics
 title: Manifest
 ---
 
@@ -85,6 +85,6 @@ The following manifest provides minimal information:
 
 This is what the plug-in with the minimal manifest looks like in the Auto Importer:
 
-![Auto Importer plug-in view](../../assets/images/plugin_fundamentals/manifest/plugin_view.png "Auto Importer plug-in view")
+![Auto Importer plug-in view](../../assets/images/advanced_topics/manifest/plugin_view.png "Auto Importer plug-in view")
 
-![Auto Importer import plan](../../assets/images/plugin_fundamentals/manifest/import_plan.png "Auto Importer import plan")
+![Auto Importer import plan](../../assets/images/advanced_topics/manifest/import_plan.png "Auto Importer import plan")

@@ -93,7 +93,7 @@ The first two properties we have updated are `title` and `description`. These tw
 Our fourth change is the addition of the `fileExtensions` list in the `provides` section. The list of file extensions is also used for display purposes. Additionally it also generates file extension masks in file selection dialogs.
 
 {: .note }
-There are many other optional manifest properties. You can find more information about the manifest file in [Manifest]({% link docs/plugin_fundamentals/manifest.md %}).
+There are many other optional manifest properties. You can find more information about the manifest file in [Manifest]({% link docs/advanced_topics/manifest.md %}).
 
 ## Step 3 - Create an import group filter
 At this point we can start working on the actual plug-in implementation. First we are going to implement a custom `IImportGroupFilter` to define which import files should actually be handled by our new import format. The interface only specifies a single method `FilterAsync` that we need to implement. Create a new class `SimpleTxtImportGroupFilter` with the following content:
@@ -255,4 +255,4 @@ You can also open *PiWeb Planner* and connect to the same *PiWeb* backend. A new
 ![Planner measurement view](../../assets/images/writing_plugins/import_format/planner_measurement.png "Planner measurement view")
 
 ## Next steps
-Now that we have a running plug-in, you can continue with [Deploying plug-ins]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/plugin_fundamentals/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.
+Now that we have a running plug-in, you can continue with [Deploying plug-ins]({% link docs/deployment.md %}) explaining how to actually deploy your plug-in to a *PiWeb Auto Importer* in production use. You may also want to read the articles in the [Plug-in fundamentals]({% link docs/advanced_topics/index.md %}) and [Advanced topics]({% link docs/advanced_topics/index.md %}) sections to get a better understanding of the concepts behind plug-ins and also learn about other features available for your own plug-in implementations.

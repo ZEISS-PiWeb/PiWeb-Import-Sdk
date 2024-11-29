@@ -1,8 +1,8 @@
 ---
 layout: default
-nav_order: 7
-parent: Plug-in fundamentals
-title: User configuration & storage
+nav_order: 30
+parent: Advanced topics
+title: User configuration - storage
 ---
 
 <!---
@@ -84,14 +84,14 @@ The Import SDK provides predefined types: bool, int, double, select, status and 
 * StringConfigurationItemPropertyViewModel
 
 Example of different types:\
-![Configuration example](../../assets/images/plugin_fundamentals/configuration/config_example.png "Configuration example")
+![Configuration example](../../assets/images/advanced_topics/configuration/config_example.png "Configuration example")
 
 It is also possible to place a description text anywhere via TextDescriptionItemPropertyViewModel:\
-![TextDescriptionItemPropertyViewModel](../../assets/images/plugin_fundamentals/configuration/textitem.png "TextDescriptionItemPropertyViewModel")
+![TextDescriptionItemPropertyViewModel](../../assets/images/advanced_topics/configuration/textitem.png "TextDescriptionItemPropertyViewModel")
 
 ### Configuration section and priority
 Different sections and priorites for configuration items can be adressed:\
-![Configuration order](../../assets/images/plugin_fundamentals/configuration/config_order.png "Configuration order")
+![Configuration order](../../assets/images/advanced_topics/configuration/config_order.png "Configuration order")
 
 The Import SDK already provides the familiar sections and priorites:
 ```c#

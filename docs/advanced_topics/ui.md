@@ -1,8 +1,8 @@
 ---
 layout: default
-nav_order: 2
+nav_order: 50
 parent: Advanced topics
-title: Custom UI
+title: "User configuration - <span class=\"nowrap\">custom UI</span>"
 ---
 
 <!---
@@ -15,7 +15,7 @@ Inhalt:
 
 # {{ page.title }}
 The Import SDK already provides a large number of configuration elements, but it can happen that these elements are not sufficient. The Import SDK therefore also supports the creation of your own elements.\
-For more information about native elements read [User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %}).
+For more information about native elements read [User configuration - storage]({% link docs/advanced_topics/user_configuration.md %}).
 
 ## Example control element
 This article shows the steps required to create your own configuration element. The example of a button is used for this:
@@ -62,7 +62,7 @@ A WPF-based UI file must be provided, xaml. As usual with WPF, this file contain
 ```
 
 ## IAutomationConfiguration
-The implementation of the `IAutomationConfiguration` interface can be used to place your own configuration elements; further information on this can be found in [User configuration & storage]({% link docs/plugin_fundamentals/configuration.md %}).
+The implementation of the `IAutomationConfiguration` interface can be used to place your own configuration elements; further information on this can be found in [User configuration - storage]({% link docs/advanced_topics/user_configuration.md %}).
 
 ```c#
 using Zeiss.PiWeb.Sdk.Import.ConfigurationItems;
