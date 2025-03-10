@@ -2,7 +2,7 @@
 layout: default
 nav_order: 10
 parent: Advanced topics
-title: Application logs
+title: Debug logging
 ---
 
 # {{ page.title }}
