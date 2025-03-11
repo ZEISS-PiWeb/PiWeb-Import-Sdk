@@ -25,7 +25,7 @@ Notizen:
 Import automation plug-ins allow you to automate imports from almost any source using *PiWeb Auto Importer*. Unlike with import format plug-ins the source of import data is not limited to the filesystem and there are no limitations on how already existing data on the backend can be modified during import. However, this high degree of customizability means that the automation loop must be fully implemented by the plug-in. In this article we will show you step-by-step, how to create a simple but fully functional import automation plug-in and how to use this plug-in to import data with *PiWeb Auto Importer*. As a data source we will simply use a random number generator, so the import loop will continuously create new measurements with randomly generated measured values in a fixed intervall.
 
 {: .note}
-The full sources of the plug-in built in this article are part of the *Import SDK* plug-in examples and can be found [here](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SimpleGeneratorPlugin).
+The full sources of the plug-in we built in this article are part of the *Import SDK* plug-in examples and can be found [here](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SimpleGeneratorPlugin){:target="_blank"}.
 
 ## Table of Contents
 {: .no_toc }

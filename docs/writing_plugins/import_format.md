@@ -23,7 +23,7 @@ Inhalt:
 Import format plug-ins allow you to automate the import of files with unsupported formats using *PiWeb Auto Importer*. In this article we will show you step-by-step, how to create a simple but fully functional import format plug-in and how to use this plug-in to import an example file with *PiWeb Auto Importer*.
 
 {: .note}
-The full sources of the plug-in built in this article are part of the *Import SDK* plug-in examples and can be found [here](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SimpleTxtPlugin).
+The full sources of the plug-in built in this article are part of the *Import SDK* plug-in examples and can be found [here](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/tree/develop/examples/SimpleTxtPlugin){:target="_blank"}.
 
 ## Table of Contents
 {: .no_toc }
@@ -127,7 +127,7 @@ public class SimpleTxtImportGroupFilter : IImportGroupFilter
 }
 ```
 
-This `FilterAsync` method is called whenever *PiWeb Auto Importer* wants to import any files. The given import group represents the files to import. Unless we explicitely add additional files to this group, it will always consist of a single file given by its `PrimaryFile` property. The return value of this method specifies whether the file group will be imported using our new import format. Returning `FilterResult.Import` will bind the current group to our import format and import it accordingly. Returning `FilterResult.None` means the group is unrelated to our import format. It may still be picked up by another import format of another plug-in though. The implementation above first checks whether the filename has a ".txt" extension and then whether the file content starts with the `#Header` line.
+This `FilterAsync` method is called whenever *PiWeb Auto Importer* wants to import any files. The given import group represents the files to import. Unless we explicitly add additional files to this group, it will always consist of a single file given by its `PrimaryFile` property. The return value of this method specifies whether the file group will be imported using our new import format. Returning `FilterResult.Import` will bind the current group to our import format and import it accordingly. Returning `FilterResult.None` means the group is unrelated to our import format. It may still be picked up by another import format of another plug-in though. The implementation above first checks whether the filename has a ".txt" extension and then whether the file content starts with the `#Header` line.
 
 Now that we have this filter implementation, we can use it as part of the import format by updating the `CreateImportGroupFilter` method in the `ImportFormat` class:
 
