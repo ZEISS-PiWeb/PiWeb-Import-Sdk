@@ -30,4 +30,9 @@ public class ImportData
     /// and optionally the path rule configuration.
     /// </summary>
     public InspectionPlanPart RootPart { get; set; }
+    
+    /// <summary>
+    /// The names of the parts in the import path (after applying the path rules if there are any).
+    /// </summary>
+    public string[] ImportPartPath { get; set; } = [];
 }
