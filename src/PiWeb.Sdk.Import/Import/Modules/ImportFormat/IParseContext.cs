@@ -9,6 +9,7 @@
 #endregion
 
 using Zeiss.PiWeb.Sdk.Common.Logging;
+using Zeiss.PiWeb.Sdk.Import.ImportController;
 using Zeiss.PiWeb.Sdk.Import.ImportHistory;
 
 namespace Zeiss.PiWeb.Sdk.Import.Modules.ImportFormat;
@@ -24,6 +25,11 @@ public interface IParseContext
 	/// A service to edit the import history entry of the current import. 
 	/// </summary>
 	IImportHistoryService ImportHistoryService { get; }
+
+	/// <summary>
+	/// The import controller. Can be used to modify the behavior of the current import.
+	/// </summary>
+	IImportController ImportController { get; }
 
 	/// <summary>
 	/// A logger that can be used to write log entries. Written entries are usually forwarded to the log file

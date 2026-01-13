@@ -8,13 +8,17 @@
 
 #endregion
 
+using System.Collections.Generic;
+using Zeiss.PiWeb.Sdk.Import.ImportFiles;
+using Zeiss.PiWeb.Sdk.Import.ImportHistory.Exceptions;
+
 namespace Zeiss.PiWeb.Sdk.Import.ImportHistory;
 
 /// <summary>
 /// Responsible for adding log messages to the import history entry of the current import.
 /// The import history is maintained to track successful and faulty imports. Each import creates a new entry in the
 /// import history.
-/// Note: Adding messages with error severity leads to the import being canceled before any data is imported.
+/// Note: Adding messages with error severity will cancel the import after the current step.
 /// </summary>
 public interface IImportHistoryService
 {
@@ -31,5 +35,20 @@ public interface IImportHistoryService
     /// Format arguments used when formatting the display text of message.
     /// </param>
     /// <param name="severity">The severity of the message.</param>
+    /// <exception cref="ImportHistoryServiceException">
+    /// Thrown when this import history service is used after the import it belongs to is already finished.
+    /// </exception>
     public void AddMessage(MessageSeverity severity, string displayText, params object[] formatArgs);
+
+    /// <summary>
+    /// Prevents the specified import files from being included in any import history entries created for
+    /// the current import group. Only import files of the currently active import group may be masked.
+    /// When all import files of the current import group are masked, no import history entries will be written at all.
+    /// </summary>
+    /// <param name="importFiles">The import files to mask.</param>
+    /// <exception cref="ImportHistoryServiceException">
+    /// Thrown when this import history service is used when there is no active import group or after the import it
+    /// belongs to is already finished.
+    /// </exception>
+    public void MaskImportFiles(IEnumerable<IImportFile> importFiles);
 }
