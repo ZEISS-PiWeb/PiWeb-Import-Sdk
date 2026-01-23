@@ -10,6 +10,7 @@
 
 using System;
 using System.IO;
+using Zeiss.PiWeb.Sdk.Import.ImportController;
 using Zeiss.PiWeb.Sdk.Import.ImportFiles.Exceptions;
 
 namespace Zeiss.PiWeb.Sdk.Import.ImportFiles;
@@ -51,6 +52,23 @@ public interface IImportFile
     /// </summary>
     DateTimeOffset? CreationTime { get; }
     
+    /// <summary>
+    /// The time this file was discovered or null when this information is not available.
+    /// </summary>
+    DateTimeOffset? DiscoveryTime { get; }
+
+    /// <summary>
+    /// Indicates how many times this import file was added to the import queue. This value will be one when a
+    /// new import file is discovered and is increased by one each time the file is re-queued.
+    /// See <see cref="IImportController.RescheduleImportFiles"/>.
+    /// </summary>
+    long QueueCount { get; }
+
+    /// <summary>
+    /// Can be used to attach custom data to this import file.
+    /// </summary>
+    object? Payload { get; set; }
+
     #endregion
 
     #region methods
