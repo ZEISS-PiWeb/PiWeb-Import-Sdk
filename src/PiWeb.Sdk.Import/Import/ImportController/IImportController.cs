@@ -43,7 +43,7 @@ public interface IImportController
     /// Rescheduling will not be available in all contexts. For example rescheduling is typically not supported
     /// if import files are imported interactively. Always check <see cref="CanRescheduleImportFiles"/> first.
     /// </summary>
-    /// <param name="files">
+    /// <param name="importFiles">
     /// The import files to reschedule.
     /// </param>
     /// <exception cref="SchedulingException">
@@ -53,5 +53,5 @@ public interface IImportController
     /// <exception cref="ImportControllerException">
     /// Thrown when this import controller is used after the import it belongs to is already finished.
     /// </exception> 
-    SchedulingResult RescheduleImportFiles(IEnumerable<IImportFile> files);
+    SchedulingResult RescheduleImportFiles(IEnumerable<IImportFile> importFiles);
 }

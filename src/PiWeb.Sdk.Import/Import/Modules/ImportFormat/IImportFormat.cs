@@ -14,7 +14,7 @@ namespace Zeiss.PiWeb.Sdk.Import.Modules.ImportFormat;
 
 /// <summary>
 /// Represents a custom import format provided as part of a plugin. Custom import formats provide a way to identify and group relevant
-/// files, parse their data and create a data image that can be uploaded to PiWeb Server.
+/// files, parse their data and create a data image that can be uploaded to a PiWeb database.
 /// </summary>
 public interface IImportFormat
 {
@@ -46,6 +46,18 @@ public interface IImportFormat
     /// <param name="context">Provides context information.</param>
     /// <returns>The created import parser.</returns>
     IImportParser CreateImportParser(ICreateImportParserContext context);
+
+    /// <summary>
+    /// Creates a custom import uploader associated with this import format. The import uploader is responsible for
+    /// transferring parsed data created by the import parser to the PiWeb Server.
+    /// If this method returns <c>null</c>, a build in standard uploader is used instead.   
+    /// </summary>
+    /// <param name="context">Provides context information.</param>
+    /// <returns>The created import uploader.</returns>
+    IImportUploader? CreateCustomImportUploader(ICreateCustomImportUploaderContext context)
+    {
+        return null;
+    }
 
     #endregion
 }
