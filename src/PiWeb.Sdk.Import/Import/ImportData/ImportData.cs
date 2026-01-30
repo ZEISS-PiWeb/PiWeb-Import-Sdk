@@ -30,4 +30,9 @@ public class ImportData
     /// and optionally the path rule configuration.
     /// </summary>
     public InspectionPlanPart RootPart { get; set; }
+    
+    /// <summary>
+    /// Can be used to attach custom data to this import data instance.
+    /// </summary>
+    public object? Payload { get; set; }
 }
