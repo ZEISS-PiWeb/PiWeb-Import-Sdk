@@ -8,8 +8,6 @@
 
 #endregion
 
-using System.Collections.Generic;
-using Zeiss.PiWeb.Sdk.Import.ImportFiles;
 using Zeiss.PiWeb.Sdk.Import.ImportHistory.Exceptions;
 
 namespace Zeiss.PiWeb.Sdk.Import.ImportHistory;
@@ -39,16 +37,4 @@ public interface IImportHistoryService
     /// Thrown when this import history service is used after the import it belongs to is already finished.
     /// </exception>
     public void AddMessage(MessageSeverity severity, string displayText, params object[] formatArgs);
-
-    /// <summary>
-    /// Prevents the specified import files from being included in any import history entries created for
-    /// the current import group. Only import files of the currently active import group may be masked.
-    /// When all import files of the current import group are masked, no import history entries will be written at all.
-    /// </summary>
-    /// <param name="importFiles">The import files to mask.</param>
-    /// <exception cref="ImportHistoryServiceException">
-    /// Thrown when this import history service is used when there is no active import group or after the import it
-    /// belongs to is already finished.
-    /// </exception>
-    public void MaskImportFiles(IEnumerable<IImportFile> importFiles);
 }

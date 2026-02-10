@@ -60,7 +60,7 @@ public interface IImportFile
     /// <summary>
     /// Indicates how many times this import file was added to the import queue. This value will be one when a
     /// new import file is discovered and is increased by one each time the file is re-queued.
-    /// See <see cref="IImportController.RescheduleImportFiles"/>.
+    /// See <see cref="IImportController.RescheduleImportFiles(System.Collections.Generic.IEnumerable{Zeiss.PiWeb.Sdk.Import.ImportFiles.IImportFile})"/>.
     /// </summary>
     long QueueCount { get; }
 
