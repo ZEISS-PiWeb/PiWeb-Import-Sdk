@@ -1,0 +1,28 @@
+======================================================
+-------------------------------------------------------------------------------------------
+ Version 1.1.0                                                                   
+-------------------------------------------------------------------------------------------
+======================================================
+
+
+==========================================
+New Features
+==========================================
+
+- Add the ability to specify custom import uploaders for import formats (#96)
+    ○ Add a IImportUploader interface that can be implemented to create a custom uploader
+    ○ Add a CreateCustomImportUploader() method to the IImportFormat interface that can be used to create a custom import uploader for the import format
+    ○ Provide connection information to custom import uploaders so that the PiWeb-API can be integrated
+- Add the ability to reschedule one or more files for a later import retry (#95, #97)
+    ○ Add a new ImportController property to the context of import parsers and import uploaders that can be used to request rescheduling of import files
+    ○ Add a SchedulingSettings class that can be used to configure the behavior of import file rescheduling
+    ○ Add a SchedulingResult class that can be used to find the time an import file was rescheduled at
+    ○ Add a DiscoveryTime property to the IImportFile interface that indicates when the import file was first seen by the hosting application
+    ○ Add a QueueCount property to the IImportFile interface that indicates how often the file was rescheduled since its discovery
+    ○ Add a convenience method GetAllFiles() to the IImportGroup interface which enumerates all files of this group
+- Allow passing custom information between different import steps (#95, #96)
+    ○ Add a modifiable Payload property to the ImportData class that can be used to pass custom data from import parser to custom import uploader
+    ○ Add a modifiable Payload property to the IImportFile interface that can be used to pass custom data from import file grouping to import parser and to custom import uploader
+- Update target framework and dependencies (#95)
+    ○ remove .NET 8
+    ○ add .NET 10
