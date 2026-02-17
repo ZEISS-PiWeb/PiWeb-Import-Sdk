@@ -24,12 +24,16 @@ Another use case for writing plug-ins is importing data from sources other than 
 Getting started is as easy as creating a new C# project in your favorite IDE, adding a plug-in manifest and linking the [Zeiss.PiWeb.Sdk.Import](https://www.nuget.org/packages/Zeiss.PiWeb.Sdk.Import/) NuGet. To make this even easier, we provide a project template you can use as a starting point. More detailed information about this can be found in our [import plug-in documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
 
 ### Version compatibility
-The following table lists which versions of PiWeb will support plug-ins written against which version of the Import SDK. It also shows which .NET runtime will be used to run plug-ins.
+The following table lists which versions of PiWeb will support plug-ins written against which version of the Import SDK. It also shows which .NET runtime will be used to host plug-ins. 
 
 | PiWeb version | Import SDK version | .NET version
 | - | - | - |
-| &ge; 2025.R1.* | 1.0 | net8.0-windows10.0.22621 |
-| &le; 8.6.* | no plug-in support | no plug-in support |
+| 2026.R2 | 1.1 | net10.0-windows10.0.26100 |
+| 2025.R2 - 2026.R1 | 1.0 | net9.0-windows10.0.26100 |
+| 2025.R1 | 1.0 | net8.0-windows10.0.22621 |
+| &le; 8.6 | no plug-in support | no plug-in support |
+
+To be compatible to one of these PiWeb versions, a plug-in must be written against the same or a lower version of the Import SDK. It also must be targeted against the same or a lower version of .NET. 
 
 ### Learn more
 * More information about the ZEISS PiWeb software can be found on the [PiWeb homepage](https://www.zeiss.de/messtechnik/produkte/software/piweb.html).
