@@ -26,6 +26,7 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk</PackageProjectUrl>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../RELEASE-NOTES.txt"))</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -33,6 +34,8 @@
   
   <ItemGroup>
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\RELEASE-NOTES.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     <None Include="..\..\readme.md" Pack="true" PackagePath="\" />
     <None Include="..\..\img\logo_128x128.png" Pack="true" PackagePath="\" />
     <Content Include="build.targets" Pack="true" PackagePath="build/$(PackageId).targets" />
