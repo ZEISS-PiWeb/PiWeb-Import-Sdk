@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework Condition="'$(ImportSdkVersion)' == '1.0'">net8.0</TargetFramework>
+    <TargetFramework Condition="'$(ImportSdkVersion)' == '1.1'">net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <GeneratePluginPackageOnBuild>true</GeneratePluginPackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime" />
+    <PackageReference Condition="'$(ImportSdkVersion)' == '1.0'" Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime" />
+    <PackageReference Condition="'$(ImportSdkVersion)' == '1.1'" Include="Zeiss.PiWeb.Sdk.Import" Version="1.1.0" Private="false" ExcludeAssets="runtime" />
   </ItemGroup>
 
   <ItemGroup>

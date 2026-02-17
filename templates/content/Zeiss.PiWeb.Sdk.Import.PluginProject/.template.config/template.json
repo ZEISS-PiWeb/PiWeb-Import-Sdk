@@ -13,6 +13,25 @@
   "sourceName": "Zeiss.PiWeb.Sdk.Import.PluginProject",
   "preferNameDirectory" : true,
   "symbols":{
+    "ImportSdkVersion": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "The import SDK version.",
+      "displayName": "Import SDK version",
+      "defaultValue": "1.1",
+      "choices": [
+        {
+          "choice": "1.0",
+          "displayName": "1.0 (at least PiWeb 2025.R1)",
+          "description": "Use Import SDK version 1.0 (requires at least PiWeb 2025.R1)"
+        },
+        {
+          "choice": "1.1",
+          "displayName": "1.1 (at least PiWeb 2026.R2)",
+          "description": "Use Import SDK version 1.1 (requires at least PiWeb 2026.R2)"
+        }
+      ]
+    },
     "PluginType": {
       "type": "parameter",
       "datatype": "choice",
