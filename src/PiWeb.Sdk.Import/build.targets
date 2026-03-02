@@ -5,6 +5,11 @@
     <GeneratePluginPackageOnBuild Condition=" '$(GeneratePluginPackageOnBuild)' == '' ">false</GeneratePluginPackageOnBuild>
   </PropertyGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Include="$(ProjectDir)\manifest.json" />
+    <UpToDateCheckOutput Include="$(PackageOutputPath)\$(AssemblyName)@$(Version).pip" />
+  </ItemGroup>
+  
   <!-- Calls _GeneratePluginPackage after building when 'GeneratePluginPackageOnBuild' == true -->
   <Target Name="PackPluginAfterBuild"
           AfterTargets="Build"
@@ -14,14 +19,26 @@
 
   <!-- This target can be manually called to pack the project as .pip package file -->
   <Target Name="PackPlugin" 
-          DependsOnTargets="_GeneratePluginPackage">
+          DependsOnTargets="Build;_GeneratePluginPackage">
   </Target>
 
   <!-- Creates a .pip package file for the project -->
   <Target Name="_GeneratePluginPackage" 
           DependsOnTargets="Build">
+
+    <ItemGroup>
+      <PipFiles Exclude="$(OutDir)\*.pip" Include="$(OutDir)\**\*" />
+    </ItemGroup>
+
+    <Message Text="Removing previously created staging directory."
+             Importance="low" />
+    <RemoveDir Directories="$(IntermediateOutputPath)\PipStaging" />
+
+    <Message Text="Copying build output to '$(IntermediateOutputPath)\PipStaging'."
+             Importance="low" />
+    <Copy SourceFiles="@(PipFiles)" DestinationFolder="$(IntermediateOutputPath)\PipStaging" />
     
-    <ZipDirectory SourceDirectory="$(OutputPath)"
+    <ZipDirectory SourceDirectory="$(IntermediateOutputPath)\PipStaging"
                   DestinationFile="$(PackageOutputPath)\$(AssemblyName)@$(Version).pip"
                   Overwrite="true" />
     

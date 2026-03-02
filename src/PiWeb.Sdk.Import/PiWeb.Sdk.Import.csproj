@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <AssemblyName>Zeiss.PiWeb.Sdk.Import</AssemblyName>
     <RootNamespace>Zeiss.PiWeb.Sdk</RootNamespace>
@@ -11,7 +11,7 @@
   </PropertyGroup>
   
   <PropertyGroup Label="NuGet package specifications">
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Title>ZEISS PiWeb Import SDK</Title>    
     <AssemblyTitle>$(Title)</AssemblyTitle>    
     <Product>$(Title)</Product>    
@@ -26,6 +26,7 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk</PackageProjectUrl>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../RELEASE-NOTES.txt"))</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -33,6 +34,8 @@
   
   <ItemGroup>
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\RELEASE-NOTES.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     <None Include="..\..\readme.md" Pack="true" PackagePath="\" />
     <None Include="..\..\img\logo_128x128.png" Pack="true" PackagePath="\" />
     <Content Include="build.targets" Pack="true" PackagePath="build/$(PackageId).targets" />

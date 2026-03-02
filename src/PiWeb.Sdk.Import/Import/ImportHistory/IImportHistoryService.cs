@@ -8,13 +8,15 @@
 
 #endregion
 
+using Zeiss.PiWeb.Sdk.Import.ImportHistory.Exceptions;
+
 namespace Zeiss.PiWeb.Sdk.Import.ImportHistory;
 
 /// <summary>
 /// Responsible for adding log messages to the import history entry of the current import.
 /// The import history is maintained to track successful and faulty imports. Each import creates a new entry in the
 /// import history.
-/// Note: Adding messages with error severity leads to the import being canceled before any data is imported.
+/// Note: Adding messages with error severity will cancel the import after the current step.
 /// </summary>
 public interface IImportHistoryService
 {
@@ -31,5 +33,8 @@ public interface IImportHistoryService
     /// Format arguments used when formatting the display text of message.
     /// </param>
     /// <param name="severity">The severity of the message.</param>
+    /// <exception cref="ImportHistoryServiceException">
+    /// Thrown when this import history service is used after the import it belongs to is already finished.
+    /// </exception>
     public void AddMessage(MessageSeverity severity, string displayText, params object[] formatArgs);
 }

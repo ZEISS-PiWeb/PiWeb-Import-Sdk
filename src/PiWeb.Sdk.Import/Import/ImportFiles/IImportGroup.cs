@@ -35,6 +35,11 @@ public interface IImportGroup
     IReadOnlyList<IImportFile> AdditionalFiles { get; }
 
     /// <summary>
+    /// Enumerates all import files of this group.
+    /// </summary>
+    IEnumerable<IImportFile> GetAllFiles();
+    
+    /// <summary>
     /// Adds the given import file to this import group. 
     /// </summary>
     void AddFile(IImportFile importFile);
