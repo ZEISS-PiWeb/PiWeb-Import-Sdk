@@ -39,7 +39,7 @@ public sealed class ImportRunner(ICreateImportRunnerContext context) : IImportRu
             // We used this here to alter the current activity display after certain time intervals.
 
             _activityService.SetActivity(
-                new ActivityProperties()
+                new ActivityProperties
                 {
                     ActivityType = ActivityType.Normal,
                     ShortDisplayText = "Stage 1",
@@ -54,7 +54,7 @@ public sealed class ImportRunner(ICreateImportRunnerContext context) : IImportRu
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 
             _activityService.SetActivity(
-                new ActivityProperties()
+                new ActivityProperties
                 {
                     ActivityType = ActivityType.Normal,
                     DetailedDisplayText = "Stage 2 - Waiting {0} seconds"
@@ -67,7 +67,7 @@ public sealed class ImportRunner(ICreateImportRunnerContext context) : IImportRu
             // running as intended.
 
             _activityService.SetActivity(
-                new ActivityProperties()
+                new ActivityProperties
                 {
                     ActivityType = ActivityType.Suspension,
                     ShortDisplayText = "We triggered an error",
