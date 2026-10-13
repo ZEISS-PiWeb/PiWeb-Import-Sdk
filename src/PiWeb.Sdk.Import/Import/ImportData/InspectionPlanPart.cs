@@ -396,6 +396,9 @@ public sealed class InspectionPlanPart : InspectionPlanEntity
         }
 
         characteristic.NotifyParentChanged(this);
+        if (characteristicToReplace is not null)
+            NotifyMeasurementsIfNecessary(characteristicToReplace);
+
         return characteristic;
     }
 
@@ -437,6 +440,7 @@ public sealed class InspectionPlanPart : InspectionPlanEntity
             {
                 replacedEntity = removedCharacteristic;
                 removedCharacteristic.NotifyParentChanged(null);
+                NotifyMeasurementsIfNecessary(removedCharacteristic);
             }
             else
             {

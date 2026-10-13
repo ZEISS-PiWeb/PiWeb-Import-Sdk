@@ -583,6 +583,31 @@ public class InspectionPlanCharacteristicTest
 		resultEntity.Should().BeSameAs( characteristicB );
 	}
 
+	[Test]
+	public void WhenReplacingANestedCharacteristicWithSetCharacteristic_ThenItsMeasuredValuesAreRemoved()
+	{
+		// given
+		var rootPart = new InspectionPlanPart( "root" );
+		var parentCharacteristic = rootPart.AddCharacteristic( "parent" );
+		var characteristic = parentCharacteristic.AddCharacteristic( "conflict" );
+		var childCharacteristic = characteristic.AddCharacteristic( "child" );
+		var measurement = rootPart.AddMeasurement();
+		measurement.AddMeasuredValue( characteristic );
+		measurement.AddMeasuredValue( childCharacteristic );
+		var replacement = new InspectionPlanCharacteristic( "conflict" );
+
+		// when
+		parentCharacteristic.SetCharacteristic( replacement, out var replacedEntity );
+
+		// then
+		replacedEntity.Should().BeSameAs( characteristic );
+		measurement.MeasuredValueCount.Should().Be( 0 );
+		measurement.TryGetMeasuredValue( characteristic, out var characteristicValue ).Should().BeFalse();
+		characteristicValue.Should().BeNull();
+		measurement.TryGetMeasuredValue( childCharacteristic, out var childValue ).Should().BeFalse();
+		childValue.Should().BeNull();
+	}
+
 	[TestCase( 0 )]
 	[TestCase( 1 )]
 	[TestCase( 20 )]

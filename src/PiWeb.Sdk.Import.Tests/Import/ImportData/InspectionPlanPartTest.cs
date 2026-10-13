@@ -691,6 +691,30 @@ public class InspectionPlanPartTest
 		resultEntity.Should().BeSameAs( characteristicB );
 	}
 
+	[Test]
+	public void WhenReplacingACharacteristicWithSetCharacteristic_ThenItsMeasuredValuesAreRemoved()
+	{
+		// given
+		var rootPart = new InspectionPlanPart( "root" );
+		var characteristic = rootPart.AddCharacteristic( "conflict" );
+		var childCharacteristic = characteristic.AddCharacteristic( "child" );
+		var measurement = rootPart.AddMeasurement();
+		measurement.AddMeasuredValue( characteristic );
+		measurement.AddMeasuredValue( childCharacteristic );
+		var replacement = new InspectionPlanCharacteristic( "conflict" );
+
+		// when
+		rootPart.SetCharacteristic( replacement, out var replacedEntity );
+
+		// then
+		replacedEntity.Should().BeSameAs( characteristic );
+		measurement.MeasuredValueCount.Should().Be( 0 );
+		measurement.TryGetMeasuredValue( characteristic, out var characteristicValue ).Should().BeFalse();
+		characteristicValue.Should().BeNull();
+		measurement.TryGetMeasuredValue( childCharacteristic, out var childValue ).Should().BeFalse();
+		childValue.Should().BeNull();
+	}
+
 	[TestCase( 0 )]
 	[TestCase( 1 )]
 	[TestCase( 20 )]
@@ -719,6 +743,30 @@ public class InspectionPlanPartTest
 		root.TryGetPart( "conflict", out var resultPart ).Should().BeFalse();
 		resultCharacteristic.Should().BeSameAs( characteristic );
 		resultPart.Should().BeNull();
+	}
+
+	[Test]
+	public void WhenReplacingACharacteristicWithAPart_ThenItsMeasuredValuesAreRemoved()
+	{
+		// given
+		var rootPart = new InspectionPlanPart( "root" );
+		var characteristic = rootPart.AddCharacteristic( "conflict" );
+		var childCharacteristic = characteristic.AddCharacteristic( "child" );
+		var measurement = rootPart.AddMeasurement();
+		measurement.AddMeasuredValue( characteristic );
+		measurement.AddMeasuredValue( childCharacteristic );
+		var replacement = new InspectionPlanPart( "conflict" );
+
+		// when
+		rootPart.SetPart( replacement, out var replacedEntity );
+
+		// then
+		replacedEntity.Should().BeSameAs( characteristic );
+		measurement.MeasuredValueCount.Should().Be( 0 );
+		measurement.TryGetMeasuredValue( characteristic, out var characteristicValue ).Should().BeFalse();
+		characteristicValue.Should().BeNull();
+		measurement.TryGetMeasuredValue( childCharacteristic, out var childValue ).Should().BeFalse();
+		childValue.Should().BeNull();
 	}
 
 	[TestCase( 0 )]

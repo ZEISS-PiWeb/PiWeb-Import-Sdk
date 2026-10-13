@@ -23,8 +23,7 @@ public sealed class Measurement : Entity
 {
     #region members
 
-    private readonly Dictionary<InspectionPlanCharacteristic, MeasuredValue> _ValueMap =
-        new Dictionary<InspectionPlanCharacteristic, MeasuredValue>();
+    private readonly Dictionary<InspectionPlanCharacteristic, MeasuredValue> _ValueMap = new();
 
     #endregion
 
@@ -114,6 +113,12 @@ public sealed class Measurement : Entity
         InspectionPlanCharacteristic measuredCharacteristic,
         MeasuredValue measuredValue)
     {
+        if (Part == null)
+        {
+            throw new ImportDataException(
+                "Cannot add a measured value to a measurement that does not belong to a part yet.");
+        }
+
         if (!ReferenceEquals(measuredCharacteristic.GetParentPart(), Part))
         {
             throw new ImportDataException(
@@ -171,6 +176,12 @@ public sealed class Measurement : Entity
         InspectionPlanCharacteristic measuredCharacteristic,
         MeasuredValue measuredValue)
     {
+        if (Part == null)
+        {
+            throw new ImportDataException(
+                "Cannot add a measured value to a measurement that does not belong to a part yet.");
+        }
+        
         if (!ReferenceEquals(measuredCharacteristic.GetParentPart(), Part))
         {
             throw new ImportDataException(
