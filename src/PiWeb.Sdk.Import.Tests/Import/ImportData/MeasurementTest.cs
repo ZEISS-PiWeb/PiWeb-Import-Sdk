@@ -118,6 +118,25 @@ public class MeasurementTest
 	}
 
 	[Test]
+	public void WhenAddingAMeasuredValueBeforeTheMeasurementIsAddedToAPart_ThenAnExceptionIsThrown()
+	{
+		// given
+		var root = new InspectionPlanPart( "root" );
+		var char1 = new InspectionPlanCharacteristic( "char1" );
+		var measurement = new Measurement();
+		var newMeasuredValue = new MeasuredValue();
+
+		// when, then
+		measurement.Invoking( m => m.AddMeasuredValue( char1, newMeasuredValue ) )
+			.Should().Throw<ImportDataException>();
+
+		measurement.MeasuredValueCount.Should().Be( 0 );
+		root.AddCharacteristic( char1 );
+		root.AddMeasurement( measurement );
+		measurement.MeasuredValueCount.Should().Be( 0 );
+	}
+
+	[Test]
 	public void WhenAddingAMeasuredValueForACharacteristicOfADifferentPart_ThenAnExceptionIsThrown()
 	{
 		// given
@@ -166,6 +185,43 @@ public class MeasurementTest
 		measurement.ContainsMeasuredValue( char1 ).Should().BeTrue();
 		measurement.TryGetMeasuredValue( char1, out var outResult ).Should().BeTrue();
 		outResult.Should().BeSameAs( newMeasuredValue );
+	}
+
+	[Test]
+	public void WhenSettingAMeasuredValueBeforeTheMeasurementIsAddedToAPart_ThenAnExceptionIsThrown()
+	{
+		// given
+		var root = new InspectionPlanPart( "root" );
+		var char1 = new InspectionPlanCharacteristic( "char1" );
+		var measurement = new Measurement();
+		var newMeasuredValue = new MeasuredValue();
+
+		// when, then
+		measurement.Invoking( m => m.SetMeasuredValue( char1, newMeasuredValue ) )
+			.Should().Throw<ImportDataException>();
+
+		measurement.MeasuredValueCount.Should().Be( 0 );
+		root.AddCharacteristic( char1 );
+		root.AddMeasurement( measurement );
+		measurement.MeasuredValueCount.Should().Be( 0 );
+	}
+
+	[Test]
+	public void WhenGettingOrSettingAMeasuredValueBeforeTheMeasurementIsAddedToAPart_ThenAnExceptionIsThrown()
+	{
+		// given
+		var root = new InspectionPlanPart( "root" );
+		var char1 = new InspectionPlanCharacteristic( "char1" );
+		var measurement = new Measurement();
+
+		// when, then
+		measurement.Invoking( m => m.GetOrSetMeasuredValue( char1 ) )
+			.Should().Throw<ImportDataException>();
+
+		measurement.MeasuredValueCount.Should().Be( 0 );
+		root.AddCharacteristic( char1 );
+		root.AddMeasurement( measurement );
+		measurement.MeasuredValueCount.Should().Be( 0 );
 	}
 
 	[Test]
