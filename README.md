@@ -28,7 +28,7 @@ The following table lists which versions of PiWeb will support plug-ins written 
 
 | PiWeb version | Import SDK version | .NET version
 | - | - | - |
-| 2026.R2 | 1.1 | net10.0-windows10.0.26100 |
+| 2026.R2 - 2027.R1 | 1.1 | net10.0-windows10.0.26100 |
 | 2025.R2 - 2026.R1 | 1.0 | net9.0-windows10.0.26100 |
 | 2025.R1 | 1.0 | net8.0-windows10.0.22621 |
 | &le; 8.6 | no plug-in support | no plug-in support |
