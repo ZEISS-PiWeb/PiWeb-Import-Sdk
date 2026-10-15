@@ -166,7 +166,7 @@ public interface IPropertyReader
 		if( TryReadString( key, out var stringValue ) && bool.TryParse( stringValue, out value ) )
 			return true;
 
-		value = default;
+		value = false;
 		return false;
 	}
 
@@ -179,7 +179,7 @@ public interface IPropertyReader
 	/// The boolean value of the specified property. If the property does not exist or has no valid boolean value,
 	/// <paramref name="defaultValue"/> will be returned.
 	/// </returns>
-	bool ReadBool( string key, bool defaultValue = default )
+	bool ReadBool( string key, bool defaultValue = false )
 	{
 		return TryReadBool( key, out var value )
 			? value
