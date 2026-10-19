@@ -42,6 +42,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
 
             var authenticationHandler = authData.AuthType switch
             {
+                AuthType.None => NonInteractiveAuthenticationHandler.Basic(string.Empty, string.Empty),
                 AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
                 AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
                 AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
@@ -64,7 +65,7 @@ public class ImportRunner(ICreateImportRunnerContext context) : IImportRunner
             {
                 // Inform user that the plug-in is currently active
                 _activityService.SetActivity(
-                    new ActivityProperties()
+                    new ActivityProperties
                     {
                         ActivityType = ActivityType.Normal,
                         ShortDisplayText = "Checking PiWeb",

@@ -5,7 +5,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Zeiss.PiWeb.Sdk.Import.ProjectTemplates</PackageId>
     <Title>PiWeb-Import-Sdk Project Templates</Title>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Company>Carl Zeiss Industrielle Messtechnik GmbH</Company>
     <Authors>$(Company)</Authors>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) $(Company)</Copyright>

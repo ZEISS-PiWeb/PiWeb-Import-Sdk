@@ -272,6 +272,9 @@ public sealed class InspectionPlanCharacteristic : InspectionPlanEntity
         }
 
         characteristic.NotifyParentChanged(this);
+        if (characteristicToReplace is not null)
+            NotifyMeasurementsIfNecessary(characteristicToReplace);
+
         return characteristic;
     }
 

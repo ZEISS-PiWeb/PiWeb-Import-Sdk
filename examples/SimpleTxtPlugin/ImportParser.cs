@@ -9,6 +9,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -28,8 +29,28 @@ public class ImportParser : IImportParser
     CancellationToken cancellationToken)
     {
         // Create root part and measurement.
-        var root = new InspectionPlanPart(importGroup.PrimaryFile.BaseName);
+        var root = new InspectionPlanPart("Root");
+
+        var circle = root.AddCharacteristic("Circle");
+        circle.SetVariable("XPosition", 200);
+        circle.SetVariable("YPosition", 15);
+        circle.SetVariable("ZPosition", 0);
+
+        var circleX = circle.AddCharacteristic("Circle.X");
+        circleX.SetVariable("Nominal", 200);
+
+        var circleY = circle.AddCharacteristic("Circle.Y");
+        circleY.SetVariable("Nominal", 20);
+
+        var circleZ = circle.AddCharacteristic("Circle.Z");
+        circleZ.SetVariable("Nominal", 0);
+
         var measurement = root.AddMeasurement();
+        measurement.AddMeasuredValue(circleX).SetVariable("Value", 205);
+        measurement.AddMeasuredValue(circleY).SetVariable("Value", 14);
+        measurement.AddMeasuredValue(circleZ).SetVariable("Value", 1);
+
+        //var measurement = root.AddMeasurement();
 
         // Create reader for import file.
         await using var stream = importGroup.PrimaryFile.GetDataStream();
@@ -92,6 +113,7 @@ public class ImportParser : IImportParser
 
             var measuredValue = measurement.AddMeasuredValue(characteristic);
             measuredValue.SetAttribute(1, doubleValue);
+            measuredValue.SetVariable("value", 24.3);
         }
 
         return new ImportData(root);

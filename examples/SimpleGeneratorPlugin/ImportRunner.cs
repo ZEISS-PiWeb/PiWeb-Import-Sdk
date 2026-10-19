@@ -18,6 +18,7 @@ using Zeiss.PiWeb.Api.Rest.Common.Authentication;
 using Zeiss.PiWeb.Api.Rest.Dtos.Data;
 using Zeiss.PiWeb.Api.Rest.HttpClient.Builder;
 using Zeiss.PiWeb.Api.Rest.HttpClient.Data;
+using Zeiss.PiWeb.Sdk.Common.Logging;
 using Zeiss.PiWeb.Sdk.Import.ImportPlan;
 using Zeiss.PiWeb.Sdk.Import.Modules.ImportAutomation;
 
@@ -27,15 +28,19 @@ public class ImportRunner : IImportRunner
 {
     private readonly IActivityService _ActivityService;
     private readonly ImportTarget _ImportTarget;
+    private readonly ILogger _Logger;
 
     public ImportRunner(ICreateImportRunnerContext context)
     {
         _ActivityService = context.ActivityService;
         _ImportTarget = context.ImportTarget;
+        _Logger = context.Logger;
     }
 
     public async Task RunAsync(CancellationToken cancellationToken)
     {
+        _Logger.LogInformation("Import automation started");
+
         if (_ImportTarget.Type != ConnectionType.Webservice)
         {
             _ActivityService.PostActivityEvent(EventSeverity.Error, "The import target is not supported");
@@ -78,6 +83,7 @@ public class ImportRunner : IImportRunner
     {
         var authenticationHandler = authData.AuthType switch
         {
+            AuthType.None => NonInteractiveAuthenticationHandler.Basic(string.Empty, string.Empty),
             AuthType.Basic => NonInteractiveAuthenticationHandler.Basic(authData.Username, authData.Password),
             AuthType.WindowsSSO => NonInteractiveAuthenticationHandler.WindowsSSO(),
             AuthType.Certificate => NonInteractiveAuthenticationHandler.Certificate(authData.CertificateThumbprint),
