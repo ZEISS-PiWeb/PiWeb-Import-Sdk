@@ -3,11 +3,16 @@
   <PropertyGroup>
     <!-- Whether to create a .pip package file when building -->
     <GeneratePluginPackageOnBuild Condition=" '$(GeneratePluginPackageOnBuild)' == '' ">false</GeneratePluginPackageOnBuild>
+
+    <_PiWebImportPluginManifestPath>$(MSBuildProjectDirectory)\manifest.json</_PiWebImportPluginManifestPath>
+    <_PiWebImportPluginManifestContent Condition="Exists('$(_PiWebImportPluginManifestPath)')">$([System.IO.File]::ReadAllText('$(_PiWebImportPluginManifestPath)'))</_PiWebImportPluginManifestContent>
+    <_PiWebImportPluginVersion>$([System.Text.RegularExpressions.Regex]::Match('$(_PiWebImportPluginManifestContent)', '"version"\s*:\s*"([^"]+)"').Groups[1].Value)</_PiWebImportPluginVersion>
+    <_PiWebImportPluginVersion Condition="'$(_PiWebImportPluginVersion)' == ''">$(Version)</_PiWebImportPluginVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Include="$(ProjectDir)\manifest.json" />
-    <UpToDateCheckOutput Include="$(PackageOutputPath)\$(AssemblyName)@$(Version).pip" />
+    <UpToDateCheckInput Include="$(_PiWebImportPluginManifestPath)" />
+    <UpToDateCheckOutput Include="$(PackageOutputPath)\$(AssemblyName)@$(_PiWebImportPluginVersion).pip" />
   </ItemGroup>
   
   <!-- Calls _GeneratePluginPackage after building when 'GeneratePluginPackageOnBuild' == true -->
@@ -26,6 +31,9 @@
   <Target Name="_GeneratePluginPackage" 
           DependsOnTargets="Build">
 
+    <Warning Condition="$([MSBuild]::VersionNotEquals('$(_PiWebImportPluginVersion)', '$(Version)'))"
+             Text="The plugin version in the manifest.json ($(_PiWebImportPluginVersion)) differs from the assembly version ($(Version))." />
+
     <ItemGroup>
       <PipFiles Exclude="$(OutDir)\*.pip" Include="$(OutDir)\**\*" />
     </ItemGroup>
@@ -39,10 +47,10 @@
     <Copy SourceFiles="@(PipFiles)" DestinationFolder="$(IntermediateOutputPath)\PipStaging" />
     
     <ZipDirectory SourceDirectory="$(IntermediateOutputPath)\PipStaging"
-                  DestinationFile="$(PackageOutputPath)\$(AssemblyName)@$(Version).pip"
+                  DestinationFile="$(PackageOutputPath)\$(AssemblyName)@$(_PiWebImportPluginVersion).pip"
                   Overwrite="true" />
     
-    <Message Text="Successfully created plugin package '$(PackageOutputPath)\$(AssemblyName)@$(Version).pip'."
+    <Message Text="Successfully created plugin package '$(PackageOutputPath)\$(AssemblyName)@$(_PiWebImportPluginVersion).pip'."
              Importance="high" />
              
   </Target>
