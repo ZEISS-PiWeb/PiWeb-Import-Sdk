@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Condition="'$(ImportSdkVersion)' == '1.0'" Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.0" Private="false" ExcludeAssets="runtime" />
-    <PackageReference Condition="'$(ImportSdkVersion)' == '1.1'" Include="Zeiss.PiWeb.Sdk.Import" Version="1.1.0" Private="false" ExcludeAssets="runtime" />
+    <PackageReference Condition="'$(ImportSdkVersion)' == '1.0'" Include="Zeiss.PiWeb.Sdk.Import" Version="1.0.1" Private="false" ExcludeAssets="runtime" />
+    <PackageReference Condition="'$(ImportSdkVersion)' == '1.1'" Include="Zeiss.PiWeb.Sdk.Import" Version="1.1.1" Private="false" ExcludeAssets="runtime" />
   </ItemGroup>
 
   <ItemGroup>
