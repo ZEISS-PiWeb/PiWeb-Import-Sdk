@@ -1,6 +1,7 @@
 # Calls a workflow that
 # + builds and tests the develop branch,
-# + packs and uploads a beta NuGet package.
+# + packs a NuGet package for every build,
+# + and uploads a nightly NuGet package after changes reach develop.
 #
 # This workflow runs automatically on pushes or pull requests to develop.
 
@@ -14,9 +15,42 @@ on:
 
 jobs:
   develop:
-    # With @main we want the latest version. Consider using a version tag to avoid breaking changes.
     uses: ZEISS-PiWeb/github-actions/.github/workflows/develop.yml@main
     with:
-      do_pack: true  
+      do_pack: true
       dotnet_version: '10.0.x'
-    secrets: inherit
+
+  publish:
+    if: github.event_name == 'push'
+    needs: develop
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download NuGet packages
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: package_output
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: NuGet login
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push packages to nuget.org
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: >
+          dotnet nuget push package_output/*.nupkg
+          --skip-duplicate
+          --no-symbols
+          --api-key "$NUGET_API_KEY"
+          --source https://api.nuget.org/v3/index.json
