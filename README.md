@@ -41,3 +41,7 @@ To be compatible to one of these PiWeb versions, a plug-in must be written again
 * The [PiWeb domain model](https://zeiss-piweb.github.io/PiWeb-Api/general#gi-model) explains how data is structured in the backend. Import plug-ins create import data structured like this.
 * The [PiWeb-API](https://github.com/ZEISS-PiWeb/PiWeb-Api) is an open source implementation of the REST-API provided by the data backend. It may be used within import plug-ins if direct access to the backend is required.
 
+### Contributing
+
+Please read the [contribution guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md). Contributions require a signed [individual](docs/CONTRIBUTOR-AGREEMENT-INDIVIDUAL.txt) or [corporate](docs/CONTRIBUTOR-AGREEMENT-CORPORATE.txt) Contributor License Agreement.
+
