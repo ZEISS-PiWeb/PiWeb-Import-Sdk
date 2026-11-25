@@ -3,6 +3,8 @@
 # + packs a NuGet package for every build,
 # + and uploads a nightly NuGet package after changes reach develop.
 #
+# The built artifact is then published on nuget.org.
+#
 # This workflow runs automatically on pushes or pull requests to develop.
 
 name: Build, test & pack beta on develop

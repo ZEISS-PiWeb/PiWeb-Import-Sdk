@@ -5,6 +5,8 @@
 # + generates release notes from commits and contributors
 # + and builds the support packages as an artifact.
 #
+# The built artifact is then published on nuget.org.
+#
 # This workflow must be triggered manually.
 
 name: Create & publish release from support branch
