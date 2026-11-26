@@ -1,11 +1,13 @@
-ZEISS PiWeb-Import-Sdk
-=========
+# ZEISS PiWeb-Import-Sdk
 
 [![Build on develop](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/actions/workflows/develop.yml/badge.svg?branch=develop&event=push)](https://github.com/ZEISS-PiWeb/PiWeb-Import-Sdk/actions/workflows/develop.yml)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Nuget](https://img.shields.io/nuget/v/Zeiss.PiWeb.Sdk.Import?style=flat&logo=nuget)](https://www.nuget.org/packages/Zeiss.PiWeb.Sdk.Import/)
 
-The PiWeb-Import-Sdk is the basic framework for creating your own import plug-ins for the PiWeb Auto Importer. By creating plug-ins, it is possible to automate the data import of your own custom file formats or even import data from other sources like REST-APIs or databases.
+| ![Zeiss IQS Logo](docs/logo_128x128.png) | The **ZEISS PiWeb Import SDK** is the basic framework for creating your own import plug-ins for the PiWeb Auto Importer. |
+|-|:-|
+
+It is possible to automate the data import of your own custom file formats or even import data from other sources like REST-APIs or databases.
 
 > [!NOTE]
 > You can find our documentation for plug-in developers under [import plug-in documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/).
@@ -40,4 +42,25 @@ To be compatible to one of these PiWeb versions, a plug-in must be written again
 * Our [import plug-in documentation](https://zeiss-piweb.github.io/PiWeb-Import-Sdk/) explains how to write plug-ins.
 * The [PiWeb domain model](https://zeiss-piweb.github.io/PiWeb-Api/general#gi-model) explains how data is structured in the backend. Import plug-ins create import data structured like this.
 * The [PiWeb-API](https://github.com/ZEISS-PiWeb/PiWeb-Api) is an open source implementation of the REST-API provided by the data backend. It may be used within import plug-ins if direct access to the backend is required.
+
+### Contributing
+
+Please read the [contribution guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md). Contributions require a signed [individual](docs/CONTRIBUTOR-AGREEMENT-INDIVIDUAL.txt) or [corporate](docs/CONTRIBUTOR-AGREEMENT-CORPORATE.txt) Contributor License Agreement.
+
+### NuGet publishing
+
+The `develop`, release, and support-release workflows build packages with the
+shared workflows and publish them from this repository using NuGet trusted
+publishing with GitHub Actions OIDC. Configure NuGet trusted-publishing
+policies for repository `ZEISS-PiWeb/PiWeb-Import-Sdk`, using the workflow
+filename only: `develop.yml`, `create-release.yml`, and
+`create-support-release.yml`. Leave the environment unset because these
+publish jobs do not use a GitHub Actions environment.
+
+Set the repository or organization secret `NUGET_USER` to the NuGet profile
+name that owns the packages (not an email address). The release workflows also
+require `PUSH_TO_GITHUB_REPO_PAT` to push release branches and tags. NuGet
+login and package push run in these caller workflows because trusted-publishing
+policy matching is unreliable from inside reusable workflows; see
+[NuGet/login issue #6](https://github.com/NuGet/login/issues/6).
 

@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <Content Include="content\**" PackagePath="content" Exclude="content\**\bin\**;content\**\obj\**" />
-    <None Include="..\img\logo_128x128.png" Pack="true" PackagePath="\" />
+    <None Include="..\docs\logo_128x128.png" Pack="true" PackagePath="\" />
     <None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
     <Compile Remove="**\*" />
   </ItemGroup>

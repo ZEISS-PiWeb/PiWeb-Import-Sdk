@@ -37,7 +37,7 @@
     <None Include="..\..\RELEASE-NOTES.txt" Pack="true" PackagePath="\" />
     <None Include="..\..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     <None Include="..\..\readme.md" Pack="true" PackagePath="\" />
-    <None Include="..\..\img\logo_128x128.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\logo_128x128.png" Pack="true" PackagePath="\" />
     <Content Include="build.targets" Pack="true" PackagePath="build/$(PackageId).targets" />
   </ItemGroup>
   
